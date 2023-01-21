@@ -1,17 +1,17 @@
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
     SET "nomFichierChoixDossier=choixDossier.vbs"
+    SET "nomFichierSortie=.\compile.list"
 
-    IF EXIST "%~1" 2>nul >nul (
+    IF EXIST "%~1" (
         SET "source=%~1"
         SET "extensionValide=java"
-        SET "nomFichierSortie=.\compile.list"
 
 
         :: Suppression du fichier de choix de dossier si il existe ::
-        IF EXIST "%nomFichierChoixDossier%" del "%nomFichierChoixDossier%"
+        IF EXIST "%nomFichierChoixDossier%" del /Q "%nomFichierChoixDossier%"
+        IF EXIST "%nomFichierSortie%"       del /Q "%nomFichierSortie%"
 
-        if exist "%nomFichierSortie%" ( del /Q "%nomFichierSortie%" )
 
         call :listerDossiers
         call :ListerFichiers

@@ -34,7 +34,7 @@ public class Controleur
      * Permet de à l'ihm de récupérer la hashmap contenant les couleurs du thème
      * @return HashMap contenant les couleurs du thème
      */
-    public HashMap<String, List<Color>> getTheme() { return this.metier.getTheme(); }
+    public HashMap<String, Color> getTheme() { return this.metier.getTheme(); }
 
 	/**
 	 * Permet de récupérer le nom du thème utilisé

@@ -1,13 +1,18 @@
 package ihm;
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 
 import controleur.Controleur;
+import ihm.menu.MenuBarre;
 
 
 public class FramePrincipale extends JFrame
 {
     private Controleur ctrl;
+
+    private MenuBarre menuBarre;
 
 
     /**
@@ -21,8 +26,11 @@ public class FramePrincipale extends JFrame
         this.setTitle("Frame principale");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        this.menuBarre = new MenuBarre(this.ctrl);
+        this.setJMenuBar(this.menuBarre);
         
         
+        this.appliquerTheme();
         this.setVisible(true);
     }
 
@@ -32,16 +40,12 @@ public class FramePrincipale extends JFrame
      */
     public void appliquerTheme()
     {
-        System.out.println("Theme appliqué");
+        Color backGeneralColor = this.ctrl.getTheme().get("background");
+        Color foreGeneralColor = this.ctrl.getTheme().get("foreground");
 
-        System.out.println(this.ctrl.getTheme().get("background"  ).get(0));
-        System.out.println(this.ctrl.getTheme().get("foreground"  ).get(0));
-        System.out.println(this.ctrl.getTheme().get("disableColor").get(0));
-        System.out.println(this.ctrl.getTheme().get("enableColor" ).get(0));
-        System.out.println(this.ctrl.getTheme().get("titles"      ).get(0));
-        System.out.println(this.ctrl.getTheme().get("saisies"     ).get(0));
-        System.out.println(this.ctrl.getTheme().get("saisies"     ).get(1));
-        System.out.println(this.ctrl.getTheme().get("buttons"     ).get(0));
+        this.setBackground(backGeneralColor);
+        this.setForeground(foreGeneralColor);
 
+        this.menuBarre.appliquerTheme();
     }
 }
