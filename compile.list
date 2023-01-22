@@ -1,7 +1,10 @@
 .\src\controleur\Controleur.java  
  
 .\src\ihm\FramePrincipale.java  
-.\src\ihm\PanelFonction.java  
+.\src\ihm\PanelFonctionGlobal.java  
+.\src\ihm\PanelGauche.java  
+.\src\ihm\PanelDroite.java  
+.\src\ihm\PanelGlobal.java  
  
 .\src\ihm\menu\MenuBarre.java  
  

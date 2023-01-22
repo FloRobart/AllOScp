@@ -4,13 +4,13 @@ package ihm.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JDialog;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 import controleur.Controleur;
 
@@ -19,9 +19,18 @@ public class MenuBarre extends JMenuBar implements ActionListener
 {
 	private Controleur ctrl;
 
+	/* Menus */
+	private JMenu menuOptions;
 	private JMenu menuPreferences;
 	private JMenu menuAide;
 
+	/* Options */
+	private JMenuItem menuiOptionsNewOnglet;
+	private JMenuItem menuiOptionsSupprOnglet;
+	private JMenuItem menuiOptionsOngletPrecedent;
+	private JMenuItem menuiOptionsOngletSuivant;
+
+	/* Préférences */
 	private JMenuItem menuiPreferencesThemes;
 	private JMenuItem menuiPreferencesThemesClair;
 	private JMenuItem menuiPreferencesThemesSombre;
@@ -32,13 +41,35 @@ public class MenuBarre extends JMenuBar implements ActionListener
 	{
 		this.ctrl = ctrl;
 
-
 		/*=========================*/
 		/* Création des composants */
 		/*=========================*/
-		/*------------*/
-		/* Préférence */
-		/*------------*/
+		/*---------*/
+		/* Options */
+		/*---------*/
+		this.menuOptions = new JMenu("Options");
+		this.menuOptions.setMnemonic('O');
+
+		/* Nouvel onglet */
+		this.menuiOptionsNewOnglet = new JMenuItem("Nouvel onglet");
+		this.menuiOptionsNewOnglet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK)); // pour CTRL+T
+
+		/* Suppression d'un onglet */
+		this.menuiOptionsSupprOnglet = new JMenuItem("Supprimer l'onglet");
+		this.menuiOptionsSupprOnglet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK)); // pour CTRL+W
+
+		/* Panel précédent */
+		this.menuiOptionsOngletPrecedent = new JMenuItem("Panel précédent");
+		this.menuiOptionsOngletPrecedent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)); // pour CTRL+MAJ+TABULATION
+
+		/* Panel suivant */
+		this.menuiOptionsOngletSuivant = new JMenuItem("Panel suivant");
+		this.menuiOptionsOngletSuivant.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.CTRL_DOWN_MASK)); // pour CTRL+TABULATION
+
+
+		/*-------------*/
+		/* Préférences */
+		/*-------------*/
 		this.menuPreferences = new JMenu("Préférences");
 		this.menuPreferences.setMnemonic('P');
 
@@ -61,6 +92,17 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*=======================*/
 		/* Ajouts des composants */
 		/*=======================*/
+		/*---------*/
+		/* Options */
+		/*---------*/
+		this.menuOptions.add(this.menuiOptionsNewOnglet);
+		this.menuOptions.add(this.menuiOptionsSupprOnglet);
+		this.menuOptions.addSeparator();
+		this.menuOptions.add(this.menuiOptionsOngletPrecedent);
+		this.menuOptions.add(this.menuiOptionsOngletSuivant);
+		this.menuOptions.addSeparator();
+		this.add(menuOptions);
+
 		/*------------*/
 		/* Préférence */
 		/*------------*/
@@ -75,9 +117,24 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*------*/
 		this.add(menuAide);
 
+
 		/*============================*/
 		/* Activations des composants */
 		/*============================*/
+		/*---------*/
+		/* Options */
+		/*---------*/
+		/* add and supp Onglets */
+		this.menuiOptionsNewOnglet.addActionListener(this);
+		this.menuiOptionsSupprOnglet.addActionListener(this);
+
+		/* suivant and précédent Onglets */
+		this.menuiOptionsOngletPrecedent.addActionListener(this);
+		this.menuiOptionsOngletSuivant.addActionListener(this);
+
+		/*-------------*/
+		/* Préférences */
+		/*-------------*/
 		this.menuiPreferencesThemesClair .addActionListener(this);
 		this.menuiPreferencesThemesSombre.addActionListener(this);
 		this.menuiPreferencesThemesDark  .addActionListener(this);
@@ -88,6 +145,20 @@ public class MenuBarre extends JMenuBar implements ActionListener
 	{
 		if (e.getSource() instanceof JMenuItem)
 		{
+			/* Options */
+			if (e.getSource() == this.menuiOptionsNewOnglet)
+				this.ctrl.ajouterOnglet();
+			
+			if (e.getSource() == this.menuiOptionsSupprOnglet)
+				this.ctrl.supprimerOnglet();
+
+			if (e.getSource() == this.menuiOptionsOngletPrecedent)
+				this.ctrl.ongletPrecedent();
+
+			if (e.getSource() == this.menuiOptionsOngletSuivant)
+				this.ctrl.ongletSuivant();
+
+			/* Préférences */
 			if (e.getSource() == this.menuiPreferencesThemesClair)
 				this.ctrl.changerTheme("clair");
 			
@@ -113,6 +184,30 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*-------------------------*/
 		this.setBackground(backGeneralColor);
 		this.setForeground(foreGeneralColor);
+
+		/*---------*/
+		/* Options */
+		/*---------*/
+		/* Options */
+		this.menuOptions.setBackground(backGeneralColor);
+		this.menuOptions.setForeground(foreGeneralColor);
+
+		/* Nouvel onglet */
+		this.menuiOptionsNewOnglet.setBackground(backGeneralColor);
+		this.menuiOptionsNewOnglet.setForeground(foreGeneralColor);
+
+		/* Suppression d'un onglet */
+		this.menuiOptionsSupprOnglet.setBackground(backGeneralColor);
+		this.menuiOptionsSupprOnglet.setForeground(foreGeneralColor);
+
+		/* Onglet précédent */
+		this.menuiOptionsOngletPrecedent.setBackground(backGeneralColor);
+		this.menuiOptionsOngletPrecedent.setForeground(foreGeneralColor);
+
+		/* Onglet suivant */
+		this.menuiOptionsOngletSuivant.setBackground(backGeneralColor);
+		this.menuiOptionsOngletSuivant.setForeground(foreGeneralColor);
+		
 
 		/*------------*/
 		/* Préférence */

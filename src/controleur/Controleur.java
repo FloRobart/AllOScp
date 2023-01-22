@@ -21,14 +21,13 @@ public class Controleur
         this.ihm    = new FramePrincipale(this);
     }
 
-
+    /*========*/
+    /* Thèmes */
+    /*========*/
     /**
      * Permet d'appliquer le thème à l'ihm
      */
-    public void appliquerTheme()
-    {
-        this.ihm.appliquerTheme();
-    }
+    public void appliquerTheme() { this.ihm.appliquerTheme(); }
 
     /**
      * Permet de à l'ihm de récupérer la hashmap contenant les couleurs du thème
@@ -51,6 +50,37 @@ public class Controleur
     public void changerTheme(String theme) { this.metier.setThemeUsed(theme); }
 
 
+    /*=====================*/
+    /* Gestion des onglets */
+    /*=====================*/
+    /**
+     * Permet d'ajouter un onglet à l'ihm
+     */
+    public void ajouterOnglet() { this.ihm.ajouterOnglet(); }
+
+    /**
+     * Permet de supprimer l'onglet séléctionner dans l'ihm
+     */
+    public void supprimerOnglet() { this.ihm.supprimerOnglet(); }
+
+    /**
+     * Permet de faire le focus sur l'onglet précédent
+     */
+    public void ongletPrecedent() { this.ihm.ongletPrecedent(); }
+
+    /**
+     * Permet de faire le focus sur l'onglet suivant
+     */
+    public void ongletSuivant() { this.ihm.ongletSuivant(); }
+
+
+
+
+
+
+    /*======*/
+    /* Main */
+    /*======*/
     public static void main(String[] args)
     {
         new Controleur();
