@@ -15,8 +15,9 @@ import java.io.PrintWriter;
 
 public class Metier
 {
-    private static final String PATH_THEME_X    = "./bin/donnees/themes/theme_";
-    private static final String PATH_THEME_SAVE = "./bin/donnees/themes/theme_sauvegarde.xml";
+    private static final String PATH_THEME_X          = "./bin/donnees/themes/theme_";
+    private static final String PATH_THEME_SAVE       = "./bin/donnees/themes/theme_sauvegarde.xml";
+	private static final String PATH_THEME_PERSO_INFO = "./bin/donnees/themes/theme_perso_info.xml";
 
 
     private Controleur ctrl;
@@ -117,5 +118,62 @@ public class Metier
 			e.printStackTrace();
 			System.out.println("Erreur lors de la lecture du fichier XML des informations du theme");
 		}
+	}
+
+
+	/**
+	 * Permet d'écrire dans un fichier xml les informations du thème personnalisé contenue dans la hashMap
+	 * @param nom : nom du thème
+	 * @param HashMap : liste des couleurs du thème associé à leur nom
+	 */
+	public void ajouterThemePerso(String nom,  HashMap<String, Color> theme)
+	{
+		// TODO : Ecrire dans le fichier XML les informations du thème
+	}
+
+
+	/**
+	 * Permet de récupérer le nombre de thèmes personnalisés
+	 * @return int : nombre de thèmes personnalisés
+	 */
+	public int getNbThemePerso()
+	{
+		int nbThemePerso = 0;
+
+		SAXBuilder sxb = new SAXBuilder();
+
+		try
+		{
+			nbThemePerso = Integer.parseInt(sxb.build(Metier.PATH_THEME_PERSO_INFO).getRootElement().getChildText("nombre"));
+		}
+		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
+
+		//return nbThemePerso;
+		return 2;
+	}
+
+
+	/**
+	 * Permet de récupérer la liste des noms des thèmes personnalisés
+	 * @return List : liste des noms des thèmes personnalisés
+	 */
+	public List<String> getLstNomThemePerso()
+	{
+		List<String> lstNomThemePerso = null;
+
+		SAXBuilder sxb = new SAXBuilder();
+
+		try
+		{
+			// TODO : récupérer les noms des thèmes personnalisés
+		}
+		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
+
+		//return lstNomThemePerso;
+		lstNomThemePerso = new ArrayList<String>();
+		lstNomThemePerso.add("perso 1");
+		lstNomThemePerso.add("perso 2");
+
+		return lstNomThemePerso;
 	}
 }

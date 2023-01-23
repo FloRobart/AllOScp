@@ -49,6 +49,20 @@ public class Controleur
      */
     public void changerTheme(String theme) { this.metier.setThemeUsed(theme); }
 
+    /**
+     * 
+     */
+    public void ajouterThemePerso(String nom, HashMap<String, Color> theme) { this.metier.ajouterThemePerso(nom, theme); }
+
+
+    /**
+     * Permet de connaitre le nombre de thème personnalisé créer par l'utilisateur
+     */
+    public int getNbThemePerso() { return this.metier.getNbThemePerso(); }
+
+
+    public List<String> getLstNomThemePerso() { return this.metier.getLstNomThemePerso(); }
+
 
     /*=====================*/
     /* Gestion des onglets */

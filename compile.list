@@ -7,6 +7,8 @@
 .\src\ihm\PanelGlobal.java  
  
 .\src\ihm\menu\MenuBarre.java  
+.\src\ihm\menu\FrameCreerTheme.java  
+.\src\ihm\menu\PanelCreerTheme.java  
  
 .\src\ihm\explorer\Explorer.java  
 .\src\ihm\explorer\MyCellRenderer.java  

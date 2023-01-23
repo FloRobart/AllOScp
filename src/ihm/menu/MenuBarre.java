@@ -10,6 +10,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.InputEvent;
 
 import controleur.Controleur;
@@ -17,6 +19,9 @@ import controleur.Controleur;
 
 public class MenuBarre extends JMenuBar implements ActionListener 
 {
+	private static final String PATH_THEME_PERSO_INFO = "./bin/donnees/themes/theme_perso_info.xml";
+
+
 	private Controleur ctrl;
 
 	/* Menus */
@@ -31,10 +36,13 @@ public class MenuBarre extends JMenuBar implements ActionListener
 	private JMenuItem menuiOptionsOngletSuivant;
 
 	/* Préférences */
-	private JMenuItem menuiPreferencesThemes;
+	private JMenu     menuiPreferencesThemes;
 	private JMenuItem menuiPreferencesThemesClair;
 	private JMenuItem menuiPreferencesThemesSombre;
 	private JMenuItem menuiPreferencesThemesDark;
+	private JMenu     menuiPreferencesThemesPerso;
+
+	private List<JMenuItem> lstMenuiPreferencesThemesPerso;
 
 
 	public MenuBarre(Controleur ctrl) 
@@ -81,6 +89,15 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		this.menuiPreferencesThemesSombre = new JMenuItem("Sombre");
 		this.menuiPreferencesThemesDark   = new JMenuItem("Dark"  );
 
+		/* Personnalisé */
+		this.menuiPreferencesThemesPerso  = new JMenu    ("Personnalisé ");
+
+		this.lstMenuiPreferencesThemesPerso = new ArrayList<JMenuItem>();
+		this.lstMenuiPreferencesThemesPerso.add(new JMenuItem("Nouveau"));
+		for (int i = 0; i < this.ctrl.getNbThemePerso(); i++)
+			this.lstMenuiPreferencesThemesPerso.add(new JMenuItem(this.ctrl.getLstNomThemePerso().get(i)));
+
+
 
 		/*------*/
 		/* Aide */
@@ -106,11 +123,21 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*------------*/
 		/* Préférence */
 		/*------------*/
+		/* Thèmes prédéfinie */
 		this.menuiPreferencesThemes.add(this.menuiPreferencesThemesClair);
 		this.menuiPreferencesThemes.add(this.menuiPreferencesThemesSombre);
 		this.menuiPreferencesThemes.add(this.menuiPreferencesThemesDark);
-		this.menuPreferences       .add(this.menuiPreferencesThemes);
+		this.menuiPreferencesThemes.add(this.menuiPreferencesThemesPerso);
+
+		/* Thèmes personnalisés */
+		for (int i = 0; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
+			this.menuiPreferencesThemesPerso.add(this.lstMenuiPreferencesThemesPerso.get(i));
+
+		this.menuPreferences.add(this.menuiPreferencesThemes);
+
+		/* Ajout de tout à la JMenuBar */
 		this.add(menuPreferences);
+
 
 		/*------*/
 		/* Aide */
@@ -138,6 +165,9 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		this.menuiPreferencesThemesClair .addActionListener(this);
 		this.menuiPreferencesThemesSombre.addActionListener(this);
 		this.menuiPreferencesThemesDark  .addActionListener(this);
+
+		for (int i = 0; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
+			this.lstMenuiPreferencesThemesPerso.get(i).addActionListener(this);
 	}
 
 
@@ -167,8 +197,16 @@ public class MenuBarre extends JMenuBar implements ActionListener
 
 			if (e.getSource() == this.menuiPreferencesThemesDark)
 				this.ctrl.changerTheme("dark");
+			
+			if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(0))
+				new FrameCreerTheme(this.ctrl);
+
+			for (int i = 1; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
+				if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(i))
+					this.ctrl.changerTheme(this.lstMenuiPreferencesThemesPerso.get(i).getText());
 		}
 	}
+
 
 	
 	/**
@@ -232,6 +270,18 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/* Dark */
 		this.menuiPreferencesThemesDark  .setBackground(backGeneralColor);
 		this.menuiPreferencesThemesDark  .setForeground(foreGeneralColor);
+
+		/* Personnalisé */
+		this.menuiPreferencesThemesPerso .setOpaque(true);
+		this.menuiPreferencesThemesPerso .setBackground(backGeneralColor);
+		this.menuiPreferencesThemesPerso .setForeground(foreGeneralColor);
+
+
+		for (int i = 0; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
+		{
+			this.lstMenuiPreferencesThemesPerso.get(i).setBackground(backGeneralColor);
+			this.lstMenuiPreferencesThemesPerso.get(i).setForeground(foreGeneralColor);
+		}
 
 
 		/*------*/
