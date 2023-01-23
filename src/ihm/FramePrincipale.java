@@ -55,7 +55,7 @@ public class FramePrincipale extends JFrame
 
         /* Panels */
         this.lstPanelGlobal = new ArrayList<PanelGlobal>();
-        this.lstPanelGlobal.add(new PanelGlobal(this.ctrl));
+        this.lstPanelGlobal.add(new PanelGlobal(this.ctrl, this.getWidth()));
         this.panelFond = new JPanel(new BorderLayout());
 
         /* MenuBar */
@@ -104,7 +104,7 @@ public class FramePrincipale extends JFrame
      */
     public void ajouterOnglet()
     {
-        PanelGlobal pg = new PanelGlobal(this.ctrl);
+        PanelGlobal pg = new PanelGlobal(this.ctrl, this.getWidth());
         this.lstPanelGlobal.add(pg);
         this.onglets.addTab("Onglet " + (this.onglets.getTabCount()+1), pg);
 
@@ -125,6 +125,10 @@ public class FramePrincipale extends JFrame
             int index = this.onglets.getSelectedIndex();
             this.lstPanelGlobal.remove(index);
             this.onglets.remove(index);
+        }
+        else
+        {
+            this.ctrl.closeParent();
         }
     }
 

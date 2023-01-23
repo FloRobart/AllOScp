@@ -8,5 +8,8 @@
  
 .\src\ihm\menu\MenuBarre.java  
  
+.\src\ihm\explorer\Explorer.java  
+.\src\ihm\explorer\MyCellRenderer.java  
+ 
 .\src\metier\Metier.java  
  

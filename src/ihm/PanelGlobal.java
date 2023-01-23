@@ -19,7 +19,7 @@ public class PanelGlobal extends JPanel
     private JSplitPane          panelSpliter;
 
 
-    public PanelGlobal(Controleur ctrl)
+    public PanelGlobal(Controleur ctrl, int widthParent)
     {
         this.ctrl = ctrl;
 
@@ -34,6 +34,9 @@ public class PanelGlobal extends JPanel
         this.panelGauche         = new PanelGauche        (this.ctrl);
         this.panelDroite         = new PanelDroite        (this.ctrl);
         this.panelSpliter        = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelGauche, panelDroite);
+        this.panelSpliter.setOneTouchExpandable(true);
+		this.panelSpliter.setContinuousLayout(true);
+		this.panelSpliter.setDividerLocation(widthParent/2);
 
 
         /*-----------------------*/

@@ -73,6 +73,19 @@ public class Controleur
      */
     public void ongletSuivant() { this.ihm.ongletSuivant(); }
 
+    /**
+     * Permet de fermer la fenêtre principale
+     */
+    public void closeParent() { this.ihm.dispose(); }
+    
+    
+
+
+    /*========*/
+    /* Autres */
+    /*========*/
+    //public int getWidthFrame() { return this.ihm.getWidth(); }
+
 
 
 
