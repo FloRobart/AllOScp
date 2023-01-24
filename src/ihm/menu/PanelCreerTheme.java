@@ -29,7 +29,6 @@ public class PanelCreerTheme extends JPanel
 
         this.copyTheme();
 
-
         /*-------------------------*/
         /* Création des composants */
         /*-------------------------*/
