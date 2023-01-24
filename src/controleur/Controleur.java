@@ -36,8 +36,8 @@ public class Controleur
     public HashMap<String, Color> getTheme() { return this.metier.getTheme(); }
 
 	/**
-	 * Permet de récupérer le nom du thème utilisé
-	 * @return Nom du thème utilisé
+	 * Permet de récupérer le nom partièle du thème utilisé (nom complet : theme_X.xml)
+	 * @return Nom du thème utilisé (nom renvoyé par cette méthode : X)
 	 */
 	public String getThemeUsed() { return this.metier.getThemeUsed(); }
 
@@ -60,7 +60,15 @@ public class Controleur
      */
     public int getNbThemePerso() { return this.metier.getNbThemePerso(); }
 
+    /**
+     * Permet de modifier le nombre de thème personnalisé créer par l'utilisateur
+     */
+    public void setNbThemePerso(int nbThemePerso) { this.metier.setNbThemePerso(nbThemePerso); }
 
+    /**
+     * Permet de récupérer la liste des noms des thèmes personnalisé
+     * @return Liste des noms des thèmes personnalisé
+     */
     public List<String> getLstNomThemePerso() { return this.metier.getLstNomThemePerso(); }
 
 

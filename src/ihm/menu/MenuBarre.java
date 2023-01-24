@@ -24,6 +24,9 @@ public class MenuBarre extends JMenuBar implements ActionListener
 
 	private Controleur ctrl;
 
+	/* Frame Créée thème */
+	private FrameCreerTheme frameCreerTheme;
+
 	/* Menus */
 	private JMenu menuOptions;
 	private JMenu menuPreferences;
@@ -48,6 +51,8 @@ public class MenuBarre extends JMenuBar implements ActionListener
 	public MenuBarre(Controleur ctrl) 
 	{
 		this.ctrl = ctrl;
+
+		this.frameCreerTheme = null;
 
 		/*=========================*/
 		/* Création des composants */
@@ -199,7 +204,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 				this.ctrl.changerTheme("dark");
 			
 			if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(0))
-				new FrameCreerTheme(this.ctrl);
+				this.frameCreerTheme = new FrameCreerTheme(this.ctrl);
 
 			for (int i = 1; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
 				if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(i))
@@ -222,6 +227,11 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*-------------------------*/
 		this.setBackground(backGeneralColor);
 		this.setForeground(foreGeneralColor);
+
+		/*-------*/
+		/* Frame */
+		/*-------*/
+		if (this.frameCreerTheme != null) { this.frameCreerTheme.appliquerTheme(); }
 
 		/*---------*/
 		/* Options */

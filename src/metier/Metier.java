@@ -154,6 +154,21 @@ public class Metier
 
 
 	/**
+	 * Permet de mettre à jour le nombre de thèmes personnalisés créée par l'utilisateur
+	 */	
+	public void setNbThemePerso(int nbThemePerso)
+	{
+		try
+		{
+			// TODO : lire le fichier et enregistrer les infos dans une string
+			// TODO : modifier la string pour modifier le nombre de thèmes personnalisés
+			// TODO : écrire dans le fichier les infos de la string
+		}
+		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de l'écriture du fichier XML du themes utilisé"); }
+	}
+
+
+	/**
 	 * Permet de récupérer la liste des noms des thèmes personnalisés
 	 * @return List : liste des noms des thèmes personnalisés
 	 */
