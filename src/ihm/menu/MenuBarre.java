@@ -224,6 +224,26 @@ public class MenuBarre extends JMenuBar implements ActionListener
     public void disposeFrameCreerTheme() { this.frameCreerTheme.dispose(); this.frameCreerTheme = null; }
 
 
+	/**
+	 * Permet d'ajouter un nouveau thème personnalisé à la menuBarre
+	 * @param nomTheme : Nom du thème dans la menuBarre
+	 */
+	public void ajouterThemePersoOnMenuBarre(String nomTheme)
+	{
+		/* Création du thème + Ajout à la liste des thèmes personnalisé */
+		this.lstMenuiPreferencesThemesPerso.add(new JMenuItem(nomTheme));
+
+		/* Ajout du thème à la menuBarre */
+		this.menuiPreferencesThemesPerso.add(this.lstMenuiPreferencesThemesPerso.get(this.lstMenuiPreferencesThemesPerso.size() - 1));
+
+		/* Activation du thème */
+		this.lstMenuiPreferencesThemesPerso.get(this.lstMenuiPreferencesThemesPerso.size() - 1).addActionListener(this);
+
+		/* Mise à jour de la menuBarre */
+		this.appliquerTheme();
+	}
+
+
 	
 	/**
      * Applique le thème à tout les composants du panel

@@ -169,6 +169,16 @@ public class FramePrincipale extends JFrame
 
 
     /**
+	 * Permet d'ajouter un nouveau thème personnalisé à la menuBarre
+     * @param nomTheme : Nom du thème dans la menuBarre
+	 */
+	public void ajouterThemePersoOnMenuBarre(String nomTheme)
+	{
+		this.menuBarre.ajouterThemePersoOnMenuBarre(nomTheme);
+	}
+
+
+    /**
      * Permet d'appliquer le thème à chaque élément de l'ihm qui en à besoins
      */
     public void appliquerTheme()

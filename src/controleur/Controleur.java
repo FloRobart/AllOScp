@@ -76,6 +76,12 @@ public class Controleur
      */
     public void disposeFrameCreerTheme() { this.ihm.disposeFrameCreerTheme(); }
 
+    /**
+	 * Permet d'ajouter un nouveau thème personnalisé à la menuBarre
+     * @param nomTheme : Nom du thème dans la menuBarre
+	 */
+	public void ajouterThemePersoOnMenuBarre(String nomTheme) { this.ihm.ajouterThemePersoOnMenuBarre(nomTheme); }
+
 
     /*=====================*/
     /* Gestion des onglets */

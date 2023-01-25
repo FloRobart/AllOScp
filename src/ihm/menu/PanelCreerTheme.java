@@ -134,7 +134,9 @@ public class PanelCreerTheme extends JPanel implements ActionListener
     {
         if (e.getSource() == this.btnValider)
         {
-
+            // TODO : Vérifier que le nom du thème n'est pas déjà utilisé ou vide
+            this.ctrl.ajouterThemePersoOnMenuBarre("test");
+            this.ctrl.disposeFrameCreerTheme();
         }
 
         if (e.getSource() == this.btnAnnuler)
