@@ -86,6 +86,5 @@ public class PanelGauche extends JPanel
         this.arborescence.setBackground(backGeneralColor);
         this.arborescence.setForeground(foreGeneralColor);
         this.mycellRenderer.appliquerTheme();
-
     }
 }

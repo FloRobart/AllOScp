@@ -163,6 +163,12 @@ public class FramePrincipale extends JFrame
 
 
     /**
+     * Permet de fermer la fenêtre de création de thème
+     */
+    public void disposeFrameCreerTheme() { this.menuBarre.disposeFrameCreerTheme(); }
+
+
+    /**
      * Permet d'appliquer le thème à chaque élément de l'ihm qui en à besoins
      */
     public void appliquerTheme()

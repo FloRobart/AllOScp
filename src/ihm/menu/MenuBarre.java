@@ -204,13 +204,24 @@ public class MenuBarre extends JMenuBar implements ActionListener
 				this.ctrl.changerTheme("dark");
 			
 			if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(0))
-				this.frameCreerTheme = new FrameCreerTheme(this.ctrl);
+			{
+				if (this.frameCreerTheme == null)
+					this.frameCreerTheme = new FrameCreerTheme(this.ctrl);
+				else
+					this.frameCreerTheme.setVisible(true);
+			}
 
 			for (int i = 1; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
 				if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(i))
 					this.ctrl.changerTheme(this.lstMenuiPreferencesThemesPerso.get(i).getText());
 		}
 	}
+
+
+	/**
+     * Permet de fermer la fenêtre de création de thème
+     */
+    public void disposeFrameCreerTheme() { this.frameCreerTheme.dispose(); this.frameCreerTheme = null; }
 
 
 	

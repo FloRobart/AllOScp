@@ -148,8 +148,7 @@ public class Metier
 		}
 		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
 
-		//return nbThemePerso;
-		return 2;
+		return nbThemePerso;
 	}
 
 
@@ -174,7 +173,7 @@ public class Metier
 	 */
 	public List<String> getLstNomThemePerso()
 	{
-		List<String> lstNomThemePerso = null;
+		List<String> lstNomThemePerso = new ArrayList<String>();
 
 		SAXBuilder sxb = new SAXBuilder();
 
@@ -183,11 +182,6 @@ public class Metier
 			// TODO : récupérer les noms des thèmes personnalisés
 		}
 		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
-
-		//return lstNomThemePerso;
-		lstNomThemePerso = new ArrayList<String>();
-		lstNomThemePerso.add("perso 1");
-		lstNomThemePerso.add("perso 2");
 
 		return lstNomThemePerso;
 	}

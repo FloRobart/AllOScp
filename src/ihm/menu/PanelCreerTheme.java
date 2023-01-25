@@ -10,17 +10,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import controleur.Controleur;
 
 
-public class PanelCreerTheme extends JPanel
+public class PanelCreerTheme extends JPanel implements ActionListener
 {
     private static final String PATH_THEMES = "./bin/donnees/themes/";
     private static final String[] ENS_LBL_STRING = new String[] {"Couleur générale du fond", "Couleur générale du texte", "Couleur de mauvaise action", "Couleur de bonne action", "Couleur de fond des titres", "Couleur de fond des zones de saisies", "Couleur du texte par défaut \n des zones de saisie", "Couleur de fond des boutons"};
@@ -29,6 +32,7 @@ public class PanelCreerTheme extends JPanel
 
     private Controleur ctrl;
 
+    private String nomAncienTheme;
     private File fileTheme;
     
     private JPanel pnlNomTheme;
@@ -49,6 +53,7 @@ public class PanelCreerTheme extends JPanel
     public PanelCreerTheme(Controleur ctrl)
     {
         this.ctrl = ctrl;
+        this.nomAncienTheme = this.ctrl.getThemeUsed();
         this.hmColorThemes = this.ctrl.getTheme();
         this.ctrl.setNbThemePerso((this.ctrl.getNbThemePerso() + 1));
         this.fileTheme = new File(PanelCreerTheme.PATH_THEMES + "theme_perso_" + this.ctrl.getNbThemePerso() + ".xml");
@@ -56,6 +61,7 @@ public class PanelCreerTheme extends JPanel
         try { this.fileTheme.createNewFile(); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la création du fichier " + "theme_perso_" + this.ctrl.getNbThemePerso() + ".xml"); }
 
         this.copyTheme();
+        this.ctrl.changerTheme("perso_" + this.ctrl.getNbThemePerso());
 
         this.setLayout(new BorderLayout(20, 20));
 
@@ -115,9 +121,42 @@ public class PanelCreerTheme extends JPanel
         /*---------------------*/
         /* Ajout des listeners */
         /*---------------------*/
+        this.btnValider.addActionListener(this);
+        this.btnAnnuler.addActionListener(this);
 
-    
-        this.appliquerTheme();
+        for (int i = 0; i < this.lstBtn.size(); i++)
+            this.lstBtn.get(i).addActionListener(this);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() == this.btnValider)
+        {
+
+        }
+
+        if (e.getSource() == this.btnAnnuler)
+        {
+            this.fileTheme.delete();
+            this.ctrl.changerTheme(this.nomAncienTheme);
+            this.ctrl.disposeFrameCreerTheme();
+        }
+
+        for (int i = 0; i < this.lstBtn.size(); i++)
+        {
+            if (e.getSource() == this.lstBtn.get(i))
+            {
+                Color color = JColorChooser.showDialog(this, "Choisir une couleur", this.hmColorThemes.get(PanelCreerTheme.LST_CLES[i]));
+                this.hmColorThemes.put(PanelCreerTheme.LST_CLES[i], color);
+                this.lstBtn.get(i).setBackground(color);
+
+                // TODO : Enregistrer la couleur dans le fichier du thème personnalisé (écrire dans le fichier)
+
+                this.ctrl.appliquerTheme();
+            }
+        }
     }
 
 

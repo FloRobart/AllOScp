@@ -71,6 +71,11 @@ public class Controleur
      */
     public List<String> getLstNomThemePerso() { return this.metier.getLstNomThemePerso(); }
 
+    /**
+     * Permet de fermer la fenêtre de création de thème
+     */
+    public void disposeFrameCreerTheme() { this.ihm.disposeFrameCreerTheme(); }
+
 
     /*=====================*/
     /* Gestion des onglets */
