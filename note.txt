@@ -1,0 +1,4 @@
+sauvegarder la list de clé de la hashMap dans un fichier pour les centraliser
+
+sauvegarder Les path des fichiers dans un fichier pour les centraliser
+
