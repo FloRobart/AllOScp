@@ -2,3 +2,6 @@ sauvegarder la list de clé de la hashMap dans un fichier pour les centraliser
 
 sauvegarder Les path des fichiers dans un fichier pour les centraliser
 
+
+changer le nom du theme personnalisé
+il y a un problème sur le setThemeUsed
