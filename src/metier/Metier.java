@@ -128,7 +128,7 @@ public class Metier
 	 */
 	public void ajouterThemePerso(String nom,  HashMap<String, Color> theme)
 	{
-		// TODO : Ecrire dans le fichier XML les informations du thème
+		// TODO : ajouter le nouveau theme à la MenuBarre
 	}
 
 
