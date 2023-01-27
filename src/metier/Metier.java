@@ -3,6 +3,7 @@ package metier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -10,28 +11,48 @@ import org.jdom2.input.SAXBuilder;
 import controleur.Controleur;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 
 public class Metier
 {
     private static final String PATH_THEME_X          = "./bin/donnees/themes/theme_";
     private static final String PATH_THEME_SAVE       = "./bin/donnees/themes/theme_sauvegarde.xml";
-	private static final String PATH_THEME_PERSO_INFO = "./bin/donnees/themes/theme_perso_info.xml";
 
 
     private Controleur ctrl;
 
+	/* Thèmes */
     private HashMap<String, Color>  hmColorThemes;
+	private int nbThemePerso;
 
 
     public Metier(Controleur ctrl)
     {
         this.ctrl = ctrl;
 
+		/* Thèmes */
+		this.chargerNbThemesPerso();
         this.hmColorThemes = new HashMap<String, Color>();
         this.chargerThemes(this.getThemeUsed());
     }
+
+
+	private void chargerNbThemesPerso()
+	{
+		//SAXBuilder sxb = new SAXBuilder();
+		//nbThemePerso = Integer.parseInt(sxb.build(Metier.PATH_THEME_PERSO_INFO).getRootElement().getChildText("nombre"));
+		File dossier = new File("./bin/donnees/themes/");
+
+		for (File fichier : dossier.listFiles())
+			if (fichier.getName().startsWith("theme_perso_"))
+				this.nbThemePerso++;
+
+		System.out.println(nbThemePerso);
+	}
 
 
     /**
@@ -67,7 +88,9 @@ public class Metier
 
 
     /**
-	 * Sauvegarde le thème selectionné par l'utilisateur dans le fichier xml de sauvegarde
+	 * Sauvegarde le thème selectionné par l'utilisateur dans le fichier xml de sauvegarde.
+	 * Charge le thème selectionné dans la HashMap.
+	 * Applique le thème selectionné (met à jour l'IHM).
 	 * @param theme : thème à sauvegarder
 	 */
 	public void setThemeUsed(String theme)
@@ -129,60 +152,5 @@ public class Metier
 	public void ajouterThemePerso(String nom,  HashMap<String, Color> theme)
 	{
 		// TODO : ajouter le nouveau theme à la MenuBarre
-	}
-
-
-	/**
-	 * Permet de récupérer le nombre de thèmes personnalisés
-	 * @return int : nombre de thèmes personnalisés
-	 */
-	public int getNbThemePerso()
-	{
-		int nbThemePerso = 0;
-
-		SAXBuilder sxb = new SAXBuilder();
-
-		try
-		{
-			nbThemePerso = Integer.parseInt(sxb.build(Metier.PATH_THEME_PERSO_INFO).getRootElement().getChildText("nombre"));
-		}
-		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
-
-		return nbThemePerso;
-	}
-
-
-	/**
-	 * Permet de mettre à jour le nombre de thèmes personnalisés créée par l'utilisateur
-	 */	
-	public void setNbThemePerso(int nbThemePerso)
-	{
-		try
-		{
-			// TODO : lire le fichier et enregistrer les infos dans une string
-			// TODO : modifier la string pour modifier le nombre de thèmes personnalisés
-			// TODO : écrire dans le fichier les infos de la string
-		}
-		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de l'écriture du fichier XML du themes utilisé"); }
-	}
-
-
-	/**
-	 * Permet de récupérer la liste des noms des thèmes personnalisés
-	 * @return List : liste des noms des thèmes personnalisés
-	 */
-	public List<String> getLstNomThemePerso()
-	{
-		List<String> lstNomThemePerso = new ArrayList<String>();
-
-		SAXBuilder sxb = new SAXBuilder();
-
-		try
-		{
-			// TODO : récupérer les noms des thèmes personnalisés
-		}
-		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
-
-		return lstNomThemePerso;
 	}
 }

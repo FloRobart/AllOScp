@@ -19,9 +19,6 @@ import controleur.Controleur;
 
 public class MenuBarre extends JMenuBar implements ActionListener 
 {
-	private static final String PATH_THEME_PERSO_INFO = "./bin/donnees/themes/theme_perso_info.xml";
-
-
 	private Controleur ctrl;
 
 	/* Frame Créée thème */
@@ -99,8 +96,8 @@ public class MenuBarre extends JMenuBar implements ActionListener
 
 		this.lstMenuiPreferencesThemesPerso = new ArrayList<JMenuItem>();
 		this.lstMenuiPreferencesThemesPerso.add(new JMenuItem("Nouveau"));
-		for (int i = 0; i < this.ctrl.getNbThemePerso(); i++)
-			this.lstMenuiPreferencesThemesPerso.add(new JMenuItem(this.ctrl.getLstNomThemePerso().get(i)));
+		for (int i = 0; i < 0/* TODO : nombre de thème personnalisé */; i++)
+			this.lstMenuiPreferencesThemesPerso.add(new JMenuItem(/* TODO : nom des thèmes personnalisé */));
 
 
 
@@ -203,6 +200,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 			if (e.getSource() == this.menuiPreferencesThemesDark)
 				this.ctrl.changerTheme("dark");
 			
+			/* Nouveau */
 			if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(0))
 			{
 				if (this.frameCreerTheme == null)
@@ -211,6 +209,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 					this.frameCreerTheme.setVisible(true);
 			}
 
+			/* tout les thèmes personnalisé */
 			for (int i = 1; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
 				if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(i))
 					this.ctrl.changerTheme(this.lstMenuiPreferencesThemesPerso.get(i).getText());

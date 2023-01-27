@@ -54,23 +54,6 @@ public class Controleur
      */
     public void ajouterThemePerso(String nom, HashMap<String, Color> theme) { this.metier.ajouterThemePerso(nom, theme); }
 
-
-    /**
-     * Permet de connaitre le nombre de thème personnalisé créer par l'utilisateur
-     */
-    public int getNbThemePerso() { return this.metier.getNbThemePerso(); }
-
-    /**
-     * Permet de modifier le nombre de thème personnalisé créer par l'utilisateur
-     */
-    public void setNbThemePerso(int nbThemePerso) { this.metier.setNbThemePerso(nbThemePerso); }
-
-    /**
-     * Permet de récupérer la liste des noms des thèmes personnalisé
-     * @return Liste des noms des thèmes personnalisé
-     */
-    public List<String> getLstNomThemePerso() { return this.metier.getLstNomThemePerso(); }
-
     /**
      * Permet de fermer la fenêtre de création de thème
      */
