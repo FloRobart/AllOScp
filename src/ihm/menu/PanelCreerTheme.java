@@ -27,9 +27,9 @@ import controleur.Controleur;
 
 public class PanelCreerTheme extends JPanel implements ActionListener
 {
-    private static final String PATH_THEMES = "./bin/donnees/themes/";
+    private static final String   PATH_THEMES    = "./bin/donnees/themes/";
     private static final String[] ENS_LBL_STRING = new String[] {"Couleur générale du fond", "Couleur générale du texte", "Couleur de mauvaise action", "Couleur de bonne action", "Couleur de fond des titres", "Couleur de fond des zones de saisies", "Couleur du texte par défaut \n des zones de saisie", "Couleur de fond des boutons"};
-    private static final String LST_CLES[] = new String[] {"background", "foreground", "disableColor", "enableColor", "titlesBackground", "saisiesBackground", "saisiesPlaceholder", "buttonsBackground"};
+    private static final String[] TAB_CLES       = new String[] {"background", "foreground", "disableColor", "enableColor", "titlesBackground", "saisiesBackground", "saisiesPlaceholder", "buttonsBackground"};
 
 
     private Controleur ctrl;
@@ -61,28 +61,32 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         /* Enregistrement du nom du thème actuel */
         this.nomAncienTheme = this.ctrl.getThemeUsed();
 
-
         /* Récupération des couleurs du thème actuel */
         this.hmColorThemes = this.ctrl.getTheme();
 
-
-        // TODO : incrémenter le nombre de thème perso créé de 1
-
+        /* Incrémentation du nombre de thème perso */
+        this.ctrl.setNbThemesPerso(this.ctrl.getNbThemesPerso() + 1);
 
         /* Création du fichier du thème personnalisé */
-        this.fileTheme = new File(PanelCreerTheme.PATH_THEMES + "theme_perso_" + /* TODO : remplacer par le nombre de thème perso créée */ + ".xml");
-        try { this.fileTheme.createNewFile(); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la création du fichier " + "theme_perso_" + /* TODO : remplacer par le nombre de thème perso créée */ + ".xml"); }
+        int nbThemePerso = this.ctrl.getNbThemesPerso();
+
+        this.fileTheme = new File(PanelCreerTheme.PATH_THEMES + "theme_perso_" + nbThemePerso + ".xml");
+        try { this.fileTheme.createNewFile(); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la création du fichier " + "theme_perso_" + nbThemePerso + ".xml"); }
 
 
         /* Copie du thème utilisé dans le thème en cours de personnalisation */
-        File fileThemeUsed  = new File(PanelCreerTheme.PATH_THEMES + "theme_"       + this.ctrl.getThemeUsed   () + ".xml"); // origine
-        File fileThemePerso = new File(PanelCreerTheme.PATH_THEMES + "theme_perso_" + /* TODO : remplacer par le nombre de thème perso créée */ + ".xml"); // destination
+        File fileThemeUsed  = new File(PanelCreerTheme.PATH_THEMES + "theme_"       + this.ctrl.getThemeUsed() + ".xml"); // origine
+        File fileThemePerso = new File(PanelCreerTheme.PATH_THEMES + "theme_perso_" + nbThemePerso             + ".xml"); // destination
         
         try { Files.copy(fileThemeUsed.toPath(), fileThemePerso.toPath(), StandardCopyOption.REPLACE_EXISTING); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la copie du fichier " + "theme_" + this.ctrl.getThemeUsed() + ".xml"); }
 
 
         /* changement du théme pour appliquer le thème en cours de création */
-        this.ctrl.changerTheme("perso_" + /* TODO : remplacer par le nombre de thème perso créée */);
+        this.ctrl.changerTheme("perso_" + nbThemePerso);
+
+
+        /* Changement du nom du thème */
+        this.ctrl.setNomTheme("perso " + nbThemePerso);
 
 
 
@@ -91,13 +95,13 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         /*-------------------------*/
         /* Label nom du thème */
         this.pnlNomTheme = new JPanel();
-        this.lblNomTheme = new JLabel("Nom du thème : ");
+        this.lblNomTheme = new JLabel("Nom du thème : Perso ");
         this.lblNomTheme.setFont(new Font("Liberation Sans", 0, 24));
 
         /* TexteField nom du thème */
-        this.txtNomTheme = new JTextField("Perso " + /* TODO : remplacer par le nombre de thème perso créée */);
+        this.txtNomTheme = new JTextField("" + nbThemePerso);
         this.txtNomTheme.setFont(new Font("Liberation Sans", 0, 24));
-        this.txtNomTheme.setPreferredSize(new Dimension(150, 24));
+        this.txtNomTheme.setPreferredSize(new Dimension(200, 24));
 
 
         /* Panel des couleurs */
@@ -133,7 +137,7 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         this.pnlNomTheme.add(this.txtNomTheme);
 
         /* Panel des couleurs, Ajout des labels et boutons des couleurs */
-        for (int i = 0; i < PanelCreerTheme.LST_CLES.length; i++)
+        for (int i = 0; i < PanelCreerTheme.TAB_CLES.length; i++)
         {
             this.pnlColor.add(this.lstLbl.get(i));
             this.pnlColor.add(this.lstBtn.get(i));
@@ -170,45 +174,44 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         {
             if (true)// TODO : Vérifier que le nom du thème n'est pas déjà utilisé ou vide
             {
+                /* Changement du nom du thème */
+                this.ctrl.setNomTheme("perso_" + this.txtNomTheme.getText().replaceFirst(" ", "_"));
+                this.ctrl.setNomFichier("perso_" + this.txtNomTheme.getText().replaceFirst(" ", "_"));
+
+
                 /* Ajout du thème à la menuBarre */
-                this.ctrl.ajouterThemePersoOnMenuBarre(/* TODO : remplacer par le nom du thème perso */);
+                this.ctrl.ajouterThemePersoOnMenuBarre(this.ctrl.getThemeUsed().replace("_", " "));
 
                 /* Ferme la fenêtre */
                 this.ctrl.disposeFrameCreerTheme();
             }
         }
-
-        /* Annulé */
-        if (e.getSource() == this.btnAnnuler)
+        else
         {
-            this.fileTheme.delete();
-            this.ctrl.changerTheme(this.nomAncienTheme);
-            this.ctrl.disposeFrameCreerTheme();
+            /* Annulé */
+            if (e.getSource() == this.btnAnnuler)
+            {
+                this.fileTheme.delete();
+                this.ctrl.changerTheme(this.nomAncienTheme);
+                this.ctrl.disposeFrameCreerTheme();
+            }
         }
+
+        
 
         /* Boutons des couleurs */
         for (int i = 0; i < this.lstBtn.size(); i++)
         {
             if (e.getSource() == this.lstBtn.get(i))
             {
-                Color color = JColorChooser.showDialog(this, "Choisir une couleur", this.hmColorThemes.get(PanelCreerTheme.LST_CLES[i]));
-                this.hmColorThemes.put(PanelCreerTheme.LST_CLES[i], color);
+                Color color = JColorChooser.showDialog(this, "Choisir une couleur", this.hmColorThemes.get(PanelCreerTheme.TAB_CLES[i]));
+                this.hmColorThemes.put(PanelCreerTheme.TAB_CLES[i], color);
                 this.lstBtn.get(i).setBackground(color);
 
-                this.enregistrerCouleur(color, PanelCreerTheme.LST_CLES[i]);
-
-                this.ctrl.appliquerTheme();
+                if (this.ctrl.setElementTheme(PanelCreerTheme.TAB_CLES[i], color));
+                    this.ctrl.appliquerTheme();
             }
         }
-    }
-
-
-    /**
-     * enregistre la couleur dans le fichier du thème personnalisé
-     */
-    public void enregistrerCouleur(Color color, String cle)
-    {
-        // lire le fichier du theme personnalisé
     }
 
 
@@ -247,12 +250,12 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         this.pnlColor.setBackground(backGeneralColor);
         this.pnlColor.setForeground(foreGeneralColor);
 
-        for (int i = 0; i < PanelCreerTheme.LST_CLES.length; i++)
+        for (int i = 0; i < PanelCreerTheme.TAB_CLES.length; i++)
         {
             this.lstLbl.get(i).setBackground(backGeneralColor);
             this.lstLbl.get(i).setForeground(foreGeneralColor);
 
-            this.lstBtn.get(i).setBackground(this.hmColorThemes.get(PanelCreerTheme.LST_CLES[i]));
+            this.lstBtn.get(i).setBackground(this.hmColorThemes.get(PanelCreerTheme.TAB_CLES[i]));
             this.lstBtn.get(i).setForeground(foreGeneralColor);
         }
 

@@ -57,7 +57,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*---------*/
 		/* Options */
 		/*---------*/
-		this.menuOptions = new JMenu("Options");
+		this.menuOptions = new JMenu("Onglets");
 		this.menuOptions.setMnemonic('O');
 
 		/* Nouvel onglet */
@@ -69,11 +69,11 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		this.menuiOptionsSupprOnglet.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK)); // pour CTRL+W
 
 		/* Panel précédent */
-		this.menuiOptionsOngletPrecedent = new JMenuItem("Panel précédent");
+		this.menuiOptionsOngletPrecedent = new JMenuItem("Onglet précédent");
 		this.menuiOptionsOngletPrecedent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)); // pour CTRL+MAJ+TABULATION
 
 		/* Panel suivant */
-		this.menuiOptionsOngletSuivant = new JMenuItem("Panel suivant");
+		this.menuiOptionsOngletSuivant = new JMenuItem("Onglet suivant");
 		this.menuiOptionsOngletSuivant.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.CTRL_DOWN_MASK)); // pour CTRL+TABULATION
 
 
@@ -96,8 +96,9 @@ public class MenuBarre extends JMenuBar implements ActionListener
 
 		this.lstMenuiPreferencesThemesPerso = new ArrayList<JMenuItem>();
 		this.lstMenuiPreferencesThemesPerso.add(new JMenuItem("Nouveau"));
-		for (int i = 0; i < 0/* TODO : nombre de thème personnalisé */; i++)
-			this.lstMenuiPreferencesThemesPerso.add(new JMenuItem(/* TODO : nom des thèmes personnalisé */));
+		this.lstMenuiPreferencesThemesPerso.add(new JMenuItem("supprimer"));
+		for (int i = 0; i < this.ctrl.getLstNameThemesPerso().size(); i++)
+			this.lstMenuiPreferencesThemesPerso.add(new JMenuItem(this.ctrl.getLstNameThemesPerso().get(i)));
 
 
 
@@ -133,7 +134,11 @@ public class MenuBarre extends JMenuBar implements ActionListener
 
 		/* Thèmes personnalisés */
 		for (int i = 0; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
+		{
 			this.menuiPreferencesThemesPerso.add(this.lstMenuiPreferencesThemesPerso.get(i));
+			if (i == 1)
+				this.menuiPreferencesThemesPerso.addSeparator();
+		}
 
 		this.menuPreferences.add(this.menuiPreferencesThemes);
 
@@ -209,10 +214,20 @@ public class MenuBarre extends JMenuBar implements ActionListener
 					this.frameCreerTheme.setVisible(true);
 			}
 
+			/* Supprimer */
+			if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(1))
+			{
+				// TODO : faire la fenêtre de suppression des thèmes
+				//if (this.frameCreerTheme == null)
+				//	this.frameSuppTheme = new FrameCreerTheme(this.ctrl);
+				//else
+				//	this.frameSuppTheme.setVisible(true);
+			}
+
 			/* tout les thèmes personnalisé */
-			for (int i = 1; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
+			for (int i = 2; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
 				if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(i))
-					this.ctrl.changerTheme(this.lstMenuiPreferencesThemesPerso.get(i).getText());
+					this.ctrl.changerTheme(this.lstMenuiPreferencesThemesPerso.get(i).getText().replace(" ", "_"));
 		}
 	}
 

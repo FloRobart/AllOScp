@@ -50,9 +50,15 @@ public class Controleur
     public void changerTheme(String theme) { this.metier.setThemeUsed(theme); }
 
     /**
+     * Permet de renommer le fichier avec le nom du thème et de changer le nom enregistrer dans le fichier de sauvegarde.
+     * @param nomFichier : nouveau nom du fichier
+     */
+    public void setNomFichier(String nomFichier) { this.metier.setNomFichier(nomFichier); }
+
+    /**
      * 
      */
-    public void ajouterThemePerso(String nom, HashMap<String, Color> theme) { this.metier.ajouterThemePerso(nom, theme); }
+    public void ajouterThemePersoOnMenuBarre(String nom, HashMap<String, Color> theme) { this.metier.ajouterThemePersoOnMenuBarre(nom, theme); }
 
     /**
      * Permet de fermer la fenêtre de création de thème
@@ -65,6 +71,36 @@ public class Controleur
 	 */
 	public void ajouterThemePersoOnMenuBarre(String nomTheme) { this.ihm.ajouterThemePersoOnMenuBarre(nomTheme); }
 
+    /**
+	 * Permet de récupérer la liste des noms des thèmes perso créer par l'utilisateur.
+	 * @return List : liste des noms des thèmes perso.
+	 */
+	public List<String> getLstNameThemesPerso() { return this.metier.getLstNameThemesPerso(); }
+
+    /**
+     * Permet de récupérer le nombre de thèmes perso créer par l'utilisateur.
+     * @return int : nombre de thèmes perso.
+     */
+    public int getNbThemesPerso() { return this.metier.getNbThemesPerso(); }
+
+    /**
+     * Permet de modifier le nombre de thèmes perso créer par l'utilisateur.
+     */
+    public void setNbThemesPerso(int i) { this.metier.setNbThemesPerso(i); }
+
+    /**
+     * Permet de modifier le nom du thème utilisé
+     * @param theme : Nom du thème à utiliser
+     */
+    public void setNomTheme(String theme) { this.metier.setNomTheme(theme); }
+
+    /**
+     * Permet de modifier la couleur d'un élément du thème
+     * @param nomElement : Nom de l'élément à modifier
+     * @param couleur : Nouvelle couleur de l'élément
+     * @return boolean : true si l'élément a été modifié, sinon false
+     */
+    public boolean setElementTheme(String nomElement, Color couleur) { return this.metier.setElementTheme(nomElement, couleur); }
 
     /*=====================*/
     /* Gestion des onglets */

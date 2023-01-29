@@ -1,6 +1,5 @@
 package ihm;
 
-import javax.swing.CellRendererPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
