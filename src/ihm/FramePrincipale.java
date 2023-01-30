@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import controleur.Controleur;
 import ihm.menu.MenuBarre;
+import ihm.menu.popUp.PopClickListener;
 
 
 public class FramePrincipale extends JFrame
@@ -25,6 +27,7 @@ public class FramePrincipale extends JFrame
     private List<PanelGlobal> lstPanelGlobal;
     private JPanel panelFond;
 
+    private PopClickListener popClickListener;
 
 
     /**
@@ -43,6 +46,9 @@ public class FramePrincipale extends JFrame
         this.setTitle("Frame principale");
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.popClickListener = new PopClickListener(ctrl);
+
 
         /* Onglets */
         this.onglets = new JTabbedPane(JTabbedPane.TOP);
@@ -91,6 +97,8 @@ public class FramePrincipale extends JFrame
                         onglets.setForegroundAt(i, ctrl.getTheme().get("foreground"));
             }
         });
+
+        this.onglets.addMouseListener(this.popClickListener);
     }
 
 
@@ -189,6 +197,8 @@ public class FramePrincipale extends JFrame
         /* Frame */
         this.setBackground(backGeneralColor);
         this.setForeground(foreGeneralColor);
+
+        this.popClickListener.appliquerTheme();
 
         /* MenuBar */
         this.menuBarre.appliquerTheme();

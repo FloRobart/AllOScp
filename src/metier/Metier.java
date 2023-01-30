@@ -202,6 +202,36 @@ public class Metier
 		return lstNomThemesPerso;
 	}
 
+	/**
+	 * Permet de vérifier si le nom du thème n'est pas déjà utilisé et que le nom n'est pas null.
+	 * @param nomTheme : nom du thème à vérifier.
+	 * @return boolean : true si le nom du thème n'est pas déjà utilisé et qu'il n'est pas null, sinon false.
+	 */
+	public boolean verifNomTheme(String nomTheme)
+	{
+		if (nomTheme.equals("perso ")) return false;
+
+		boolean nameOnlySpace = true;
+		for (int i = 5; i < nomTheme.length(); i++)
+			if (nomTheme.charAt(i) != ' ') { nameOnlySpace = false; break; }
+
+		if (nameOnlySpace) return false;
+
+
+		for (String s : this.lstNomThemesPerso)
+			if (s.equals(nomTheme)) return false;
+
+		return true;
+	}
+
+	/**
+	 * Met à jour la liste des noms des thèmes perso. permet d'ajouter le nouveau thème qui viens d'être créer pour qui le liste sois à jour l'ors du prochaine appelle de la méthode verifNomTheme()
+	 */
+	public void majLstNomTheme()
+	{
+		this.lstNomThemesPerso = this.initLstNameThemesPerso();
+	}
+
 
 	/**
 	 * Permet de récupérer la liste des noms des thèmes perso créer par l'utilisateur.

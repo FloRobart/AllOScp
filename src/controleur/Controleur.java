@@ -56,7 +56,19 @@ public class Controleur
     public void setNomFichier(String nomFichier) { this.metier.setNomFichier(nomFichier); }
 
     /**
-     * 
+     * Permet de vérifier si le nom du thème est valide
+     * @param nomTheme : Nom du thème à vérifier
+     * @return boolean : true si le nom est valide, sinon false
+     */
+    public boolean verifNomTheme(String nomTheme) { return this.metier.verifNomTheme(nomTheme); }
+
+    /**
+     * Permet de mettre à jour la liste des noms des thèmes dans le métier. 
+     */
+    public void majLstNomTheme() { this.metier.majLstNomTheme(); }
+
+    /**
+     * Permet d'ajouter le thème perso à la MenuBarre.
      */
     public void ajouterThemePersoOnMenuBarre(String nom, HashMap<String, Color> theme) { this.metier.ajouterThemePersoOnMenuBarre(nom, theme); }
 

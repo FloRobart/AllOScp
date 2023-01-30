@@ -9,6 +9,7 @@ import java.awt.Color;
 
 import controleur.Controleur;
 import ihm.explorer.MyCellRenderer;
+import ihm.menu.popUp.PopClickListener;
 
 
 public class PanelGauche extends JPanel
@@ -21,9 +22,13 @@ public class PanelGauche extends JPanel
 
     private MyCellRenderer mycellRenderer;
 
+    private PopClickListener popClickListener;
+
     public PanelGauche(Controleur ctrl)
     {
         this.ctrl = ctrl;
+
+        this.popClickListener = new PopClickListener(this.ctrl);
 
         /*--------------------------*/
         /* Créations des composants */
@@ -57,6 +62,7 @@ public class PanelGauche extends JPanel
         /*---------------------------*/
         /* Activtions des composants */
         /*---------------------------*/
+        this.arborescence.addMouseListener(this.popClickListener);
     }
 
 
@@ -70,6 +76,8 @@ public class PanelGauche extends JPanel
 
         this.setBackground(backGeneralColor);
         this.setForeground(foreGeneralColor);
+
+        this.popClickListener.appliquerTheme();
 
         /* ScrollPane */
         this.scrollPane.setBackground(backGeneralColor);

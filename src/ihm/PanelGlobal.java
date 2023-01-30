@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 
 import controleur.Controleur;
+import ihm.menu.popUp.PopClickListener;
 
 
 public class PanelGlobal extends JPanel
@@ -50,6 +51,7 @@ public class PanelGlobal extends JPanel
         /*---------------------------*/
         /* Activtions des composants */
         /*---------------------------*/
+        //this.addMouseListener(new PopClickListener());
     }
 
 

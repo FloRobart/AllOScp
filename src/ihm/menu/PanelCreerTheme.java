@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -172,18 +173,25 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         /* Validé */
         if (e.getSource() == this.btnValider)
         {
-            if (true)// TODO : Vérifier que le nom du thème n'est pas déjà utilisé ou vide
+            String nomTheme = "perso " + this.txtNomTheme.getText().replace("_", " ");
+            if (this.ctrl.verifNomTheme(nomTheme))// TODO : Vérifier que le nom du thème n'est pas déjà utilisé ou vide
             {
                 /* Changement du nom du thème */
-                this.ctrl.setNomTheme("perso_" + this.txtNomTheme.getText().replaceFirst(" ", "_"));
-                this.ctrl.setNomFichier("perso_" + this.txtNomTheme.getText().replaceFirst(" ", "_"));
-
+                this.ctrl.setNomTheme(nomTheme);
+                this.ctrl.setNomFichier(nomTheme.replace(" ", "_"));
 
                 /* Ajout du thème à la menuBarre */
-                this.ctrl.ajouterThemePersoOnMenuBarre(this.ctrl.getThemeUsed().replace("_", " "));
+                this.ctrl.ajouterThemePersoOnMenuBarre(nomTheme);
+
+                /* Met à jour la liste dans le métier */
+                this.ctrl.majLstNomTheme();
 
                 /* Ferme la fenêtre */
                 this.ctrl.disposeFrameCreerTheme();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Le nom du thème est déjà utilisé ou vide ou ne contient que des espaces", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
         else
@@ -205,11 +213,14 @@ public class PanelCreerTheme extends JPanel implements ActionListener
             if (e.getSource() == this.lstBtn.get(i))
             {
                 Color color = JColorChooser.showDialog(this, "Choisir une couleur", this.hmColorThemes.get(PanelCreerTheme.TAB_CLES[i]));
-                this.hmColorThemes.put(PanelCreerTheme.TAB_CLES[i], color);
-                this.lstBtn.get(i).setBackground(color);
+                if (color != null)
+                {
+                    this.hmColorThemes.put(PanelCreerTheme.TAB_CLES[i], color);
+                    this.lstBtn.get(i).setBackground(color);
 
-                if (this.ctrl.setElementTheme(PanelCreerTheme.TAB_CLES[i], color));
-                    this.ctrl.appliquerTheme();
+                    if (this.ctrl.setElementTheme(PanelCreerTheme.TAB_CLES[i], color));
+                        this.ctrl.appliquerTheme();
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 
 import controleur.Controleur;
+import ihm.menu.popUp.PopClickListener;
 
 public class PanelDroite extends JPanel
 {

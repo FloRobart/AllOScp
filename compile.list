@@ -10,6 +10,9 @@
 .\src\ihm\menu\FrameCreerTheme.java  
 .\src\ihm\menu\PanelCreerTheme.java  
  
+.\src\ihm\menu\popUp\PopUpMenu.java  
+.\src\ihm\menu\popUp\PopClickListener.java  
+ 
 .\src\ihm\explorer\Explorer.java  
 .\src\ihm\explorer\MyCellRenderer.java  
  
