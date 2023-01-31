@@ -1,0 +1,34 @@
+<langage name="français">
+    <framePrincipale>
+        <titre>Syncroniseur de dossiers</titre>
+    </framePrincipale>
+
+    <menuBarreOnglets>
+        <titre>Onglets</titre>
+
+        <nouvelOnglet>Nouvel onglet</nouvelOnglet>
+        <fermerOnglet>Fermer l'onglet</fermerOnglet>
+        <ongletPrecedent>Onglet précédent</ongletPrecedent>
+        <ongletSuivant>Onglet suivant</ongletSuivant>
+    </menuBarreOnglets>
+
+    <menuBarrePreferences>
+        <titre>Préférences</titre>
+
+        <themes>Thèmes</themes>
+        <themeClair>Thème clair</themeClair>
+        <themeSombre>Thème sombre</themeSombre>
+        <themeDark>Thème Dark</themeDark>
+        <themePerso>Thème personnalisé</themePerso>
+        <themePersoNouveau>Nouveau thème</themePersoNouveau>
+        <themePersoSupprimer>Supprimer des thèmes</themePersoSupprimer>
+
+        <langues>Langues</langues>
+        <langueFrancais>Français</langueFrancais>
+        <langueAnglais>Anglais</langueAnglais>
+    </menuBarrePreferences>
+
+    <menuBarreAide>
+        <titre>Aide</titre>
+    </menuBarreAide>
+</langage>

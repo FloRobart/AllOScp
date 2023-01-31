@@ -174,7 +174,7 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         if (e.getSource() == this.btnValider)
         {
             String nomTheme = "perso " + this.txtNomTheme.getText().replace("_", " ");
-            if (this.ctrl.verifNomTheme(nomTheme))// TODO : Vérifier que le nom du thème n'est pas déjà utilisé ou vide
+            if (this.ctrl.verifNomTheme(nomTheme))
             {
                 /* Changement du nom du thème */
                 this.ctrl.setNomTheme(nomTheme);
@@ -282,5 +282,36 @@ public class PanelCreerTheme extends JPanel implements ActionListener
 
         this.btnAnnuler.setBackground(backBtnColor);
         this.btnAnnuler.setForeground(foreGeneralColor);
+    }
+
+    /**
+     * Applique le langage à tout les composants du panel
+     */
+    public void appliquerLangage()
+    {
+        //TODO : A compléter
+        /*--------------*/
+        /* Nom du thème */
+        /*--------------*/
+        //this.lblNomTheme.;
+
+
+        /*--------------------*/
+        /* Choix des couleurs */
+        /*--------------------*/
+        //for (int i = 0; i < PanelCreerTheme.TAB_CLES.length; i++)
+        //{
+        //    this.lstLbl.get(i).;
+
+        //    this.lstBtn.get(i).;
+        //}
+
+
+        /*---------------------------*/
+        /* Boutons valider et annulé */
+        /*---------------------------*/
+        //this.btnValider.;
+
+        //this.btnAnnuler.;
     }
 }

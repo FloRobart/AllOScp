@@ -76,4 +76,14 @@ public class PanelGlobal extends JPanel
         this.panelGauche.appliquerTheme();
         this.panelDroite.appliquerTheme();
     }
+
+    /**
+     * Permet d'appliquer le langage à chaque élément du panel
+     */
+    public void appliquerLangage()
+    {
+        this.panelFonctionGlobal.appliquerLangage();
+        this.panelGauche.appliquerLangage();
+        this.panelDroite.appliquerLangage();
+    }
 }

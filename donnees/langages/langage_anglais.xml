@@ -1,0 +1,34 @@
+<langage name="anglais">
+    <framePrincipale>
+        <titre>Folder syncronizer</titre>
+    </framePrincipale>
+
+    <menuBarreOnglets>
+        <titre>Tabs</titre>
+
+        <nouvelOnglet>new tab</nouvelOnglet>
+        <fermerOnglet>Close tab</fermerOnglet>
+        <ongletPrecedent>previous tab</ongletPrecedent>
+        <ongletSuivant>next tab</ongletSuivant>
+    </menuBarreOnglets>
+
+    <menuBarrePreferences>
+        <titre>Preferences</titre>
+
+        <themes>Themes</themes>
+        <themeClair>Light theme</themeClair>
+        <themeSombre>Dark theme</themeSombre>
+        <themeDark>Darker theme</themeDark>
+        <themePerso>Custom theme</themePerso>
+        <themePersoNouveau>New theme</themePersoNouveau>
+        <themePersoSupprimer>Delete themes</themePersoSupprimer>
+
+        <langues>Languages</langues>
+        <langueFrancais>French</langueFrancais>
+        <langueAnglais>English</langueAnglais>
+    </menuBarrePreferences>
+
+    <menuBarreAide>
+        <titre>Help</titre>
+    </menuBarreAide>
+</langage>

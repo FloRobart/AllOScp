@@ -51,4 +51,13 @@ public class FrameCreerTheme extends JFrame
         /*-------*/
         this.panelCreerTheme.appliquerTheme();
     }
+
+
+    /**
+     * Applique la langue
+     */
+    public void appliquerLangage()
+    {
+        this.panelCreerTheme.appliquerLangage();
+    }
 }

@@ -68,11 +68,6 @@ public class Controleur
     public void majLstNomTheme() { this.metier.majLstNomTheme(); }
 
     /**
-     * Permet d'ajouter le thème perso à la MenuBarre.
-     */
-    public void ajouterThemePersoOnMenuBarre(String nom, HashMap<String, Color> theme) { this.metier.ajouterThemePersoOnMenuBarre(nom, theme); }
-
-    /**
      * Permet de fermer la fenêtre de création de thème
      */
     public void disposeFrameCreerTheme() { this.ihm.disposeFrameCreerTheme(); }
@@ -113,6 +108,44 @@ public class Controleur
      * @return boolean : true si l'élément a été modifié, sinon false
      */
     public boolean setElementTheme(String nomElement, Color couleur) { return this.metier.setElementTheme(nomElement, couleur); }
+
+
+
+    /*==========*/
+    /* Langages */
+    /*==========*/
+    /**
+     * Permert de récupérer toute les couleurs de thème charger en mémoire.
+     * @return HashMap - liste des couleurs du thème.
+     * 
+     * object possible dans la hashmap : 
+     * 
+     * list.get(0) = couleur de fond.
+     * list.get(1) = couleur du texte.
+     * list.get(2) = couleur de hint / placeHolder (n'existe pas toujours).
+     */
+    public HashMap<String, HashMap<String, String>> getLangage() { return this.metier.getLangage();}
+
+    /**
+     * Change le langage à utilisé dans le fichier de sauvegarde.
+     * Charge en mémoire le nouveau langage.
+     * Met à jour l'ihm.
+     * @param langage : Nom du langage à utiliser
+     */
+    public void changerLangage(String langage) { this.metier.setLangageUsed(langage); }
+
+    /**
+     * Permet de récupérer le nom du langage utilisé
+     * @return String : nom du langage utilisé
+     */
+    public String getLangageUsed() { return this.metier.getLangageUsed(); }
+
+    /**
+     * Permet d'appliquer le langage à l'ihm.
+     */
+    public void appliquerLangage() { this.ihm.appliquerLangage(); }
+
+
 
     /*=====================*/
     /* Gestion des onglets */

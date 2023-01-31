@@ -32,8 +32,19 @@ public class PopClickListener extends MouseAdapter
         this.menu.show(e.getComponent(), e.getX(), e.getY());
     }
 
+    /**
+     * Appliquer le theme
+     */
     public void appliquerTheme()
     {
         this.menu.appliquerTheme();
+    }
+
+    /**
+     * Applique la langue
+     */
+    public void appliquerLangage()
+    {
+        this.menu.appliquerLangage();
     }
 }

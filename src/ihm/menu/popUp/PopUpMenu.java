@@ -47,6 +47,9 @@ public class PopUpMenu extends JPopupMenu implements ActionListener
     }
 
 
+    /**
+     * Permet d'appliquer le theme
+     */
     public void appliquerTheme()
     {
         this.setBackground(this.ctrl.getTheme().get("background"));
@@ -57,5 +60,13 @@ public class PopUpMenu extends JPopupMenu implements ActionListener
 
         this.newFolder.setBackground(this.ctrl.getTheme().get("background"));
         this.newFolder.setForeground(this.ctrl.getTheme().get("foreground"));
+    }
+
+    /**
+     * Permet d'appliquer la langue
+     */
+    public void appliquerLangage()
+    {
+        // TODO : A compléter
     }
 }

@@ -12,6 +12,7 @@ import javax.swing.KeyStroke;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseListener.*;
@@ -45,6 +46,11 @@ public class MenuBarre extends JMenuBar implements ActionListener
 	private JMenu     menuiPreferencesThemesPerso;
 
 	private List<JMenuItem> lstMenuiPreferencesThemesPerso;
+
+	/* Langages */
+	private JMenu     menuiPreferencesLangages;
+	private JMenuItem menuiPreferencesLangagesFrancais;
+	private JMenuItem menuiPreferencesLangagesAnglais;
 
 
 	public MenuBarre(Controleur ctrl) 
@@ -109,6 +115,13 @@ public class MenuBarre extends JMenuBar implements ActionListener
 			this.lstMenuiPreferencesThemesPerso.add(new JMenuItem(this.ctrl.getLstNameThemesPerso().get(i)));
 
 
+		/* Langages */
+		this.menuiPreferencesLangages = new JMenu("Langages");
+
+		/* Français, Anglais */
+		this.menuiPreferencesLangagesFrancais = new JMenuItem("Français");
+		this.menuiPreferencesLangagesAnglais  = new JMenuItem("Anglais" );
+
 
 		/*------*/
 		/* Aide */
@@ -150,6 +163,12 @@ public class MenuBarre extends JMenuBar implements ActionListener
 
 		this.menuPreferences.add(this.menuiPreferencesThemes);
 
+		/* Langages */
+		this.menuiPreferencesLangages.add(this.menuiPreferencesLangagesFrancais);
+		this.menuiPreferencesLangages.add(this.menuiPreferencesLangagesAnglais);
+		
+		this.menuPreferences.add(this.menuiPreferencesLangages);
+
 		/* Ajout de tout à la JMenuBar */
 		this.add(menuPreferences);
 
@@ -177,12 +196,17 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*-------------*/
 		/* Préférences */
 		/*-------------*/
+		/* Thèmes */
 		this.menuiPreferencesThemesClair .addActionListener(this);
 		this.menuiPreferencesThemesSombre.addActionListener(this);
 		this.menuiPreferencesThemesDark  .addActionListener(this);
 
 		for (int i = 0; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
 			this.lstMenuiPreferencesThemesPerso.get(i).addActionListener(this);
+
+		/* Langages */
+		this.menuiPreferencesLangagesFrancais.addActionListener(this);
+		this.menuiPreferencesLangagesAnglais .addActionListener(this);
 	}
 
 
@@ -236,6 +260,14 @@ public class MenuBarre extends JMenuBar implements ActionListener
 			for (int i = 2; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
 				if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(i))
 					this.ctrl.changerTheme(this.lstMenuiPreferencesThemesPerso.get(i).getText().replace(" ", "_"));
+
+
+			/* Langages */
+			if (e.getSource() == this.menuiPreferencesLangagesFrancais)
+				this.ctrl.changerLangage("francais");
+
+			if (e.getSource() == this.menuiPreferencesLangagesAnglais)
+				this.ctrl.changerLangage("anglais");
 		}
 	}
 
@@ -346,12 +378,92 @@ public class MenuBarre extends JMenuBar implements ActionListener
 			this.lstMenuiPreferencesThemesPerso.get(i).setForeground(foreGeneralColor);
 		}
 
+		
+		/* Langages */
+		this.menuiPreferencesLangages      .setOpaque(true);
+		this.menuiPreferencesLangages      .setBackground(backGeneralColor);
+		this.menuiPreferencesLangages      .setForeground(foreGeneralColor);
+
+		/* Français */
+		this.menuiPreferencesLangagesFrancais .setBackground(backGeneralColor);
+		this.menuiPreferencesLangagesFrancais .setForeground(foreGeneralColor);
+
+		/* Anglais */
+		this.menuiPreferencesLangagesAnglais .setBackground(backGeneralColor);
+		this.menuiPreferencesLangagesAnglais .setForeground(foreGeneralColor);
+
+
 
 		/*------*/
 		/* Aide */
 		/*------*/
 		this.menuAide.setBackground(backGeneralColor);
 		this.menuAide.setForeground(foreGeneralColor);
+	}
+
+
+	/**
+	 * Permet d'appliquer la langue à tout les composants du panel
+	 */
+	public void appliquerLangage()
+	{
+		HashMap<String, HashMap<String, String>> langage = this.ctrl.getLangage();
+		/*-------*/
+		/* Frame */
+		/*-------*/
+		if (this.frameCreerTheme != null) { this.frameCreerTheme.appliquerLangage(); }
+
+		/*---------*/
+		/* Onglets */
+		/*---------*/
+		HashMap<String, String> menuBarreOnglets = langage.get("menuBarreOnglets");
+		/* Onglets */
+		this.menuOnglets.setText(menuBarreOnglets.get("titre"));
+
+		/* Nouvel onglet */
+		this.menuiOngletsNewOnglet.setText(menuBarreOnglets.get("nouvelOnglet"));
+
+		/* Suppression d'un onglet */
+		this.menuiOngletsSupprOnglet.setText(menuBarreOnglets.get("fermerOnglet"));
+
+		/* Onglet précédent */
+		this.menuiOngletsOngletPrecedent.setText(menuBarreOnglets.get("ongletPrecedent"));
+
+		/* Onglet suivant */
+		this.menuiOngletsOngletSuivant.setText(menuBarreOnglets.get("ongletSuivant"));;
+		
+
+		/*------------*/
+		/* Préférence */
+		/*------------*/
+		HashMap<String, String> menuBarrePreferences = langage.get("menuBarrePreferences");
+		/* Préférence */
+		this.menuPreferences.setText(menuBarrePreferences.get("titre"));
+
+		/* Thèmes */
+		this.menuiPreferencesThemes      .setText(menuBarrePreferences.get("themes"));
+
+		/* Clair */
+		this.menuiPreferencesThemesClair .setText(menuBarrePreferences.get("themeClair"));
+
+		/* Sombre */
+		this.menuiPreferencesThemesSombre.setText(menuBarrePreferences.get("themeSombre"));
+
+		/* Dark */
+		this.menuiPreferencesThemesDark  .setText(menuBarrePreferences.get("themeDark"));
+
+		/* Personnalisé */
+		this.menuiPreferencesThemesPerso .setText(menuBarrePreferences.get("themePerso"));
+
+		this.lstMenuiPreferencesThemesPerso.get(0).setText(menuBarrePreferences.get("themePersoNouveau"));
+		this.lstMenuiPreferencesThemesPerso.get(1).setText(menuBarrePreferences.get("themePersoSupprimer"));
+
+
+		/*------*/
+		/* Aide */
+		/*------*/
+		HashMap<String, String> menuBarreAide = langage.get("menuBarreAide");
+		this.menuAide.setText(menuBarreAide.get("titre"));
 	}
 }
 

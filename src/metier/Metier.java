@@ -21,10 +21,17 @@ import java.io.UnsupportedEncodingException;
 
 public class Metier
 {
+	/* Thèmes */
 	private static final String[] TAB_CLES        = new String[] {"background", "foreground", "disableColor", "enableColor", "titlesBackground", "saisiesBackground", "saisiesPlaceholder", "buttonsBackground"};
 	private static final String   PATH_THEMES     = "./bin/donnees/themes/";
     private static final String   PATH_THEME_X    = "./bin/donnees/themes/theme_";
     private static final String   PATH_THEME_SAVE = "./bin/donnees/themes/theme_sauvegarde.xml";
+
+	/* Langages */
+	private static final String PATH_LANGAGES     = "./bin/donnees/langages/";
+	private static final String PATH_LANGAGE_X    = "./bin/donnees/langages/langage_";
+	private static final String PATH_LANGAGE_SAVE = "./bin/donnees/langages/langage_sauvegarde.xml";
+
 
 
     private Controleur ctrl;
@@ -32,7 +39,10 @@ public class Metier
 	/* Thèmes */
 	private int                     nbThemePerso;
 	private List<String>            lstNomThemesPerso;
-    private HashMap<String, Color>  hmColorThemes;
+    private HashMap<String, Color>  hmColorTheme;
+
+	/* Langages */
+	private HashMap<String, HashMap<String, String>> hmLangage;
 
 
     public Metier(Controleur ctrl)
@@ -42,11 +52,18 @@ public class Metier
 		/* Thèmes */
 		this.nbThemePerso      = this.initNbThemePerso();
 		this.lstNomThemesPerso = this.initLstNameThemesPerso();
-        this.hmColorThemes     = new HashMap<String, Color>();
+        this.hmColorTheme     = new HashMap<String, Color>();
         this.chargerThemes(this.getThemeUsed());
+
+		/* Langages */
+		this.hmLangage = new HashMap<String, HashMap<String, String>>();
+		this.chargerLangage(this.getLangageUsed());
     }
 
 
+	/*========*/
+	/* Thèmes */
+	/*========*/
 	/**
 	 * Permet d'initialiser le nombre de thèmes perso créer par l'utilisateur.
 	 * @return int : nombre de thèmes perso.
@@ -103,7 +120,7 @@ public class Metier
 	public boolean setElementTheme(String nameElement, Color color)
 	{
 		if (nameElement == null || color == null)         { return false; }
-		if (!this.hmColorThemes.containsKey(nameElement)) { return false; }
+		if (!this.hmColorTheme.containsKey(nameElement)) { return false; }
 
 		String sRet = "";
 
@@ -250,7 +267,7 @@ public class Metier
      * list.get(1) = couleur du texte.
      * list.get(2) = couleur de hint / placeHolder (n'existe pas toujours).
      */
-    public HashMap<String, Color> getTheme() { return this.hmColorThemes;}
+    public HashMap<String, Color> getTheme() { return this.hmColorTheme;}
 
 
     /**
@@ -280,17 +297,20 @@ public class Metier
 	 */
 	public void setThemeUsed(String theme)
 	{
-		try
+		if (!theme.equals(this.getThemeUsed()))
 		{
-			PrintWriter pw = new PrintWriter(Metier.PATH_THEME_SAVE);
-			pw.println("<theme>" + theme + "</theme>");
-			pw.close();
+			try
+			{
+				PrintWriter pw = new PrintWriter(Metier.PATH_THEME_SAVE);
+				pw.println("<theme>" + theme + "</theme>");
+				pw.close();
+			}
+			catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de l'écriture du fichier XML du themes utilisé"); }
+
+			this.chargerThemes(theme);
+
+			this.ctrl.appliquerTheme();
 		}
-		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de l'écriture du fichier XML du themes utilisé"); }
-
-		this.chargerThemes(theme);
-
-		this.ctrl.appliquerTheme();
 	}
 
 
@@ -316,7 +336,7 @@ public class Metier
 
                 Color color = new Color( Integer.parseInt(cg.getAttributeValue("red")), Integer.parseInt(cg.getAttributeValue("green")), Integer.parseInt(cg.getAttributeValue("blue")), Integer.parseInt(cg.getAttributeValue("alpha")));
 
-				this.hmColorThemes.put(Metier.TAB_CLES[i], color);
+				this.hmColorTheme.put(Metier.TAB_CLES[i], color);
 			}
 		}
 		catch (Exception e)
@@ -327,13 +347,92 @@ public class Metier
 	}
 
 
+	/*==========*/
+	/* Langages */
+	/*==========*/
 	/**
-	 * Permet d'écrire dans un fichier xml les informations du thème personnalisé contenue dans la hashMap
-	 * @param nom : nom du thème
-	 * @param HashMap : liste des couleurs du thème associé à leur nom
+     * Permert de récupérer toute les couleurs de thème charger en mémoire.
+     * @return HashMap - liste des couleurs du thème.
+     * 
+     * object possible dans la hashmap : 
+     * 
+     * list.get(0) = couleur de fond.
+     * list.get(1) = couleur du texte.
+     * list.get(2) = couleur de hint / placeHolder (n'existe pas toujours).
+     */
+    public HashMap<String, HashMap<String, String>> getLangage() { return this.hmLangage;}
+
+	/**
+	 * Récupère le nom du langage utilisé dans le fichier xml de sauvegarde
+	 * @return String : langage utilisé
 	 */
-	public void ajouterThemePersoOnMenuBarre(String nom,  HashMap<String, Color> theme)
+	public String getLangageUsed()
 	{
-		// TODO : ajouter le nouveau theme à la MenuBarre
+		String langageUsed = "";
+		SAXBuilder sxb = new SAXBuilder();
+
+		try
+		{
+			langageUsed = sxb.build(Metier.PATH_LANGAGE_SAVE).getRootElement().getText();
+		}
+		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du langage utilisé"); }
+
+		return langageUsed;
+	}
+
+
+    /**
+	 * Sauvegarde le langage selectionné par l'utilisateur dans le fichier xml de sauvegarde.
+	 * Charge le langage selectionné dans la HashMap.
+	 * Applique le langage selectionné (met à jour l'IHM).
+	 * @param theme : thème à sauvegarder
+	 */
+	public void setLangageUsed(String theme)
+	{
+		if (!theme.equals(this.getLangageUsed()))
+		{
+			try
+			{
+				PrintWriter pw = new PrintWriter(Metier.PATH_LANGAGE_SAVE);
+				pw.println("<langage>" + theme + "</langage>");
+				pw.close();
+			}
+			catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de l'écriture du fichier XML du langage utilisé"); }
+
+			this.chargerLangage(theme);
+
+			this.ctrl.appliquerLangage();
+		}
+	}
+
+	/**
+	 * Charge le texte du langage choisi par l'utilisateur dans la HashMap
+	 * @param langage : langage à charger
+	 * @return HashMap contenant le texte du langage
+	 */
+	public void chargerLangage(String langage)
+	{
+		SAXBuilder sxb = new SAXBuilder();
+		try
+		{
+			Element racine = sxb.build(Metier.PATH_LANGAGE_X + langage + ".xml").getRootElement();
+
+			/*----------------------------------------------*/
+			/* Récupération des couleurs de chaque éléments */
+			/*----------------------------------------------*/
+			for (Element e : racine.getChildren())
+			{
+				HashMap<String, String> hmTemp = new HashMap<String, String>();
+				for (Element eEnfant : e.getChildren())
+					hmTemp.put(eEnfant.getName(), eEnfant.getText());
+
+				this.hmLangage.put(e.getName(), hmTemp);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("Erreur lors de la lecture du fichier XML des informations du theme");
+		}
 	}
 }

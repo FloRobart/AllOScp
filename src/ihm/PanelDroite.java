@@ -30,4 +30,12 @@ public class PanelDroite extends JPanel
         this.setBackground(backGeneralColor);
         this.setForeground(foreGeneralColor);
     }
+
+    /**
+     * Permet d'appliquer le langage à chaque élément du panel
+     */
+    public void appliquerLangage()
+    {
+        // TODO : Appliquer le langage
+    }
 }

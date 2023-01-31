@@ -94,4 +94,13 @@ public class PanelGauche extends JPanel
         this.arborescence.setForeground(foreGeneralColor);
         this.mycellRenderer.appliquerTheme();
     }
+
+
+    /**
+     * Permet d'appliquer le langage à chaque élément du panel
+     */
+    public void appliquerLangage()
+    {
+        // TODO : Appliquer le langage
+    }
 }

@@ -82,6 +82,7 @@ public class FramePrincipale extends JFrame
         /*----------------------------*/
         /* Frame */
         this.appliquerTheme();
+        this.appliquerLangage();
         this.setVisible(true);
 
         /* Onglets */
@@ -115,6 +116,7 @@ public class FramePrincipale extends JFrame
         this.onglets.setSelectedIndex(this.onglets.getTabCount() - 1);
 
         this.appliquerTheme();
+        this.appliquerLangage();
     }
 
 
@@ -208,13 +210,29 @@ public class FramePrincipale extends JFrame
         this.onglets.setForeground(foreGeneralColor);
 
         this.onglets.setForegroundAt(this.onglets.getSelectedIndex(), Color.BLACK);
-        for (int i = 0; i < lstPanelGlobal.size(); i++)
+        for (int i = 0; i < this.lstPanelGlobal.size(); i++)
             if (i != this.onglets.getSelectedIndex())
-                this.onglets.setForegroundAt(i, ctrl.getTheme().get("foreground"));
+                this.onglets.setForegroundAt(i, foreGeneralColor);
 
         /* Panels */
         this.panelFond.setBackground(backGeneralColor);
         for (PanelGlobal pg : this.lstPanelGlobal)
             pg.appliquerTheme();
+    }
+
+
+    /**
+     * Permet d'appliquer le langage à chaque élément de l'ihm qui en à besoins
+     */
+    public void appliquerLangage()
+    {
+        this.popClickListener.appliquerLangage();
+        this.menuBarre.appliquerLangage();
+
+        for (int i = 0; i < lstPanelGlobal.size(); i++)
+                this.onglets.setTitleAt(i, this.ctrl.getLangage().get("menuBarreOnglets").get("titre") + " " + (i+1));
+
+        for (PanelGlobal pg : this.lstPanelGlobal)
+            pg.appliquerLangage();
     }
 }
