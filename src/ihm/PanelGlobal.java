@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 
 import controleur.Controleur;
-import ihm.menu.popUp.PopClickListener;
 
 
 public class PanelGlobal extends JPanel
@@ -15,8 +14,8 @@ public class PanelGlobal extends JPanel
     private Controleur          ctrl;
 
     private PanelFonctionGlobal panelFonctionGlobal;
-    private PanelGauche         panelGauche;
-    private PanelDroite         panelDroite;
+    private PanelArborescence   panelGauche;
+    private PanelArborescence   panelDroite;
     private JSplitPane          panelSpliter;
 
 
@@ -32,9 +31,9 @@ public class PanelGlobal extends JPanel
 
         /* Autres Panels */
         this.panelFonctionGlobal = new PanelFonctionGlobal(this.ctrl);
-        this.panelGauche         = new PanelGauche        (this.ctrl);
-        this.panelDroite         = new PanelDroite        (this.ctrl);
-        this.panelSpliter        = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelGauche, panelDroite);
+        this.panelGauche         = new PanelArborescence  (this.ctrl);
+        this.panelDroite         = new PanelArborescence  (this.ctrl);
+        this.panelSpliter        = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.panelGauche, this.panelDroite);
         this.panelSpliter.setOneTouchExpandable(true);
 		this.panelSpliter.setContinuousLayout(true);
 		this.panelSpliter.setDividerLocation(widthParent/2);

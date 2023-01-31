@@ -8,11 +8,11 @@ import controleur.Controleur;
 
 public class PopClickListener extends MouseAdapter
 {
-    private PopUpMenu menu;
+    private PopUpMenuPanelArbo menu;
 
     public PopClickListener(Controleur ctrl)
     {
-        this.menu = new PopUpMenu(ctrl);
+        this.menu = new PopUpMenuPanelArbo(ctrl);
     }
 
     public void mousePressed(MouseEvent e)

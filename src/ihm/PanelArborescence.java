@@ -12,7 +12,7 @@ import ihm.explorer.MyCellRenderer;
 import ihm.menu.popUp.PopClickListener;
 
 
-public class PanelGauche extends JPanel
+public class PanelArborescence extends JPanel
 {
     private Controleur ctrl;
 
@@ -24,7 +24,7 @@ public class PanelGauche extends JPanel
 
     private PopClickListener popClickListener;
 
-    public PanelGauche(Controleur ctrl)
+    public PanelArborescence(Controleur ctrl)
     {
         this.ctrl = ctrl;
 
@@ -101,6 +101,6 @@ public class PanelGauche extends JPanel
      */
     public void appliquerLangage()
     {
-        // TODO : Appliquer le langage
+        this.popClickListener.appliquerLangage();
     }
 }

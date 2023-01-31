@@ -23,12 +23,23 @@
         <themePersoNouveau>New theme</themePersoNouveau>
         <themePersoSupprimer>Delete themes</themePersoSupprimer>
 
-        <langues>Languages</langues>
-        <langueFrancais>French</langueFrancais>
-        <langueAnglais>English</langueAnglais>
+        <langages>Languages</langages>
+        <langageFrancais>French</langageFrancais>
+        <langageAnglais>English</langageAnglais>
     </menuBarrePreferences>
 
     <menuBarreAide>
         <titre>Help</titre>
     </menuBarreAide>
+
+    <popUpMenu>
+        <newFile>New file</newFile>
+        <newFolder>New folder</newFolder>
+        <delete>Delete</delete>
+        <copy>Copy</copy>
+        <cut>Cut</cut>
+        <paste>Paste</paste>
+        <rename>Rename</rename>
+        <properties>Property</properties>
+    </popUpMenu>
 </langage>

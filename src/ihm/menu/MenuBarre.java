@@ -459,6 +459,15 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		this.lstMenuiPreferencesThemesPerso.get(1).setText(menuBarrePreferences.get("themePersoSupprimer"));
 
 
+		/* Langages */
+		this.menuiPreferencesLangages         .setText(menuBarrePreferences.get("langages"));
+
+		/* Français */
+		this.menuiPreferencesLangagesFrancais .setText(menuBarrePreferences.get("langageFrancais"));
+
+		/* Anglais */
+		this.menuiPreferencesLangagesAnglais  .setText(menuBarrePreferences.get("langageAnglais"));
+
 		/*------*/
 		/* Aide */
 		/*------*/
