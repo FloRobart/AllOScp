@@ -274,7 +274,6 @@ public class FramePrincipale extends JFrame
                 SAXBuilder sxb = new SAXBuilder();
                 try
                 {
-                    System.out.println(nomOnglet + " : " + sxb.build(fichier).getRootElement().getChild("onglets").getChild("defaultTitre").getText()+(i+1));
                     if (nomOnglet.equals(sxb.build(fichier).getRootElement().getChild("onglets").getChild("defaultTitre").getText()+(i+1)))
                         return false;
 
