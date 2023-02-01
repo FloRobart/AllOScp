@@ -32,6 +32,10 @@
         <titre>Aide</titre>
     </menuBarreAide>
 
+    <onglets>
+        <defaultTitre>Onglet </defaultTitre>
+    </onglets>
+
     <popUpMenu>
         <newFile>Nouveau fichier</newFile>
         <newFolder>Nouveau dossier</newFolder>

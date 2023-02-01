@@ -6,10 +6,10 @@
     <menuBarreOnglets>
         <titre>Tabs</titre>
 
-        <nouvelOnglet>new tab</nouvelOnglet>
+        <nouvelOnglet>New tab</nouvelOnglet>
         <fermerOnglet>Close tab</fermerOnglet>
-        <ongletPrecedent>previous tab</ongletPrecedent>
-        <ongletSuivant>next tab</ongletSuivant>
+        <ongletPrecedent>Previous tab</ongletPrecedent>
+        <ongletSuivant>Next tab</ongletSuivant>
     </menuBarreOnglets>
 
     <menuBarrePreferences>
@@ -32,6 +32,10 @@
         <titre>Help</titre>
     </menuBarreAide>
 
+    <onglets>
+        <defaultTitre>Tab </defaultTitre>
+    </onglets>
+
     <popUpMenu>
         <newFile>New file</newFile>
         <newFolder>New folder</newFolder>
@@ -40,7 +44,7 @@
         <cut>Cut</cut>
         <paste>Paste</paste>
         <rename>Rename</rename>
-        <properties>Property</properties>
+        <properties>Properties</properties>
 
         <newTab>New tab</newTab>
         <closeTab>Close tab</closeTab>

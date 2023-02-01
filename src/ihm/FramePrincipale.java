@@ -1,14 +1,20 @@
 package ihm;
 
-import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import controleur.Controleur;
 import ihm.menu.MenuBarre;
@@ -17,6 +23,8 @@ import ihm.menu.popUp.listener.PopClickListenerOnglets;
 
 public class FramePrincipale extends JFrame
 {
+    private static final String PATH_LANGAGES = "./bin/donnees/langages/";
+
     private Controleur ctrl;
 
     private MenuBarre menuBarre;
@@ -243,21 +251,37 @@ public class FramePrincipale extends JFrame
         this.menuBarre.appliquerLangage();
 
         for (int i = 0; i < lstPanelGlobal.size(); i++)
-        {
-            if (this.verifNomOnglet(this.onglets.getTitleAt(i)))
-            {
-                this.onglets.setTitleAt(i, this.ctrl.getLangage().get("menuBarreOnglets").get("titre") + " " + (i+1));
-            }
-        }
+            if (!this.VerifOngletRenommer(this.onglets.getTitleAt(i), i))
+                this.onglets.setTitleAt(i, this.ctrl.getLangage().get("onglets").get("defaultTitre") + (i+1));
 
         for (PanelGlobal pg : this.lstPanelGlobal)
             pg.appliquerLangage();
     }
 
 
-    private boolean verifNomOnglet(String nomOnglet)
+    /**
+     * Permet de savoir si un onglet à été renommer
+     * @param nomOnglet non de l'onglet à vérifier
+     * @return true si l'onglet à été renommer, sinon false
+     */
+    private boolean VerifOngletRenommer(String nomOnglet, int i)
     {
-        // TODO : A compléter
+        File dossier = new File(FramePrincipale.PATH_LANGAGES);
+		for (File fichier : dossier.listFiles())
+        {
+			if (!fichier.getName().equals("langage_sauvegarde.xml"))
+            {
+                SAXBuilder sxb = new SAXBuilder();
+                try
+                {
+                    System.out.println(nomOnglet + " : " + sxb.build(fichier).getRootElement().getChild("onglets").getChild("defaultTitre").getText()+(i+1));
+                    if (nomOnglet.equals(sxb.build(fichier).getRootElement().getChild("onglets").getChild("defaultTitre").getText()+(i+1)))
+                        return false;
+
+                } catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la verification du ronnomage de l'onglet"); }
+            }
+        }
+
         return true;
     }
 }

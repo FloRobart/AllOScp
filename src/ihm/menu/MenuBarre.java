@@ -408,6 +408,9 @@ public class MenuBarre extends JMenuBar implements ActionListener
 	public void appliquerLangage()
 	{
 		HashMap<String, HashMap<String, String>> langage = this.ctrl.getLangage();
+
+		this.majMnemonic(langage);
+
 		/*-------*/
 		/* Frame */
 		/*-------*/
@@ -473,6 +476,17 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*------*/
 		HashMap<String, String> menuBarreAide = langage.get("menuBarreAide");
 		this.menuAide.setText(menuBarreAide.get("titre"));
+	}
+
+
+	/**
+	 * Met à jour les Mnemonic en fonction du langage
+	 */
+	private void majMnemonic(HashMap<String, HashMap<String, String>> langage)
+	{
+		this.menuOnglets    .setMnemonic(langage.get("menuBarreOnglets"    ).get("titre").charAt(0));
+		this.menuPreferences.setMnemonic(langage.get("menuBarrePreferences").get("titre").charAt(0));
+		this.menuAide       .setMnemonic(langage.get("menuBarreAide"       ).get("titre").charAt(0));
 	}
 }
 

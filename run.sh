@@ -69,16 +69,17 @@ else
     verificationDossier "./src"
 fi
 
+cp -fr "./donnees/" "./bin/"
 
 echo "Compilation..."
-javac -cp "$CLASSPATH:./bin/donnees/jar_libraries/jdom-2.0.6.jar:." -encoding utf8 -d "./bin" @compile.list
+javac -cp "$CLASSPATH:./bin/donnees/jar_libraries/jdom-2.0.6.jar:./bin/donnees/:." -encoding utf8 -d "./bin" @compile.list
 
 if [ $? -eq 0 ]
 then 
     echo "Lancement du programme..."
 
 
-    java -cp "$CLASSPATH:./bin:./bin/donnees/jar_libraries/jdom-2.0.6.jar:." controleur.Controleur
+    java -cp "$CLASSPATH:./bin:./bin/donnees/jar_libraries/jdom-2.0.6.jar:./bin/donnees/:." controleur.Controleur
 
     if [ $? -eq 0 ]
     then
