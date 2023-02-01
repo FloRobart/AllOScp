@@ -74,6 +74,9 @@ public class PopUpMenuOnglets extends JPopupMenu implements ActionListener
         }
     }
 
+    /**
+     * Vérifie si le nom de l'onglet n'est pas null et ne contient pas que des espaces.
+     */
     private boolean nomOngletValide(String nomOnglet)
     {
         if (nomOnglet == null) return false;
