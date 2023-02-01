@@ -41,5 +41,9 @@
         <paste>Paste</paste>
         <rename>Rename</rename>
         <properties>Property</properties>
+
+        <newTab>New tab</newTab>
+        <closeTab>Close tab</closeTab>
+        <duplicateTab>Duplicate tab</duplicateTab>
     </popUpMenu>
 </langage>

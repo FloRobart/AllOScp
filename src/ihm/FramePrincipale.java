@@ -13,7 +13,8 @@ import javax.swing.JTabbedPane;
 
 import controleur.Controleur;
 import ihm.menu.MenuBarre;
-import ihm.menu.popUp.PopClickListener;
+import ihm.menu.popUp.listener.PopClickListenerArbo;
+import ihm.menu.popUp.listener.PopClickListenerOnglets;
 
 
 public class FramePrincipale extends JFrame
@@ -27,7 +28,7 @@ public class FramePrincipale extends JFrame
     private List<PanelGlobal> lstPanelGlobal;
     private JPanel panelFond;
 
-    private PopClickListener popClickListener;
+    private PopClickListenerOnglets popClickListener;
 
 
     /**
@@ -47,7 +48,7 @@ public class FramePrincipale extends JFrame
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.popClickListener = new PopClickListener(ctrl);
+        this.popClickListener = new PopClickListenerOnglets(ctrl);
 
 
         /* Onglets */
@@ -186,6 +187,15 @@ public class FramePrincipale extends JFrame
 	{
 		this.menuBarre.ajouterThemePersoOnMenuBarre(nomTheme);
 	}
+
+    /**
+     * Permet de renommer l'onglet sélectionné
+     * @param nom
+     */
+    public void renameOnglet(String nom)
+    {
+        this.onglets.setTitleAt(this.onglets.getSelectedIndex(), nom);
+    }
 
 
     /**

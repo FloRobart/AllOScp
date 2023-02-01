@@ -41,5 +41,9 @@
         <paste>Coller</paste>
         <rename>Renommer</rename>
         <properties>Propriétés</properties>
+
+        <newTab>Nouvel onglet</newTab>
+        <closeTab>Fermer l'onglet</closeTab>
+        <duplicateTab>Dupliquer l'onglet</duplicateTab>
     </popUpMenu>
 </langage>

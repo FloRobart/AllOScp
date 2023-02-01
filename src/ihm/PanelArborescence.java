@@ -9,7 +9,7 @@ import java.awt.Color;
 
 import controleur.Controleur;
 import ihm.explorer.MyCellRenderer;
-import ihm.menu.popUp.PopClickListener;
+import ihm.menu.popUp.listener.PopClickListenerArbo;
 
 
 public class PanelArborescence extends JPanel
@@ -22,13 +22,13 @@ public class PanelArborescence extends JPanel
 
     private MyCellRenderer mycellRenderer;
 
-    private PopClickListener popClickListener;
+    private PopClickListenerArbo popClickListener;
 
     public PanelArborescence(Controleur ctrl)
     {
         this.ctrl = ctrl;
 
-        this.popClickListener = new PopClickListener(this.ctrl);
+        this.popClickListener = new PopClickListenerArbo(this.ctrl);
 
         /*--------------------------*/
         /* Créations des composants */

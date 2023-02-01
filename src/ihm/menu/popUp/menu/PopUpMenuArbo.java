@@ -1,16 +1,17 @@
-package ihm.menu.popUp;
+package ihm.menu.popUp.menu;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import controleur.Controleur;
 
-import java.awt.Color;
-import java.awt.event.*;
-import java.util.HashMap;
 
-
-public class PopUpMenuPanelArbo extends JPopupMenu implements ActionListener
+public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 {
     private Controleur ctrl;
 
@@ -23,7 +24,7 @@ public class PopUpMenuPanelArbo extends JPopupMenu implements ActionListener
     private JMenuItem rename;
     private JMenuItem properties;
 
-    public PopUpMenuPanelArbo(Controleur ctrl)
+    public PopUpMenuArbo(Controleur ctrl)
     {
         this.ctrl = ctrl;
 

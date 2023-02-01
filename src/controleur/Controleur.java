@@ -174,7 +174,17 @@ public class Controleur
      * Permet de fermer la fenêtre principale
      */
     public void closeParent() { this.ihm.dispose(); }
+
+    /**
+     * Permet de dupliquer un onglet avec toutes ses données
+     */
+    public void duplicate() { /* TODO : à compléter */ }
     
+    /**
+     * Permet de renommer un onglet
+     * @param nom : Nouveau nom de l'onglet
+     */
+    public void renameOnglet(String nom) { this.ihm.renameOnglet(nom); }
     
 
 

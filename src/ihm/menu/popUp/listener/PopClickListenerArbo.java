@@ -1,18 +1,19 @@
-package ihm.menu.popUp;
+package ihm.menu.popUp.listener;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import controleur.Controleur;
+import ihm.menu.popUp.menu.PopUpMenuArbo;
 
 
-public class PopClickListener extends MouseAdapter
+public class PopClickListenerArbo extends MouseAdapter
 {
-    private PopUpMenuPanelArbo menu;
+    private PopUpMenuArbo menu;
 
-    public PopClickListener(Controleur ctrl)
+    public PopClickListenerArbo(Controleur ctrl)
     {
-        this.menu = new PopUpMenuPanelArbo(ctrl);
+        this.menu = new PopUpMenuArbo(ctrl);
     }
 
     public void mousePressed(MouseEvent e)
