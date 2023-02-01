@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.PopupMenuListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import controleur.Controleur;
 import ihm.menu.MenuBarre;
-import ihm.menu.popUp.listener.PopClickListenerArbo;
 import ihm.menu.popUp.listener.PopClickListenerOnglets;
 
 
@@ -197,6 +195,11 @@ public class FramePrincipale extends JFrame
         this.onglets.setTitleAt(this.onglets.getSelectedIndex(), nom);
     }
 
+    /**
+     * Permet de dupliquer l'onglet sélectionné avec toutes ses caractéristiques
+     */
+    public void dupliquerOnglet() { /* TODO : A compléter */ }
+
 
     /**
      * Permet d'appliquer le thème à chaque élément de l'ihm qui en à besoins
@@ -240,9 +243,21 @@ public class FramePrincipale extends JFrame
         this.menuBarre.appliquerLangage();
 
         for (int i = 0; i < lstPanelGlobal.size(); i++)
+        {
+            if (this.verifNomOnglet(this.onglets.getTitleAt(i)))
+            {
                 this.onglets.setTitleAt(i, this.ctrl.getLangage().get("menuBarreOnglets").get("titre") + " " + (i+1));
+            }
+        }
 
         for (PanelGlobal pg : this.lstPanelGlobal)
             pg.appliquerLangage();
+    }
+
+
+    private boolean verifNomOnglet(String nomOnglet)
+    {
+        // TODO : A compléter
+        return true;
     }
 }

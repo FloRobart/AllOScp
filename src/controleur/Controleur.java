@@ -3,6 +3,9 @@ package controleur;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import java.awt.Color;
 
 import ihm.FramePrincipale;
@@ -185,6 +188,12 @@ public class Controleur
      * @param nom : Nouveau nom de l'onglet
      */
     public void renameOnglet(String nom) { this.ihm.renameOnglet(nom); }
+
+    /**
+     * Permet de récupérer la frame principale (utile pour les JDialog qui doivent connaitre leur parent)
+     * @return JFrame : frame principale
+     */
+    public JFrame getFramePrincipale() { return this.ihm; }
     
 
 

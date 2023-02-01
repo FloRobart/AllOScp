@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 import controleur.Controleur;
@@ -64,8 +67,21 @@ public class PopUpMenuOnglets extends JPopupMenu implements ActionListener
 
         if (e.getSource() == this.rename)
         {
-            //this.ctrl.renommerOnglet();
+            String nom = JOptionPane.showInputDialog(this.ctrl.getFramePrincipale(), "Nom de l'onglet");
+
+            if (this.nomOngletValide(nom))
+                this.ctrl.renameOnglet(nom);
         }
+    }
+
+    private boolean nomOngletValide(String nomOnglet)
+    {
+        if (nomOnglet == null) return false;
+
+		for (int i = 0; i < nomOnglet.length(); i++)
+			if (nomOnglet.charAt(i) != ' ') { return true; }
+
+        return false;
     }
 
 
