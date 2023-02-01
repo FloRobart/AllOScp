@@ -206,15 +206,17 @@ public class Metier
 
 		String name = "";
 		for (File fichier : dossier.listFiles())
+		{
 			if (fichier.getName().startsWith("theme_perso_"))
 			{
 				SAXBuilder sxb = new SAXBuilder();
 				try { name = sxb.build(fichier).getRootElement().getAttributeValue("name"); }
-				catch (JDOMException e) { e.printStackTrace(); }
-				catch (IOException   e) { e.printStackTrace(); }
+				catch (JDOMException e) { e.printStackTrace(); System.out.println("Erreur dans la lecture des noms des thèmes persos");  }
+				catch (IOException   e) { e.printStackTrace(); System.out.println("Erreur dans la lecture des noms des thèmes persos"); }
 
 				lstNomThemesPerso.add(name.replace("_", " "));
 			}
+		}
 
 		return lstNomThemesPerso;
 	}
