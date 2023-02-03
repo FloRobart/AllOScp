@@ -18,6 +18,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -29,7 +33,8 @@ import controleur.Controleur;
 public class PanelCreerTheme extends JPanel implements ActionListener
 {
     private static final String   PATH_THEMES    = "./bin/donnees/themes/";
-    private static final String[] ENS_LBL_STRING = new String[] {"Couleur générale du fond", "Couleur générale du texte", "Couleur de mauvaise action", "Couleur de bonne action", "Couleur de fond des titres", "Couleur de fond des zones de saisies", "Couleur du texte par défaut \n des zones de saisie", "Couleur de fond des boutons"};
+    private static final String   PATH_LANGAGES  = "./bin/donnees/langages/";
+    private static final String[] ENS_LBL_STRING = new String[] {"Couleur générale du fond", "Couleur générale du texte", "Couleur de mauvaise action", "Couleur de bonne action", "Couleur de fond des titres", "Couleur de fond des zones de saisies", "Couleur du texte par défaut des zones de saisie", "Couleur de fond des boutons"};
     private static final String[] TAB_CLES       = new String[] {"background", "foreground", "disableColor", "enableColor", "titlesBackground", "saisiesBackground", "saisiesPlaceholder", "buttonsBackground"};
 
 
@@ -96,7 +101,7 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         /*-------------------------*/
         /* Label nom du thème */
         this.pnlNomTheme = new JPanel();
-        this.lblNomTheme = new JLabel("Nom du thème : Perso ");
+        this.lblNomTheme = new JLabel();
         this.lblNomTheme.setFont(new Font("Liberation Sans", 0, 24));
 
         /* TexteField nom du thème */
@@ -112,8 +117,8 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         this.lstBtn = new ArrayList<JButton>();
         for (int i = 0; i < PanelCreerTheme.ENS_LBL_STRING.length; i++)
         {
-            this.lstLbl.add(new JLabel (PanelCreerTheme.ENS_LBL_STRING[i]));
-            this.lstBtn.add(new JButton("Couleur"));
+            this.lstLbl.add(new JLabel ());
+            this.lstBtn.add(new JButton());
         }
 
 
@@ -121,11 +126,11 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         this.panelSud = new JPanel();
 
         /* Bouton valider */
-        this.btnValider = new JButton("Valider");
+        this.btnValider = new JButton();
         this.btnValider.setPreferredSize(new Dimension(100, 30));
 
         /* Bouton annuler */
-        this.btnAnnuler = new JButton("Annuler");
+        this.btnAnnuler = new JButton();
         this.btnAnnuler.setPreferredSize(new Dimension(100, 30));
 
 
@@ -191,7 +196,7 @@ public class PanelCreerTheme extends JPanel implements ActionListener
             }
             else
             {
-                JOptionPane.showMessageDialog(this, "Le nom du thème est déjà utilisé ou vide ou ne contient que des espaces", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, this.ctrl.getLangage().get("erreur").get("nomThemeInvalide"), this.ctrl.getLangage().get("erreur").get("titre"), JOptionPane.ERROR_MESSAGE);
             }
         }
         else
@@ -212,7 +217,7 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         {
             if (e.getSource() == this.lstBtn.get(i))
             {
-                Color color = JColorChooser.showDialog(this, "Choisir une couleur", this.hmColorThemes.get(PanelCreerTheme.TAB_CLES[i]));
+                Color color = JColorChooser.showDialog(this, this.ctrl.getLangage().get("creerTheme").get("titreColorChosser"), this.hmColorThemes.get(PanelCreerTheme.TAB_CLES[i]));
                 if (color != null)
                 {
                     this.hmColorThemes.put(PanelCreerTheme.TAB_CLES[i], color);
@@ -289,29 +294,40 @@ public class PanelCreerTheme extends JPanel implements ActionListener
      */
     public void appliquerLangage()
     {
-        //TODO : A compléter
+        HashMap<String, String> hmLangageCreerTheme = this.ctrl.getLangage().get("creerTheme");
+
         /*--------------*/
         /* Nom du thème */
         /*--------------*/
-        //this.lblNomTheme.;
+        this.lblNomTheme.setText(hmLangageCreerTheme.get("lblNomTheme"));
 
 
         /*--------------------*/
         /* Choix des couleurs */
         /*--------------------*/
-        //for (int i = 0; i < PanelCreerTheme.TAB_CLES.length; i++)
-        //{
-        //    this.lstLbl.get(i).;
+        try
+        {
+            String lblBtn = hmLangageCreerTheme.get("btnCouleur");
+            SAXBuilder sxb = new SAXBuilder();
+            List<Element> elements;
 
-        //    this.lstBtn.get(i).;
-        //}
+            elements = sxb.build(new File(PanelCreerTheme.PATH_LANGAGES + "langage_" + this.ctrl.getLangageUsed() + ".xml")).getRootElement().getChild("creerTheme").getChildren();
+
+            for (int i = 0; i < this.lstLbl.size(); i++)
+            {
+                this.lstLbl.get(i).setText(elements.get(i + 4).getText());
+                this.lstBtn.get(i).setText(lblBtn);
+            }
+        }
+        catch (JDOMException | IOException e) { e.printStackTrace(); }
+
 
 
         /*---------------------------*/
         /* Boutons valider et annulé */
         /*---------------------------*/
-        //this.btnValider.;
+        this.btnValider.setText(hmLangageCreerTheme.get("btnValider"));
 
-        //this.btnAnnuler.;
+        this.btnAnnuler.setText(hmLangageCreerTheme.get("btnAnnuler"));
     }
 }

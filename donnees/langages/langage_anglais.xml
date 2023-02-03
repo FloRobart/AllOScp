@@ -50,4 +50,24 @@
         <closeTab>Close tab</closeTab>
         <duplicateTab>Duplicate tab</duplicateTab>
     </popUpMenu>
+
+    <creerTheme>
+        <titre>Create new theme</titre>
+        <lblNomTheme>Name of new theme : Perso </lblNomTheme>
+        <titreColorChosser>Choose color</titreColorChosser>
+
+        <btnCouleur>Choose color</btnCouleur>
+
+        <generalBackColor>General background color</generalBackColor>
+        <generalForeColor>General text color</generalForeColor>
+        <disableColor>Disable color</disableColor>
+        <enableColor>Enable color</enableColor>
+        <titleBackColor>Title backgroud color</titleBackColor>
+        <titleForeColor>Backgroud edit texte color</titleForeColor>
+        <txtHintColor>Edit text hint color</txtHintColor>
+        <btnBackColor>Button background color</btnBackColor>
+
+        <btnValider>Validate</btnValider>
+        <btnAnnuler>Cancel</btnAnnuler>
+    </creerTheme>
 </langage>

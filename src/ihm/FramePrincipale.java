@@ -203,11 +203,6 @@ public class FramePrincipale extends JFrame
         this.onglets.setTitleAt(this.onglets.getSelectedIndex(), nom);
     }
 
-    /**
-     * Permet de dupliquer l'onglet sélectionné avec toutes ses caractéristiques
-     */
-    public void dupliquerOnglet() { /* TODO : A compléter */ }
-
 
     /**
      * Permet d'appliquer le thème à chaque élément de l'ihm qui en à besoins

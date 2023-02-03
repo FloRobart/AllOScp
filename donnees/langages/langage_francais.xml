@@ -50,4 +50,29 @@
         <closeTab>Fermer l'onglet</closeTab>
         <duplicateTab>Dupliquer l'onglet</duplicateTab>
     </popUpMenu>
+
+    <creerTheme>
+        <titre>Création d'un nouveau thème</titre>
+        <lblNomTheme>Nom du nouveau thème : Perso </lblNomTheme>
+        <titreColorChosser>Choisir une couleur</titreColorChosser>
+
+        <btnCouleur>Choisir une couleur</btnCouleur>
+
+        <generalBackColor>Couleur générale du fond</generalBackColor>
+        <generalForeColor>Couleur générale du texte</generalForeColor>
+        <disableColor>Couleur de mauvaise action</disableColor>
+        <enableColor>Couleur de bonne action</enableColor>
+        <titleBackColor>Couleur de fond des titres</titleBackColor>
+        <titleForeColor>Couleur de fond des zones de saisies</titleForeColor>
+        <txtHintColor>Couleur du texte par défaut des zones de saisie</txtHintColor>
+        <btnBackColor>Couleur de fond des boutons</btnBackColor>
+
+        <btnValider>Valider</btnValider>
+        <btnAnnuler>Annuler</btnAnnuler>
+    </creerTheme>
+
+    <erreur>
+        <titre>Erreur</titre>
+        <nomThemeInvalide>Le nom du thème est déjà utilisé ou vide ou ne contient que des espaces</nomThemeInvalide>
+    </erreur>
 </langage>

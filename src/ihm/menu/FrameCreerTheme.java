@@ -17,7 +17,7 @@ public class FrameCreerTheme extends JFrame
     {
         this.ctrl = ctrl;
 
-        this.setTitle("Créer un thème");
+        this.setTitle(this.ctrl.getLangage().get("creerTheme").get("titre"));
         this.setSize(575, 425);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -26,6 +26,7 @@ public class FrameCreerTheme extends JFrame
 
 
         this.appliquerTheme();
+        this.appliquerLangage();
         this.setVisible(true);
     }
 

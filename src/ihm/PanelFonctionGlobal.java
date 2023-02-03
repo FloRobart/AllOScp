@@ -35,6 +35,6 @@ public class PanelFonctionGlobal extends JPanel
      */
     public void appliquerLangage()
     {
-        // TODO : Appliquer le langage
+        
     }
 }

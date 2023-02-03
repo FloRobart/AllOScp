@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import java.awt.Color;
 
@@ -177,11 +176,6 @@ public class Controleur
      * Permet de fermer la fenêtre principale
      */
     public void closeParent() { this.ihm.dispose(); }
-
-    /**
-     * Permet de dupliquer un onglet avec toutes ses données
-     */
-    public void duplicate() { /* TODO : à compléter */ }
     
     /**
      * Permet de renommer un onglet
