@@ -201,6 +201,13 @@ public class PanelSuppTheme extends JPanel implements ActionListener
             this.lstButton.get(i).setForeground(foreGeneralColor);
         }
 
+        /* Entêtes des colonnes */
+        for (int i = this.lstCheckBox.size() - 1; i < this.lstLabel.size(); i++)
+        {
+            this.lstLabel.get(i).setOpaque(false);
+            this.lstLabel.get(i).setForeground(foreGeneralColor);
+        }
+
 
         /* Boutons */
         this.btnSupprimer.setBackground(btnBackColor);
