@@ -71,6 +71,21 @@
         <btnAnnuler>Annuler</btnAnnuler>
     </creerTheme>
 
+    <supprimerTheme>
+        <titre>Suppression de thèmes</titre>
+
+        <lblSupprimer>Supprimer</lblSupprimer>
+        <lblNomTheme>Nom du thème</lblNomTheme>
+        <lblAppliquerTheme>Appliquer le thème</lblAppliquerTheme>
+
+        <btnAppliquerTheme>Appliquer</btnAppliquerTheme>
+        <btnSupprimer>Supprimer</btnSupprimer>
+        <btnAnnuler>Annuler</btnAnnuler>
+
+        <titreMsgConfirmation>Supprimer les thèmes sélectionnés</titreMsgConfirmation>
+        <msgConfirmation>Êtes-vous sur de vouloir supprimer tous les thèmes sélectionnés ?</msgConfirmation>
+    </supprimerTheme>
+
     <erreur>
         <titre>Erreur</titre>
         <nomThemeInvalide>Le nom du thème est déjà utilisé ou vide ou ne contient que des espaces</nomThemeInvalide>

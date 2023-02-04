@@ -7,22 +7,22 @@ import javax.swing.JFrame;
 import controleur.Controleur;
 
 
-public class FrameCreerTheme extends JFrame
+public class FrameSuppTheme extends JFrame
 {
     private Controleur ctrl;
 
-    private PanelCreerTheme panelCreerTheme;
+    private PanelSuppTheme panelSuppTheme;
 
-    public FrameCreerTheme(Controleur ctrl)
+    public FrameSuppTheme(Controleur ctrl)
     {
         this.ctrl = ctrl;
 
-        this.setTitle(this.ctrl.getLangage().get("creerTheme").get("titre"));
-        this.setSize(575, 425);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setTitle(this.ctrl.getLangage().get("supprimerTheme").get("titre"));
+        this.setSize(500, 50 * this.ctrl.getNbThemesPerso() + 100);
+        //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        this.panelCreerTheme = new PanelCreerTheme(this.ctrl);
-        this.add(this.panelCreerTheme);
+        this.panelSuppTheme = new PanelSuppTheme(this.ctrl);
+        this.add(this.panelSuppTheme);
 
 
         this.appliquerTheme();
@@ -50,7 +50,7 @@ public class FrameCreerTheme extends JFrame
         /*-------*/
         /* Panel */
         /*-------*/
-        this.panelCreerTheme.appliquerTheme();
+        this.panelSuppTheme.appliquerTheme();
     }
 
 
@@ -59,8 +59,8 @@ public class FrameCreerTheme extends JFrame
      */
     public void appliquerLangage()
     {
-        this.setTitle(this.ctrl.getLangage().get("creerTheme").get("titre"));
+        this.setTitle(this.ctrl.getLangage().get("supprimerTheme").get("titre"));
 
-        this.panelCreerTheme.appliquerLangage();
+        this.panelSuppTheme.appliquerLangage();
     }
 }

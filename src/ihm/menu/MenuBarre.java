@@ -26,6 +26,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 
 	/* Frame Créée thème */
 	private FrameCreerTheme frameCreerTheme;
+	private FrameSuppTheme  frameSuppTheme;
 
 	/* Menus */
 	private JMenu menuOnglets;
@@ -58,6 +59,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		this.ctrl = ctrl;
 
 		this.frameCreerTheme = null;
+		this.frameSuppTheme  = null;
 
 		/*=========================*/
 		/* Création des composants */
@@ -249,11 +251,10 @@ public class MenuBarre extends JMenuBar implements ActionListener
 			/* Supprimer */
 			if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(1))
 			{
-				// TODO : faire la fenêtre de suppression des thèmes
-				//if (this.frameCreerTheme == null)
-				//	this.frameSuppTheme = new FrameCreerTheme(this.ctrl);
-				//else
-				//	this.frameSuppTheme.setVisible(true);
+				if (this.frameCreerTheme == null)
+					this.frameSuppTheme = new FrameSuppTheme(this.ctrl);
+				else
+					this.frameSuppTheme.setVisible(true);
 			}
 
 			/* tout les thèmes personnalisé */
@@ -317,6 +318,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/* Frame */
 		/*-------*/
 		if (this.frameCreerTheme != null) { this.frameCreerTheme.appliquerTheme(); }
+		if (this.frameSuppTheme != null) { this.frameSuppTheme.appliquerTheme(); }
 
 		/*---------*/
 		/* Onglets */
@@ -415,6 +417,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/* Frame */
 		/*-------*/
 		if (this.frameCreerTheme != null) { this.frameCreerTheme.appliquerLangage(); }
+		if (this.frameSuppTheme != null) { this.frameSuppTheme.appliquerLangage(); }
 
 		/*---------*/
 		/* Onglets */

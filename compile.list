@@ -8,6 +8,8 @@
 .\src\ihm\menu\MenuBarre.java  
 .\src\ihm\menu\FrameCreerTheme.java  
 .\src\ihm\menu\PanelCreerTheme.java  
+.\src\ihm\menu\FrameSuppTheme.java  
+.\src\ihm\menu\PanelSuppTheme.java  
  
 .\src\ihm\menu\popUp\listener\PopClickListenerArbo.java  
 .\src\ihm\menu\popUp\listener\PopClickListenerOnglets.java  
