@@ -186,6 +186,12 @@ public class FramePrincipale extends JFrame
 
 
     /**
+     * Permet de fermer la fenêtre de suppression de thème
+     */
+    public void disposeFrameSuppTheme() { this.menuBarre.disposeFrameSuppTheme(); }
+
+
+    /**
 	 * Permet d'ajouter un nouveau thème personnalisé à la menuBarre
      * @param nomTheme : Nom du thème dans la menuBarre
 	 */
@@ -201,6 +207,16 @@ public class FramePrincipale extends JFrame
     public void renameOnglet(String nom)
     {
         this.onglets.setTitleAt(this.onglets.getSelectedIndex(), nom);
+    }
+
+
+    /**
+     * Permet de supprimer un thème personnalisé de la menuBarre
+     * @param lstNomsThemes : Liste des noms des thèmes à supprimer
+     */
+    public void supprimerThemePersoOnMenuBarre(List<String> lstNomsThemes)
+    {
+        this.menuBarre.supprimerThemePersoOnMenuBarre(lstNomsThemes);
     }
 
 

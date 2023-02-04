@@ -75,6 +75,11 @@ public class Controleur
     public void disposeFrameCreerTheme() { this.ihm.disposeFrameCreerTheme(); }
 
     /**
+     * Permet de fermer la fenêtre de suppression de thème
+     */
+    public void disposeFrameSuppTheme() { this.ihm.disposeFrameSuppTheme(); }
+
+    /**
 	 * Permet d'ajouter un nouveau thème personnalisé à la menuBarre
      * @param nomTheme : Nom du thème dans la menuBarre
 	 */
@@ -95,7 +100,7 @@ public class Controleur
     /**
      * Permet de modifier le nombre de thèmes perso créer par l'utilisateur.
      */
-    public void setNbThemesPerso(int i) { this.metier.setNbThemesPerso(i); }
+    public void majNbThemesPerso() { this.metier.majNbThemesPerso(); }
 
     /**
      * Permet de modifier le nom du thème utilisé
@@ -110,6 +115,21 @@ public class Controleur
      * @return boolean : true si l'élément a été modifié, sinon false
      */
     public boolean setElementTheme(String nomElement, Color couleur) { return this.metier.setElementTheme(nomElement, couleur); }
+
+
+    /**
+     * Permet de supprimer un thème perso.
+     * Supprime le fichier du thème perso.
+     * Met à jour la liste des noms des thèmes perso.
+     * Met à jour le nombre de thèmes perso.
+     * Met à jour la menuBarre.
+     * @param lstNomsThemes : Liste des noms des thèmes perso à supprimer
+     */
+    public void supprimerThemePerso(List<String> lstNomsThemes)
+    {
+        this.metier.supprimerThemePerso(lstNomsThemes);
+        this.ihm.supprimerThemePersoOnMenuBarre(lstNomsThemes);
+    }
 
 
 

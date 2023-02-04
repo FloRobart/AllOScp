@@ -70,11 +70,8 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         /* Récupération des couleurs du thème actuel */
         this.hmColorThemes = this.ctrl.getTheme();
 
-        /* Incrémentation du nombre de thème perso */
-        this.ctrl.setNbThemesPerso(this.ctrl.getNbThemesPerso() + 1);
-
         /* Création du fichier du thème personnalisé */
-        int nbThemePerso = this.ctrl.getNbThemesPerso();
+        int nbThemePerso = this.ctrl.getNbThemesPerso() + 1;
 
         this.fileTheme = new File(PanelCreerTheme.PATH_THEMES + "theme_perso_" + nbThemePerso + ".xml");
         try { this.fileTheme.createNewFile(); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la création du fichier " + "theme_perso_" + nbThemePerso + ".xml"); }
@@ -86,6 +83,8 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         
         try { Files.copy(fileThemeUsed.toPath(), fileThemePerso.toPath(), StandardCopyOption.REPLACE_EXISTING); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la copie du fichier " + "theme_" + this.ctrl.getThemeUsed() + ".xml"); }
 
+        /* Mise à jour du nombre de thème perso */
+        this.ctrl.majNbThemesPerso();
 
         /* changement du théme pour appliquer le thème en cours de création */
         this.ctrl.changerTheme("perso_" + nbThemePerso);
@@ -199,18 +198,15 @@ public class PanelCreerTheme extends JPanel implements ActionListener
                 JOptionPane.showMessageDialog(this, this.ctrl.getLangage().get("erreur").get("nomThemeInvalide"), this.ctrl.getLangage().get("erreur").get("titre"), JOptionPane.ERROR_MESSAGE);
             }
         }
-        else
+
+        /* Annulé */
+        if (e.getSource() == this.btnAnnuler)
         {
-            /* Annulé */
-            if (e.getSource() == this.btnAnnuler)
-            {
-                this.fileTheme.delete();
-                this.ctrl.changerTheme(this.nomAncienTheme);
-                this.ctrl.disposeFrameCreerTheme();
-            }
+            this.fileTheme.delete();
+            this.ctrl.changerTheme(this.nomAncienTheme);
+            this.ctrl.disposeFrameCreerTheme();
         }
 
-        
 
         /* Boutons des couleurs */
         for (int i = 0; i < this.lstBtn.size(); i++)

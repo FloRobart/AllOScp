@@ -251,10 +251,13 @@ public class MenuBarre extends JMenuBar implements ActionListener
 			/* Supprimer */
 			if (e.getSource() == this.lstMenuiPreferencesThemesPerso.get(1))
 			{
-				if (this.frameCreerTheme == null)
-					this.frameSuppTheme = new FrameSuppTheme(this.ctrl);
-				else
-					this.frameSuppTheme.setVisible(true);
+				if (this.ctrl.getNbThemesPerso() != 0)
+				{
+					if (this.frameSuppTheme == null)
+						this.frameSuppTheme = new FrameSuppTheme(this.ctrl);
+					else
+						this.frameSuppTheme.setVisible(true);
+				}
 			}
 
 			/* tout les thèmes personnalisé */
@@ -278,6 +281,11 @@ public class MenuBarre extends JMenuBar implements ActionListener
      */
     public void disposeFrameCreerTheme() { this.frameCreerTheme.dispose(); this.frameCreerTheme = null; }
 
+	/**
+     * Permet de fermer la fenêtre de suppression de thème
+     */
+    public void disposeFrameSuppTheme() { this.frameSuppTheme.dispose(); this.frameSuppTheme = null; }
+
 
 	/**
 	 * Permet d'ajouter un nouveau thème personnalisé à la menuBarre
@@ -296,6 +304,27 @@ public class MenuBarre extends JMenuBar implements ActionListener
 
 		/* Mise à jour de la menuBarre */
 		this.appliquerTheme();
+	}
+
+
+	/**
+     * Permet de supprimer un thème personnalisé de la menuBarre
+     * @param lstNomsThemes : Liste des noms des thèmes à supprimer
+     */
+    public void supprimerThemePersoOnMenuBarre(List<String> lstNomsThemes)
+    {
+		/* Suppression du thème de la menuBarre et de l'arrayList */
+		for (int i = 0; i < this.lstMenuiPreferencesThemesPerso.size(); i++)
+		{
+			for (String themeASupp : lstNomsThemes)
+			{
+				if (this.lstMenuiPreferencesThemesPerso.get(i).getText().replace(" ", "_").equals(themeASupp))
+				{
+					this.menuiPreferencesThemesPerso.remove(this.lstMenuiPreferencesThemesPerso.get(i));
+					this.lstMenuiPreferencesThemesPerso.remove(i).getText();
+				}
+			}
+		}
 	}
 
 

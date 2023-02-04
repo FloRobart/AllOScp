@@ -131,14 +131,28 @@ public class PanelSuppTheme extends JPanel implements ActionListener
     {
         if (e.getSource() == this.btnSupprimer)
         {
-            JOptionPane.showConfirmDialog(this, this.ctrl.getLangage().get("supprimerTheme").get("msgConfirmation"), this.ctrl.getLangage().get("supprimerTheme").get("titreMsgConfirmation"), JOptionPane.YES_NO_OPTION);
-        
+            if (JOptionPane.showConfirmDialog(this, this.ctrl.getLangage().get("supprimerTheme").get("msgConfirmation"), this.ctrl.getLangage().get("supprimerTheme").get("titreMsgConfirmation"), JOptionPane.YES_NO_OPTION) == 0)
+            {
+                List<String> lstThemeASupp = new ArrayList<String>();
+                for (int i = 0; i < this.lstCheckBox.size(); i++)
+                {
+                    if (this.lstCheckBox.get(i).isSelected())
+                    {
+                        if (this.ctrl.getThemeUsed().equals(this.lstLabel.get(i).getText().replace(" ", "_")))
+                            this.ctrl.changerTheme("clair");
 
+                        lstThemeASupp.add(this.lstLabel.get(i).getText().replace(" ", "_"));
+                    }
+                }
+
+                this.ctrl.supprimerThemePerso(lstThemeASupp);
+                this.ctrl.disposeFrameSuppTheme();
+            }
         }
 
         if (e.getSource() == this.btnAnnuler)
         {
-
+            this.ctrl.disposeFrameSuppTheme();
         }
 
         for (int i = 0; i < this.lstButton.size(); i++)

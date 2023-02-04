@@ -90,7 +90,7 @@ public class Metier
 	/**
 	 * Permet de modifier le nombre de thèmes perso créer par l'utilisateur.
 	 */
-	public void setNbThemesPerso(int i) { this.nbThemePerso = i; }
+	public void majNbThemesPerso() { this.nbThemePerso = initNbThemePerso(); }
 
 	/**
 	 * Permet de renommer le fichier avec le nom du thème et de changer le nom enregistrer dans le fichier de sauvegarde.
@@ -346,6 +346,24 @@ public class Metier
 			e.printStackTrace();
 			System.out.println("Erreur lors de la lecture du fichier XML des informations du theme");
 		}
+	}
+
+	/**
+	 * Permet de supprimer les fichiers xml des thèmes perso dont les noms sont dans la liste passé en paramètre.
+	 * Met à jour le nombre de thèmes perso.
+	 * Met à jour la liste des noms des thèmes perso.
+	 * @param lstNomsThemes
+	 */
+	public void supprimerThemePerso(List<String> lstNomsThemes)
+	{
+		for (String theme : lstNomsThemes)
+		{
+			File f = new File(Metier.PATH_THEME_X + theme + ".xml");
+			f.delete();
+		}
+
+		this.majNbThemesPerso();
+		this.majLstNomTheme();
 	}
 
 

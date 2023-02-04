@@ -18,8 +18,11 @@ public class FrameSuppTheme extends JFrame
         this.ctrl = ctrl;
 
         this.setTitle(this.ctrl.getLangage().get("supprimerTheme").get("titre"));
-        this.setSize(500, 50 * this.ctrl.getNbThemesPerso() + 100);
-        //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        if (this.ctrl.getNbThemesPerso() == 1)
+            this.setSize(500, 200);
+        else
+            this.setSize(500, 50 * this.ctrl.getNbThemesPerso() + 100);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         this.panelSuppTheme = new PanelSuppTheme(this.ctrl);
         this.add(this.panelSuppTheme);
