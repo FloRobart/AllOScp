@@ -70,4 +70,24 @@
         <btnValider>Validate</btnValider>
         <btnAnnuler>Cancel</btnAnnuler>
     </creerTheme>
+
+     <supprimerTheme>
+        <titre>Deleting themes</titre>
+
+        <lblSupprimer>Delete</lblSupprimer>
+        <lblNomTheme>Theme name</lblNomTheme>
+        <lblAppliquerTheme>Apply theme</lblAppliquerTheme>
+
+        <btnAppliquerTheme>Apply</btnAppliquerTheme>
+        <btnSupprimer>Delete</btnSupprimer>
+        <btnAnnuler>Cancel</btnAnnuler>
+
+        <titreMsgConfirmation>Delete selected themes</titreMsgConfirmation>
+        <msgConfirmation>Are you sure you want to delete all selected themes ?</msgConfirmation>
+    </supprimerTheme>
+
+    <erreur>
+        <titre>Error</titre>
+        <nomThemeInvalide>The theme name is already in use or empty or only contains spaces</nomThemeInvalide>
+    </erreur>
 </langage>
