@@ -8,6 +8,7 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
 import controleur.Controleur;
+import path.Path;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -15,9 +16,6 @@ import java.awt.Component;
 
 public class MyCellRenderer extends DefaultTreeCellRenderer
 {
-    private static final String PATH_THEME_X    = "./bin/donnees/themes/theme_";
-    private static final String PATH_THEME_SAVE = "./bin/donnees/themes/theme_sauvegarde.xml";
-
     private String themeUsed;
 
     private Color backgroundSelection    = null;
@@ -92,7 +90,7 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
         SAXBuilder sxb = new SAXBuilder();
         try
         {
-            this.themeUsed = sxb.build(MyCellRenderer.PATH_THEME_SAVE).getRootElement().getText();
+            this.themeUsed = sxb.build(Path.PATH_THEME_SAVE).getRootElement().getText();
         }
         catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
     }
@@ -110,7 +108,7 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
 		SAXBuilder sxb = new SAXBuilder();
 		try
 		{
-			Element racine = sxb.build(MyCellRenderer.PATH_THEME_X + this.themeUsed + ".xml").getRootElement();
+			Element racine = sxb.build(Path.PATH_THEME_X + this.themeUsed + ".xml").getRootElement();
 
 			/*----------------------------------------------*/
 			/* Récupération des couleurs de chaque éléments */

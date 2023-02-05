@@ -1,5 +1,5 @@
 <path>
-    <pathThemes>./bin/donnees/themes</pathThemes>
+    <pathThemes>./bin/donnees/themes/</pathThemes>
     <pathThemeX>./bin/donnees/themes/theme_</pathThemeX>
     <pathThemeSave>./bin/donnees/themes/theme_sauvegarde.xml</pathThemeSave>
 

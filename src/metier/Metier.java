@@ -22,17 +22,6 @@ import java.io.UnsupportedEncodingException;
 
 public class Metier
 {
-	/* Thèmes */
-	private static final String PATH_THEMES       = Path.PATH_THEMES;
-    private static final String PATH_THEME_X      = Path.PATH_THEME_X;
-    private static final String PATH_THEME_SAVE   = Path.PATH_THEME_SAVE;
-
-	/* Langages */
-	private static final String PATH_LANGAGE_X    = Path.PATH_LANGAGE_X;
-	private static final String PATH_LANGAGE_SAVE = Path.PATH_LANGAGE_SAVE;
-
-
-
     private Controleur ctrl;
 
 	/* Thèmes */
@@ -78,7 +67,7 @@ public class Metier
 	{
 		int nb = 0;
 
-		File dossier = new File(Metier.PATH_THEMES);
+		File dossier = new File(Path.PATH_THEMES);
 
 		for (File fichier : dossier.listFiles())
 			if (fichier.getName().startsWith("theme_perso_"))
@@ -104,13 +93,13 @@ public class Metier
 	 */
 	public void setNomFichier(String nomFichier)
 	{
-		File fileTheme = new File(Metier.PATH_THEME_X + this.getThemeUsed() + ".xml");
+		File fileTheme = new File(Path.PATH_THEME_X + this.getThemeUsed() + ".xml");
 
-		fileTheme.renameTo(new File(Metier.PATH_THEME_X + nomFichier + ".xml"));
+		fileTheme.renameTo(new File(Path.PATH_THEME_X + nomFichier + ".xml"));
 
 		try
 		{
-			PrintWriter pw = new PrintWriter(Metier.PATH_THEME_SAVE);
+			PrintWriter pw = new PrintWriter(Path.PATH_THEME_SAVE);
 			pw.println("<theme>" + nomFichier + "</theme>");
 			pw.close();
 		}
@@ -132,7 +121,7 @@ public class Metier
 
 		try
 		{
-			Scanner sc = new Scanner(new File(Metier.PATH_THEME_X + this.getThemeUsed() + ".xml"), "UTF8");
+			Scanner sc = new Scanner(new File(Path.PATH_THEME_X + this.getThemeUsed() + ".xml"), "UTF8");
 
 			String line = "";
 			while(sc.hasNextLine())
@@ -146,12 +135,12 @@ public class Metier
 
 			sc.close();
 
-		} catch (FileNotFoundException e) { e.printStackTrace(); System.out.println("Erreur dans la méthode setElementTheme(), fichier '" + Metier.PATH_THEME_X + this.getThemeUsed() + ".xml" + "' introuvable"); return false; }
+		} catch (FileNotFoundException e) { e.printStackTrace(); System.out.println("Erreur dans la méthode setElementTheme(), fichier '" + Path.PATH_THEME_X + this.getThemeUsed() + ".xml" + "' introuvable"); return false; }
 
 		
 		try
 		{
-			PrintWriter pw = new PrintWriter(new File(Metier.PATH_THEME_X + this.getThemeUsed() + ".xml"), "UTF8");
+			PrintWriter pw = new PrintWriter(new File(Path.PATH_THEME_X + this.getThemeUsed() + ".xml"), "UTF8");
 			pw.print(sRet);
 			pw.close();
 		}
@@ -172,7 +161,7 @@ public class Metier
 			String sRet = "";
 			try
 			{
-				Scanner sc = new Scanner(new File(Metier.PATH_THEME_X + this.getThemeUsed() + ".xml"), "UTF8");
+				Scanner sc = new Scanner(new File(Path.PATH_THEME_X + this.getThemeUsed() + ".xml"), "UTF8");
 
 				String line = "";
 				while(sc.hasNextLine())
@@ -186,12 +175,12 @@ public class Metier
 
 				sc.close();
 
-			} catch (FileNotFoundException e) { e.printStackTrace(); System.out.println("Erreur dans la méthode setElementTheme(), fichier '" + Metier.PATH_THEME_X + this.getThemeUsed() + ".xml" + "' introuvable"); }
+			} catch (FileNotFoundException e) { e.printStackTrace(); System.out.println("Erreur dans la méthode setElementTheme(), fichier '" + Path.PATH_THEME_X + this.getThemeUsed() + ".xml" + "' introuvable"); }
 
 			
 			try
 			{
-				PrintWriter pw = new PrintWriter(new File(Metier.PATH_THEME_X + this.getThemeUsed() + ".xml"), "UTF8");
+				PrintWriter pw = new PrintWriter(new File(Path.PATH_THEME_X + this.getThemeUsed() + ".xml"), "UTF8");
 				pw.print(sRet);
 				pw.close();
 			}
@@ -208,7 +197,7 @@ public class Metier
 	{
 		List<String> lstNomThemesPerso = new ArrayList<String>();
 
-		File dossier = new File(Metier.PATH_THEMES);
+		File dossier = new File(Path.PATH_THEMES);
 
 		String name = "";
 		for (File fichier : dossier.listFiles())
@@ -289,7 +278,7 @@ public class Metier
 
 		try
 		{
-			themeUsed = sxb.build(Metier.PATH_THEME_SAVE).getRootElement().getText();
+			themeUsed = sxb.build(Path.PATH_THEME_SAVE).getRootElement().getText();
 		}
 		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
 
@@ -309,7 +298,7 @@ public class Metier
 		{
 			try
 			{
-				PrintWriter pw = new PrintWriter(Metier.PATH_THEME_SAVE);
+				PrintWriter pw = new PrintWriter(Path.PATH_THEME_SAVE);
 				pw.println("<theme>" + theme + "</theme>");
 				pw.close();
 			}
@@ -333,7 +322,7 @@ public class Metier
 
 		try
 		{
-			Element racine = sxb.build(Metier.PATH_THEME_X + theme + ".xml").getRootElement();
+			Element racine = sxb.build(Path.PATH_THEME_X + theme + ".xml").getRootElement();
 
 			/*----------------------------------------------*/
 			/* Récupération des couleurs de chaque éléments */
@@ -362,7 +351,7 @@ public class Metier
 	{
 		for (String theme : lstNomsThemes)
 		{
-			File f = new File(Metier.PATH_THEME_X + theme + ".xml");
+			File f = new File(Path.PATH_THEME_X + theme + ".xml");
 			f.delete();
 		}
 
@@ -381,7 +370,7 @@ public class Metier
 		try
 		{
 			SAXBuilder sxb = new SAXBuilder();
-			for (Element e : sxb.build(Metier.PATH_THEME_X + "clair.xml").getRootElement().getChildren())
+			for (Element e : sxb.build(Path.PATH_THEME_X + "clair.xml").getRootElement().getChildren())
 				lstCles.add(e.getName());
 		}
 		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML pour récupérer les clée de la HashMap des thème."); }
@@ -416,7 +405,7 @@ public class Metier
 
 		try
 		{
-			langageUsed = sxb.build(Metier.PATH_LANGAGE_SAVE).getRootElement().getText();
+			langageUsed = sxb.build(Path.PATH_LANGAGE_SAVE).getRootElement().getText();
 		}
 		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du langage utilisé"); }
 
@@ -436,7 +425,7 @@ public class Metier
 		{
 			try
 			{
-				PrintWriter pw = new PrintWriter(Metier.PATH_LANGAGE_SAVE);
+				PrintWriter pw = new PrintWriter(Path.PATH_LANGAGE_SAVE);
 				pw.println("<langage>" + theme + "</langage>");
 				pw.close();
 			}
@@ -458,7 +447,7 @@ public class Metier
 		SAXBuilder sxb = new SAXBuilder();
 		try
 		{
-			Element racine = sxb.build(Metier.PATH_LANGAGE_X + langage + ".xml").getRootElement();
+			Element racine = sxb.build(Path.PATH_LANGAGE_X + langage + ".xml").getRootElement();
 
 			/*----------------------------------------------*/
 			/* Récupération des couleurs de chaque éléments */

@@ -33,8 +33,6 @@ import path.Path;
 
 public class PanelCreerTheme extends JPanel implements ActionListener
 {
-    private static final String PATH_THEMES   = Path.PATH_THEMES;
-    private static final String PATH_LANGAGES = Path.PATH_LANGAGES;
     private final String[] TAB_CLES;
 
     private Controleur ctrl;
@@ -74,13 +72,13 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         /* Création du fichier du thème personnalisé */
         int nbThemePerso = this.ctrl.getNbThemesPerso() + 1;
 
-        this.fileTheme = new File(PanelCreerTheme.PATH_THEMES + "theme_perso_" + nbThemePerso + ".xml");
+        this.fileTheme = new File(Path.PATH_THEMES + "theme_perso_" + nbThemePerso + ".xml");
         try { this.fileTheme.createNewFile(); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la création du fichier " + "theme_perso_" + nbThemePerso + ".xml"); }
 
 
         /* Copie du thème utilisé dans le thème en cours de personnalisation */
-        File fileThemeUsed  = new File(PanelCreerTheme.PATH_THEMES + "theme_"       + this.ctrl.getThemeUsed() + ".xml"); // origine
-        File fileThemePerso = new File(PanelCreerTheme.PATH_THEMES + "theme_perso_" + nbThemePerso             + ".xml"); // destination
+        File fileThemeUsed  = new File(Path.PATH_THEMES + "theme_"       + this.ctrl.getThemeUsed() + ".xml"); // origine
+        File fileThemePerso = new File(Path.PATH_THEMES + "theme_perso_" + nbThemePerso             + ".xml"); // destination
         
         try { Files.copy(fileThemeUsed.toPath(), fileThemePerso.toPath(), StandardCopyOption.REPLACE_EXISTING); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la copie du fichier " + "theme_" + this.ctrl.getThemeUsed() + ".xml"); }
 
@@ -308,7 +306,7 @@ public class PanelCreerTheme extends JPanel implements ActionListener
             SAXBuilder sxb = new SAXBuilder();
             List<Element> elements;
 
-            elements = sxb.build(new File(PanelCreerTheme.PATH_LANGAGES + "langage_" + this.ctrl.getLangageUsed() + ".xml")).getRootElement().getChild("creerTheme").getChildren();
+            elements = sxb.build(new File(Path.PATH_LANGAGES + "langage_" + this.ctrl.getLangageUsed() + ".xml")).getRootElement().getChild("creerTheme").getChildren();
 
             for (int i = 0; i < this.lstLbl.size(); i++)
             {

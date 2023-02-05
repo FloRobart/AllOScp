@@ -17,12 +17,11 @@ import javax.swing.event.ChangeListener;
 import controleur.Controleur;
 import ihm.menu.MenuBarre;
 import ihm.menu.popUp.listener.PopClickListenerOnglets;
+import path.Path;
 
 
 public class FramePrincipale extends JFrame
 {
-    private static final String PATH_LANGAGES = "./bin/donnees/langages/";
-
     private Controleur ctrl;
 
     private MenuBarre menuBarre;
@@ -275,7 +274,7 @@ public class FramePrincipale extends JFrame
      */
     private boolean VerifOngletRenommer(String nomOnglet, int i)
     {
-        File dossier = new File(FramePrincipale.PATH_LANGAGES);
+        File dossier = new File(Path.PATH_LANGAGES);
 		for (File fichier : dossier.listFiles())
         {
 			if (!fichier.getName().equals("langage_sauvegarde.xml"))
