@@ -10,6 +10,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import controleur.Controleur;
+import path.Path;
 
 import java.awt.Color;
 import java.io.File;
@@ -22,15 +23,13 @@ import java.io.UnsupportedEncodingException;
 public class Metier
 {
 	/* Thèmes */
-	private static final String[] TAB_CLES        = new String[] {"background", "foreground", "disableColor", "enableColor", "titlesBackground", "saisiesBackground", "saisiesPlaceholder", "buttonsBackground"};
-	private static final String   PATH_THEMES     = "./bin/donnees/themes/";
-    private static final String   PATH_THEME_X    = "./bin/donnees/themes/theme_";
-    private static final String   PATH_THEME_SAVE = "./bin/donnees/themes/theme_sauvegarde.xml";
+	private static final String PATH_THEMES       = Path.PATH_THEMES;
+    private static final String PATH_THEME_X      = Path.PATH_THEME_X;
+    private static final String PATH_THEME_SAVE   = Path.PATH_THEME_SAVE;
 
 	/* Langages */
-	private static final String PATH_LANGAGES     = "./bin/donnees/langages/";
-	private static final String PATH_LANGAGE_X    = "./bin/donnees/langages/langage_";
-	private static final String PATH_LANGAGE_SAVE = "./bin/donnees/langages/langage_sauvegarde.xml";
+	private static final String PATH_LANGAGE_X    = Path.PATH_LANGAGE_X;
+	private static final String PATH_LANGAGE_SAVE = Path.PATH_LANGAGE_SAVE;
 
 
 
@@ -59,6 +58,13 @@ public class Metier
 		this.hmLangage = new HashMap<String, HashMap<String, String>>();
 		this.chargerLangage(this.getLangageUsed());
     }
+
+
+	/*======================*/
+	/* Metier pour le local */
+	/*======================*/
+	
+
 
 
 	/*========*/
@@ -112,14 +118,14 @@ public class Metier
 	}
 
 	/**
-	 * Permet de modifier un élément du thème dans le fichier xml et dans la mémoire.
+	 * Permet de modifier un élément du thème dans le fichier xml.
 	 * @param nameElement : nom de l'élément à modifier.
 	 * @param color : nouvelle couleur de l'élément.
 	 * @return boolean : true si l'élément a été modifié, false sinon.
 	 */
 	public boolean setElementTheme(String nameElement, Color color)
 	{
-		if (nameElement == null || color == null)         { return false; }
+		if (nameElement == null || color == null)        { return false; }
 		if (!this.hmColorTheme.containsKey(nameElement)) { return false; }
 
 		String sRet = "";
@@ -332,13 +338,11 @@ public class Metier
 			/*----------------------------------------------*/
 			/* Récupération des couleurs de chaque éléments */
 			/*----------------------------------------------*/
-			for (int i = 0; i < Metier.TAB_CLES.length; i++)
+			for (Element e : racine.getChildren())
 			{
-				Element cg = racine.getChild(Metier.TAB_CLES[i]);
+				Color color = new Color( Integer.parseInt(e.getAttributeValue("red")), Integer.parseInt(e.getAttributeValue("green")), Integer.parseInt(e.getAttributeValue("blue")), Integer.parseInt(e.getAttributeValue("alpha")));
 
-                Color color = new Color( Integer.parseInt(cg.getAttributeValue("red")), Integer.parseInt(cg.getAttributeValue("green")), Integer.parseInt(cg.getAttributeValue("blue")), Integer.parseInt(cg.getAttributeValue("alpha")));
-
-				this.hmColorTheme.put(Metier.TAB_CLES[i], color);
+				this.hmColorTheme.put(e.getName(), color);
 			}
 		}
 		catch (Exception e)
@@ -364,6 +368,25 @@ public class Metier
 
 		this.majNbThemesPerso();
 		this.majLstNomTheme();
+	}
+
+	/**
+	 * Permet de récupérer la liste des clées de la HashMap des thèmes.
+	 * @return List : liste des clées.
+	 */
+	public String[] getEnsClesThemes()
+	{
+		List<String> lstCles = new ArrayList<String>();
+
+		try
+		{
+			SAXBuilder sxb = new SAXBuilder();
+			for (Element e : sxb.build(Metier.PATH_THEME_X + "clair.xml").getRootElement().getChildren())
+				lstCles.add(e.getName());
+		}
+		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML pour récupérer les clée de la HashMap des thème."); }
+
+		return lstCles.toArray(new String[lstCles.size()]);
 	}
 
 

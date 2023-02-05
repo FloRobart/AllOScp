@@ -28,15 +28,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import controleur.Controleur;
+import path.Path;
 
 
 public class PanelCreerTheme extends JPanel implements ActionListener
 {
-    private static final String   PATH_THEMES    = "./bin/donnees/themes/";
-    private static final String   PATH_LANGAGES  = "./bin/donnees/langages/";
-    private static final String[] ENS_LBL_STRING = new String[] {"Couleur générale du fond", "Couleur générale du texte", "Couleur de mauvaise action", "Couleur de bonne action", "Couleur de fond des titres", "Couleur de fond des zones de saisies", "Couleur du texte par défaut des zones de saisie", "Couleur de fond des boutons"};
-    private static final String[] TAB_CLES       = new String[] {"background", "foreground", "disableColor", "enableColor", "titlesBackground", "saisiesBackground", "saisiesPlaceholder", "buttonsBackground"};
-
+    private static final String PATH_THEMES   = Path.PATH_THEMES;
+    private static final String PATH_LANGAGES = Path.PATH_LANGAGES;
+    private final String[] TAB_CLES;
 
     private Controleur ctrl;
 
@@ -63,6 +62,8 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         this.ctrl = ctrl;
         this.setLayout(new BorderLayout(20, 20));
 
+        /* Récupération des clés du thème */
+        this.TAB_CLES = this.ctrl.getEnsClesThemes();
 
         /* Enregistrement du nom du thème actuel */
         this.nomAncienTheme = this.ctrl.getThemeUsed();
@@ -110,11 +111,11 @@ public class PanelCreerTheme extends JPanel implements ActionListener
 
 
         /* Panel des couleurs */
-        this.pnlColor = new JPanel(new GridLayout(PanelCreerTheme.ENS_LBL_STRING.length, 2, 0, 5));
+        this.pnlColor = new JPanel(new GridLayout(this.TAB_CLES.length, 2, 0, 5));
 
         this.lstLbl = new ArrayList<JLabel>();
         this.lstBtn = new ArrayList<JButton>();
-        for (int i = 0; i < PanelCreerTheme.ENS_LBL_STRING.length; i++)
+        for (int i = 0; i < this.TAB_CLES.length; i++)
         {
             this.lstLbl.add(new JLabel ());
             this.lstBtn.add(new JButton());
@@ -142,7 +143,7 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         this.pnlNomTheme.add(this.txtNomTheme);
 
         /* Panel des couleurs, Ajout des labels et boutons des couleurs */
-        for (int i = 0; i < PanelCreerTheme.TAB_CLES.length; i++)
+        for (int i = 0; i < this.TAB_CLES.length; i++)
         {
             this.pnlColor.add(this.lstLbl.get(i));
             this.pnlColor.add(this.lstBtn.get(i));
@@ -213,13 +214,13 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         {
             if (e.getSource() == this.lstBtn.get(i))
             {
-                Color color = JColorChooser.showDialog(this, this.ctrl.getLangage().get("creerTheme").get("titreColorChosser"), this.hmColorThemes.get(PanelCreerTheme.TAB_CLES[i]));
+                Color color = JColorChooser.showDialog(this, this.ctrl.getLangage().get("creerTheme").get("titreColorChosser"), this.hmColorThemes.get(this.TAB_CLES[i]));
                 if (color != null)
                 {
-                    this.hmColorThemes.put(PanelCreerTheme.TAB_CLES[i], color);
+                    this.hmColorThemes.put(this.TAB_CLES[i], color);
                     this.lstBtn.get(i).setBackground(color);
 
-                    if (this.ctrl.setElementTheme(PanelCreerTheme.TAB_CLES[i], color));
+                    if (this.ctrl.setElementTheme(this.TAB_CLES[i], color));
                         this.ctrl.appliquerTheme();
                 }
             }
@@ -262,12 +263,12 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         this.pnlColor.setBackground(backGeneralColor);
         this.pnlColor.setForeground(foreGeneralColor);
 
-        for (int i = 0; i < PanelCreerTheme.TAB_CLES.length; i++)
+        for (int i = 0; i < this.TAB_CLES.length; i++)
         {
             this.lstLbl.get(i).setBackground(backGeneralColor);
             this.lstLbl.get(i).setForeground(foreGeneralColor);
 
-            this.lstBtn.get(i).setBackground(this.hmColorThemes.get(PanelCreerTheme.TAB_CLES[i]));
+            this.lstBtn.get(i).setBackground(this.hmColorThemes.get(this.TAB_CLES[i]));
             this.lstBtn.get(i).setForeground(foreGeneralColor);
         }
 

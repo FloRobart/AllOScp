@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.awt.event.InputEvent;
-import java.awt.event.MouseListener.*;
 
 import controleur.Controleur;
 
@@ -29,6 +28,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 	private FrameSuppTheme  frameSuppTheme;
 
 	/* Menus */
+	private JMenu menuFichiers;
 	private JMenu menuOnglets;
 	private JMenu menuPreferences;
 	private JMenu menuAide;

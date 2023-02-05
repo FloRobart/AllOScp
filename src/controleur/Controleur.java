@@ -109,13 +109,12 @@ public class Controleur
     public void setNomTheme(String theme) { this.metier.setNomTheme(theme); }
 
     /**
-     * Permet de modifier la couleur d'un élément du thème
-     * @param nomElement : Nom de l'élément à modifier
-     * @param couleur : Nouvelle couleur de l'élément
-     * @return boolean : true si l'élément a été modifié, sinon false
-     */
+	 * Permet de modifier un élément du thème dans le fichier xml.
+	 * @param nameElement : nom de l'élément à modifier.
+	 * @param color : nouvelle couleur de l'élément.
+	 * @return boolean : true si l'élément a été modifié, false sinon.
+	 */
     public boolean setElementTheme(String nomElement, Color couleur) { return this.metier.setElementTheme(nomElement, couleur); }
-
 
     /**
      * Permet de supprimer un thème perso.
@@ -131,6 +130,11 @@ public class Controleur
         this.ihm.supprimerThemePersoOnMenuBarre(lstNomsThemes);
     }
 
+    /**
+     * Permet de récupérer la liste des clés de la HashMap contenant les couleurs du thème.
+     * @return List : liste des clés
+     */
+    public String[] getEnsClesThemes() { return this.metier.getEnsClesThemes(); }
 
 
     /*==========*/
@@ -214,7 +218,6 @@ public class Controleur
     /*========*/
     /* Autres */
     /*========*/
-    //public int getWidthFrame() { return this.ihm.getWidth(); }
 
 
 

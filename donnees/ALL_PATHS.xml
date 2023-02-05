@@ -1,0 +1,9 @@
+<path>
+    <pathThemes>./bin/donnees/themes</pathThemes>
+    <pathThemeX>./bin/donnees/themes/theme_</pathThemeX>
+    <pathThemeSave>./bin/donnees/themes/theme_sauvegarde.xml</pathThemeSave>
+
+    <pathLangages>./bin/donnees/langages/</pathLangages>
+    <pathLangageX>./bin/donnees/langages/langage_</pathLangageX>
+    <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>
+</path>
