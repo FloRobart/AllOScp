@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -44,7 +45,7 @@ public class PanelSuppTheme extends JPanel implements ActionListener
         
         this.setLayout(new BorderLayout(0, 20));
 
-        this.panelCentre = new JPanel(new GridLayout(this.ctrl.getNbThemesPerso()+1, 4, 20, 5));
+        this.panelCentre = new JPanel(new GridLayout(this.ctrl.getNbThemesPerso()+1, 3, 20, 5));
         this.panelSud    = new JPanel();
 
         this.lblTitre    = new JLabel("", SwingConstants.CENTER);
