@@ -1,36 +1,20 @@
 package ihm.explorer;
 
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
-
-import controleur.Controleur;
-import ihm.menu.popUp.menu.PopUpMenuArbo;
-
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
-
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
 
 import javax.swing.DropMode;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
+import controleur.Controleur;
+import ihm.menu.popUp.menu.PopUpMenuArbo;
 
 
 
@@ -179,7 +163,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             this.tpSelectionned = this.getPathForLocation(me.getX(),me.getY());
             if (this.tpSelectionned != null)
             {
-                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) this.tpSelectionned.getLastPathComponent();
+                //DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) this.tpSelectionned.getLastPathComponent();
 
                 //System.out.println(dmtn.getUserObject() + " Séléctionné");
             }
