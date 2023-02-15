@@ -1,7 +1,1 @@
-sauvegarder la list de clé de la hashMap dans un fichier pour les centraliser
-
-sauvegarder Les path des fichiers dans un fichier pour les centraliser
-
-
-faire des optionPane personnaliser pour permettre de changer le thème et la lange
-faire de même pour le colorChooser
+faire des optionPane et des colorChooser personnaliser pour permettre de leur appliquer le thème et le language.
