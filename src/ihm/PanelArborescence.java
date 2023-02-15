@@ -2,14 +2,16 @@ package ihm;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import java.awt.BorderLayout;
 
 import java.awt.Color;
+import java.io.File;
 
 import controleur.Controleur;
+import ihm.explorer.Explorer;
 import ihm.explorer.MyCellRenderer;
-import ihm.menu.popUp.listener.PopClickListenerArbo;
 
 
 public class PanelArborescence extends JPanel
@@ -18,17 +20,15 @@ public class PanelArborescence extends JPanel
 
     private JScrollPane scrollPane;
 
-    private JTree       arborescence;
+    private Explorer    arborescence;
 
     private MyCellRenderer mycellRenderer;
 
-    private PopClickListenerArbo popClickListener;
 
     public PanelArborescence(Controleur ctrl)
     {
         this.ctrl = ctrl;
 
-        this.popClickListener = new PopClickListenerArbo(this.ctrl);
 
         /*--------------------------*/
         /* Créations des composants */
@@ -41,7 +41,8 @@ public class PanelArborescence extends JPanel
         this.setSize(200, 400);
 
         /* Arborescence */
-        this.arborescence = new JTree();
+        DefaultMutableTreeNode top = Explorer.createTree(new File("."));
+        this.arborescence = new Explorer(top, this.ctrl);
         this.arborescence.setRootVisible(true);
         this.arborescence.setShowsRootHandles(false);
 
@@ -62,7 +63,6 @@ public class PanelArborescence extends JPanel
         /*---------------------------*/
         /* Activtions des composants */
         /*---------------------------*/
-        this.arborescence.addMouseListener(this.popClickListener);
     }
 
 
@@ -77,8 +77,6 @@ public class PanelArborescence extends JPanel
         this.setBackground(backGeneralColor);
         this.setForeground(foreGeneralColor);
 
-        this.popClickListener.appliquerTheme();
-
         /* ScrollPane */
         this.scrollPane.setBackground(backGeneralColor);
         this.scrollPane.setForeground(foreGeneralColor);
@@ -92,6 +90,7 @@ public class PanelArborescence extends JPanel
         /* Arborescence */
         this.arborescence.setBackground(backGeneralColor);
         this.arborescence.setForeground(foreGeneralColor);
+        this.arborescence.appliquerTheme();
         this.mycellRenderer.appliquerTheme();
     }
 
@@ -101,6 +100,6 @@ public class PanelArborescence extends JPanel
      */
     public void appliquerLangage()
     {
-        this.popClickListener.appliquerLangage();
+        this.arborescence.appliquerLangage();
     }
 }

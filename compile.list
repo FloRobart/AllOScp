@@ -19,6 +19,7 @@
  
 .\src\ihm\explorer\Explorer.java  
 .\src\ihm\explorer\MyCellRenderer.java  
+.\src\ihm\explorer\TreeTransferHandler.java  
  
 .\src\metier\Metier.java  
  
