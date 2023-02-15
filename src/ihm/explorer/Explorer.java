@@ -57,8 +57,8 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         this.expandTree(this);
 
 
-        //this.addMouseListener(this);
-        //this.addMouseMotionListener(this);
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
     }
 
 
@@ -151,7 +151,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
             if (me.getButton() == MouseEvent.BUTTON3)
             {
-                //System.out.println("Clic droit sur " +  dmtn.getUserObject());
+                System.out.println("Clic droit sur " +  dmtn.getUserObject());
 
                 this.setSelectionPath(tp);
 
@@ -181,34 +181,17 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             {
                 DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) this.tpSelectionned.getLastPathComponent();
 
-                System.out.println(dmtn.getUserObject() + " Séléctionné");
+                //System.out.println(dmtn.getUserObject() + " Séléctionné");
             }
             else
             {
-                System.out.println("aucun élément Séléctionné");
+                //System.out.println("aucun élément Séléctionné");
             }
         }
     }
 
     @Override
-    public void mouseReleased(MouseEvent me)
-    {
-        //System.out.println("released --> " + me.getX() + " : " + me.getY());
-        if (me.getButton() == MouseEvent.BUTTON1)
-        {
-            TreePath tpDest = this.getPathForLocation(me.getX(),me.getY());
-            if (tpDest != null)
-            {
-                DefaultMutableTreeNode dmtnDest = (DefaultMutableTreeNode) tpDest.getLastPathComponent();
-                //System.out.println(dmtnDest.getUserObject() + " Destination");
-
-                if (this.tpSelectionned != null && dmtnDest != null && !(((DefaultMutableTreeNode)(this.tpSelectionned.getLastPathComponent())).equals(dmtnDest)))
-                {
-                    System.out.println(((DefaultMutableTreeNode)(this.tpSelectionned.getLastPathComponent())).getUserObject() + " Copié dans " + dmtnDest.getUserObject());
-                }
-            }
-        }
-    }
+    public void mouseReleased(MouseEvent me) {}
 
 
     @Override
