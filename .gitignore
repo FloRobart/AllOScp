@@ -24,3 +24,7 @@ hs_err_pid*
 
 # Fichier vscode
 .vscode
+
+# Fichier et dossier de teste d'arborescence
+test/
+testArboPanel*/
