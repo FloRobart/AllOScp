@@ -4,9 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import java.awt.Color;
+import java.io.File;
 import java.awt.BorderLayout;
 
 import controleur.Controleur;
+import ihm.explorer.Explorer;
 
 
 public class PanelGlobal extends JPanel
@@ -19,7 +21,7 @@ public class PanelGlobal extends JPanel
     private JSplitPane          panelSpliter;
 
 
-    public PanelGlobal(Controleur ctrl, int widthParent)
+    public PanelGlobal(Controleur ctrl, int widthParent, int indexOnglet)
     {
         this.ctrl = ctrl;
 
@@ -30,9 +32,9 @@ public class PanelGlobal extends JPanel
         this.setLayout(new BorderLayout());
 
         /* Autres Panels */
-        this.panelFonctionGlobal = new PanelFonctionGlobal(this.ctrl);
-        this.panelGauche         = new PanelArborescence  (this.ctrl);
-        this.panelDroite         = new PanelArborescence  (this.ctrl);
+        this.panelFonctionGlobal = new PanelFonctionGlobal(this.ctrl, indexOnglet);
+        this.panelGauche         = new PanelArborescence  (this.ctrl, new File("G:\\Mon Drive\\Projet_perso\\Sync_files_and_folders\\testArboPanelGauche"));
+        this.panelDroite         = new PanelArborescence  (this.ctrl, new File("G:\\Mon Drive\\Projet_perso\\Sync_files_and_folders\\testArboPanelDroite"));
         this.panelSpliter        = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.panelGauche, this.panelDroite);
         this.panelSpliter.setOneTouchExpandable(true);
 		this.panelSpliter.setContinuousLayout(true);
@@ -51,6 +53,26 @@ public class PanelGlobal extends JPanel
         /* Activtions des composants */
         /*---------------------------*/
         //this.addMouseListener(new PopClickListener());
+    }
+
+
+    /**
+     * Permet de récupérer l'arborescence
+     * @return Explorer : arborescence
+     */
+    public Explorer getArborescence(String panel)
+    {
+        if(panel.equals("gauche"))
+        {
+            return this.panelGauche.getArborescence();
+        }
+        
+        if(panel.equals("droite"))
+        {
+            return this.panelDroite.getArborescence();
+        }
+
+        throw new IllegalArgumentException("Ligne 70, PanelGlobal\nErreur dans le nom du panel (seulement gauche ou droite autorisé)");
     }
 
 

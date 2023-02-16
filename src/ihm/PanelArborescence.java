@@ -2,6 +2,7 @@ package ihm;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import java.awt.BorderLayout;
@@ -17,18 +18,18 @@ import ihm.explorer.MyCellRenderer;
 public class PanelArborescence extends JPanel
 {
     private Controleur ctrl;
+    private File rootFile;
 
     private JScrollPane scrollPane;
 
     private Explorer    arborescence;
-
     private MyCellRenderer mycellRenderer;
 
 
-    public PanelArborescence(Controleur ctrl)
+    public PanelArborescence(Controleur ctrl, File rootFile)
     {
-        this.ctrl = ctrl;
-
+        this.ctrl     = ctrl;
+        this.rootFile = rootFile;
 
         /*--------------------------*/
         /* Créations des composants */
@@ -41,10 +42,8 @@ public class PanelArborescence extends JPanel
         this.setSize(200, 400);
 
         /* Arborescence */
-        DefaultMutableTreeNode top = Explorer.createTree(new File("."));
-        this.arborescence = new Explorer(top, this.ctrl);
-        this.arborescence.setRootVisible(true);
-        this.arborescence.setShowsRootHandles(false);
+        DefaultMutableTreeNode root = Explorer.createTree(this.rootFile);
+        this.arborescence = new Explorer(root, this.ctrl);
 
         this.mycellRenderer = new MyCellRenderer(ctrl);
         this.arborescence.setCellRenderer(this.mycellRenderer);
@@ -63,6 +62,16 @@ public class PanelArborescence extends JPanel
         /*---------------------------*/
         /* Activtions des composants */
         /*---------------------------*/
+    }
+
+
+    /**
+     * Permet de récupérer l'arborescence
+     * @return Explorer : arborescence
+     */
+    public Explorer getArborescence()
+    {
+        return this.arborescence;
     }
 
 

@@ -11,10 +11,12 @@ import org.jdom2.input.SAXBuilder;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTree;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import controleur.Controleur;
+import ihm.explorer.Explorer;
 import ihm.menu.MenuBarre;
 import ihm.menu.popUp.listener.PopClickListenerOnglets;
 import path.Path;
@@ -60,7 +62,7 @@ public class FramePrincipale extends JFrame
 
         /* Panels */
         this.lstPanelGlobal = new ArrayList<PanelGlobal>();
-        this.lstPanelGlobal.add(new PanelGlobal(this.ctrl, this.getWidth()));
+        this.lstPanelGlobal.add(new PanelGlobal(this.ctrl, this.getWidth(), 0));
         this.panelFond = new JPanel(new BorderLayout());
 
         /* MenuBar */
@@ -112,7 +114,7 @@ public class FramePrincipale extends JFrame
      */
     public void ajouterOnglet()
     {
-        PanelGlobal pg = new PanelGlobal(this.ctrl, this.getWidth());
+        PanelGlobal pg = new PanelGlobal(this.ctrl, this.getWidth(), this.lstPanelGlobal.size());
         this.lstPanelGlobal.add(pg);
         this.onglets.addTab("Onglet " + (this.onglets.getTabCount()+1), pg);
 
@@ -290,5 +292,15 @@ public class FramePrincipale extends JFrame
         }
 
         return true;
+    }
+
+
+    /**
+     * Permet de récupérer l'arborescence
+     * @return Explorer : arborescence
+     */
+    public Explorer getArborescence(String panel)
+    {
+        return this.lstPanelGlobal.get(this.onglets.getSelectedIndex()).getArborescence(panel);
     }
 }

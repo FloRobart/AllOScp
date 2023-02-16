@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JTree;
 
 import java.awt.Color;
 
 import ihm.FramePrincipale;
+import ihm.explorer.Explorer;
 import metier.Metier;
 
 
@@ -214,6 +216,17 @@ public class Controleur
      */
     public JFrame getFramePrincipale() { return this.ihm; }
     
+
+
+
+    /*==============*/
+    /* Arborescence */
+    /*==============*/
+    /**
+     * Permet de récupérer l'arborescence
+     * @return Explorer : arborescence
+     */
+    public Explorer getArborescence(String panel) { return this.ihm.getArborescence(panel); }
 
 
     /*========*/
