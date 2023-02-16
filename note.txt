@@ -1,1 +1,31 @@
 faire des optionPane et des colorChooser personnaliser pour permettre de leur appliquer le thème et le language.
+
+faire en sorte de générer qu'un seul étage de l'arborescence à la fois pour optimiser.
+
+
+
+/* Fonctionnalitées dans le panelFonctionGlobal */
+/*========================================================================================*/
+Comparer séléction (Fichier et dossier)
+Comparer toute l'arborescence (racine et sous dossier)
+
+Syncroniser séléction de l'arborescence A vers B (Fichier et dossier)
+Syncroniser séléction de l'arborescence B vers A (Fichier et dossier)
+Syncroniser séléction dans les deux sens (Fichier et dossier)
+
+Syncroniser toute l'arborescence de A vers B (racine et sous dossier)
+Syncroniser toute l'arborescence de B vers A (racine et sous dossier)
+Syncroniser toute l'arborescence dans les deux sens (racine et sous dossier)
+
+Syncroniser tout en arrière plan (racine et sous dossier)
+
+
+
+
+/* Aide */
+/*========================================================================================*/
+Files.copy(Path, Path, StandardCopyOption); --> copie le contenue d'un fichier dans un autre fichier (StandardCopyOption.REPLACE_EXISTING pour remplacer le fichier si il existe déjà)
+Files.createDirectories(Path);              --> créer un nouveau dossier ainsi que tous les parents inexistant
+Files.createFile(Path);                     --> créer un nouveau fichier
+Files.delete(Path);                         --> supprimer un fichier
+Files.readAllBytes(Path);                   --> lire le contenue d'un fichier byte par byte (vas permettre de comparer les fichiers)
