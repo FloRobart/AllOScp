@@ -18,6 +18,7 @@ public class FrameOption implements ActionListener
     private JScrollPane scrollPane;
     private JLabel lblMessage;
     private JButton btnOk;
+    private JButton btnSave;
 
 
     private FrameOption() {}
@@ -42,7 +43,7 @@ public class FrameOption implements ActionListener
         
         Dimension dimScreen = this.frame.getToolkit().getScreenSize();
 
-        this.frame.setTitle("Résultat de la comparaison");
+        this.frame.setTitle(titre);
         this.frame.setLocation(dimScreen.width / 2, dimScreen.height / 2);
         this.frame.setSize(dimScreen.width / 2, dimScreen.height / 3);
         this.frame.setLayout(new BorderLayout());
@@ -71,7 +72,33 @@ public class FrameOption implements ActionListener
 
     private void FrameErreur(String message, String titre)
     {
+        this.frame = new JFrame(titre);
         
+        Dimension dimScreen = this.frame.getToolkit().getScreenSize();
+
+        this.frame.setTitle(titre);
+        this.frame.setLocation(dimScreen.width / 2, dimScreen.height / 2);
+        this.frame.setLayout(new BorderLayout());
+        this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
+        /* Création des composants */
+        this.lblMessage = new JLabel(message);
+        this.scrollPane = new JScrollPane(this.lblMessage, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.btnOk = new JButton("Ok");
+
+
+        /* Ajout des composants */
+        this.frame.add(this.scrollPane, BorderLayout.CENTER);
+        this.frame.add(this.btnOk, BorderLayout.SOUTH);
+
+
+        /* Activation des composants */
+        this.btnOk.addActionListener(this);
+
+
+        this.frame.pack();
+        this.frame.setVisible(true);
     }
 
     private void FrameQuestion(String message, String titre)
@@ -86,7 +113,7 @@ public class FrameOption implements ActionListener
 
     public static void showResultatComparaison(String message, String titre)
     {
-        FrameOption.generateFrame(message, titre, FrameInfo.TYPE_INFORMATION);
+        //FrameOption.generateFrame(message, titre, FrameInfo.TYPE_INFORMATION);
     }
 
 
@@ -99,6 +126,16 @@ public class FrameOption implements ActionListener
         if (ae.getSource() == this.btnOk)
         {
             this.frame.dispose();
+        }
+
+        if (ae.getSource() == this.btnSave)
+        {
+            File defaultFolder = new File(System.getProperties().getProperty("user.home") + "\\Downloads\\ResultatComparaison");
+            defaultFolder.mkdirs();
+
+            File[] files = defaultFolder.listFiles();
+            PrintWriter pw = new PrintWriter(new FileWriter(defaultFolder.get));
+            
         }
     }
 
