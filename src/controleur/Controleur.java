@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JTree;
 
 import java.awt.Color;
+import java.io.File;
 
 import ihm.FramePrincipale;
 import ihm.explorer.Explorer;
@@ -227,6 +228,14 @@ public class Controleur
      * @return Explorer : arborescence
      */
     public Explorer getArborescence(String panel) { return this.ihm.getArborescence(panel); }
+
+    /**
+     * Permet de comparer deux éléments de l'arborescence (fichier ou dossier)
+     * @param fileGauche : fichier provenant de l'arborescence de gauche
+     * @param fileDroite : fichier provenant de l'arborescence de droite
+     * @return boolean : true si les deux élément sont identiques, sinon false
+     */
+    public boolean comparer(File fileGauche, File fileDroite) { return this.metier.comparer(fileGauche, fileDroite); }
 
 
     /*========*/

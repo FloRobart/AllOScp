@@ -6,6 +6,7 @@ import javax.swing.tree.TreePath;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.event.*;
+import java.io.File;
 import java.awt.Color;
 
 import controleur.Controleur;
@@ -130,21 +131,31 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
         /* Comparaison des éléments sélectionnées */
         if (e.getSource() == this.btnComparerSelection)
         {
-            // TODO : déplacer tout les calcule dans le métier
+            TreePath[] tpSelectionGauche = this.ctrl.getArborescence("gauche").getSelectionPaths();
+            TreePath[] tpSelectionDroite = this.ctrl.getArborescence("droite").getSelectionPaths();
 
-            // récuperer tout les parents pour recréée le chemin absolut de l'élément sélectionnée dans l'arborescence
-            TreePath tpSelectionGauche = this.ctrl.getArborescence("gauche").getSelectionPath();
-            TreePath tpSelectionDroite = this.ctrl.getArborescence("droite").getSelectionPath();
-
-            String pathFileGauche = "";
-            String pathFileDroite = "";
-
-            for (Object o : tpSelectionGauche.getPath())
+            if (tpSelectionGauche != null && tpSelectionDroite != null && tpSelectionGauche.length == tpSelectionDroite.length)
             {
-                pathFileGauche += o.toString() + "\\";
+                for (int i = 0; i < tpSelectionDroite.length; i++)
+                {
+                    String pathFileGauche = "";
+                    String pathFileDroite = "";
+
+                    for (Object o : tpSelectionGauche[i].getPath())
+                        pathFileGauche += o.toString() + "\\";
+
+                    for (Object o : tpSelectionDroite[i].getPath())
+                        pathFileDroite += o.toString() + "\\";
+
+                    pathFileGauche = pathFileGauche.substring(0, pathFileGauche.length() - 1);
+                    pathFileDroite = pathFileDroite.substring(0, pathFileDroite.length() - 1);
+
+                    File fileGauche = new File(pathFileGauche);
+                    File fileDroite = new File(pathFileDroite);
+
+                    this.ctrl.comparer(fileGauche, fileDroite);
+                }
             }
-            pathFileGauche = pathFileGauche.substring(0, pathFileGauche.length() - 1);
-            System.out.println(pathFileGauche);
         }
     }
 

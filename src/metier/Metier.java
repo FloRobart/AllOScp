@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
@@ -18,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 
 
 public class Metier
@@ -52,8 +55,73 @@ public class Metier
 	/*======================*/
 	/* Metier pour le local */
 	/*======================*/
+	/**
+	 * Permet de comparer des fichiers ou des dossiers.
+	 * @param fileGauche : fichier ou dossier provenant du panel gauche
+	 * @param fileDroite : fichier ou dossier provenant du panel droit
+	 */
+	public boolean comparer(File fileGauche, File fileDroite)
+	{
+		if (fileGauche.isDirectory() && fileDroite.isDirectory())
+		{
+			File[] lstFileGauche = fileGauche.listFiles();
+			File[] lstFileDroite = fileDroite.listFiles();
+
+			if (lstFileGauche.length == lstFileDroite.length)
+			{
+				for (int i = 0; i < lstFileGauche.length; i++)
+					this.comparer(lstFileGauche[i], lstFileDroite[i]);
+			}
+			else
+			{
+				System.out.println("Les dossiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents");
+			}
+
+			return false;
+		}
+
+
+		if (fileGauche.isFile() && fileDroite.isFile())
+		{
+			if (this.comparerFichier(fileGauche, fileDroite))
+				System.out.println("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont identiques");
+			else
+				System.out.println("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents");
+
+			return false;
+		}
+
+		System.out.println("element non comparable");
+		return false;
+	}
 	
 
+	/**
+	 * Permet de comparer deux fichiers byte par byte.
+	 * @param fileGauche : fichier provenant du panel gauche
+	 * @param fileDroite : fichier provenant du panel droit
+	 * @return boolean : true si les fichiers sont identiques, sinon false
+	 */
+	private boolean comparerFichier(File fileGauche, File fileDroite)
+	{
+		try
+		{
+			byte[] ensByteGauche = Files.readAllBytes(fileGauche.toPath());
+			byte[] ensByteDroite = Files.readAllBytes(fileDroite.toPath());
+
+			if (ensByteGauche.length == ensByteDroite.length)
+			{
+				boolean identique = true;
+
+				for (int i = 0; i < ensByteGauche.length; i++)
+					if (ensByteGauche[i] != ensByteDroite[i]) { identique = false; break; }
+
+				return identique;
+			}
+		} catch (IOException ex) { ex.printStackTrace(); }
+
+		return false;
+	}
 
 
 	/*========*/

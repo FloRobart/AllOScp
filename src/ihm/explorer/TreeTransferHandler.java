@@ -42,7 +42,7 @@ public class TreeTransferHandler extends TransferHandler
         if(!support.isDataFlavorSupported(this.nodesFlavor))
             return false;
 
-        /* Vérification pour empécher de déplacé un élémentdans lui même */
+        /* Vérification pour empécher de déplacé un élément dans lui même */
         JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
         JTree tree = (JTree) support.getComponent();
         int dropRow = tree.getRowForPath(dl.getPath());
