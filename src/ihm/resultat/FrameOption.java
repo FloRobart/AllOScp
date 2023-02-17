@@ -4,6 +4,10 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 
 public class FrameOption implements ActionListener
@@ -113,7 +117,7 @@ public class FrameOption implements ActionListener
 
     public static void showResultatComparaison(String message, String titre)
     {
-        //FrameOption.generateFrame(message, titre, FrameInfo.TYPE_INFORMATION);
+        FrameOption.generateFrame(message, titre, FrameOption.TYPE_INFORMATION);
     }
 
 
@@ -133,9 +137,13 @@ public class FrameOption implements ActionListener
             File defaultFolder = new File(System.getProperties().getProperty("user.home") + "\\Downloads\\ResultatComparaison");
             defaultFolder.mkdirs();
 
-            File[] files = defaultFolder.listFiles();
-            PrintWriter pw = new PrintWriter(new FileWriter(defaultFolder.get));
-            
+            try
+            {
+                PrintWriter pw = new PrintWriter(new FileWriter(defaultFolder.getPath() + "\\" + defaultFolder.listFiles().length + ".txt"));
+                pw.write(this.lblMessage.getText());
+                pw.close();
+            }
+            catch (IOException e) { e.printStackTrace(); System.out.println("Erreur lors de la création du fichier du résultat de la comparaison"); }
         }
     }
 
