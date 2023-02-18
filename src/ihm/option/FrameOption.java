@@ -1,4 +1,4 @@
-package ihm.resultat;
+package ihm.option;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -57,17 +57,22 @@ public class FrameOption implements ActionListener
         /* Création des composants */
         this.lblMessage = new JLabel(message);
         this.scrollPane = new JScrollPane(this.lblMessage, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        JPanel panelBtn = new JPanel();
         this.btnOk = new JButton("Ok");
+        this.btnSave = new JButton("Sauvegarder");
 
 
         /* Ajout des composants */
         this.frame.add(this.scrollPane, BorderLayout.CENTER);
-        this.frame.add(this.btnOk, BorderLayout.SOUTH);
+
+        panelBtn.add(this.btnOk);
+        panelBtn.add(this.btnSave);
+        this.frame.add(panelBtn, BorderLayout.SOUTH);
 
 
         /* Activation des composants */
         this.btnOk.addActionListener(this);
-
 
 
         this.frame.setVisible(true);
@@ -90,6 +95,7 @@ public class FrameOption implements ActionListener
         this.lblMessage = new JLabel(message);
         this.scrollPane = new JScrollPane(this.lblMessage, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.btnOk = new JButton("Ok");
+        this.btnSave = null;
 
 
         /* Ajout des composants */

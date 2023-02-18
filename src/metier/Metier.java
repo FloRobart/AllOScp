@@ -62,6 +62,7 @@ public class Metier
 	 */
 	public boolean comparer(File fileGauche, File fileDroite)
 	{
+		String sRet = "";
 		if (fileGauche.isDirectory() && fileDroite.isDirectory())
 		{
 			File[] lstFileGauche = fileGauche.listFiles();
@@ -74,7 +75,7 @@ public class Metier
 			}
 			else
 			{
-				System.out.println("Les dossiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents");
+				sRet += "Les dossiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents";
 			}
 
 			return false;
@@ -84,14 +85,14 @@ public class Metier
 		if (fileGauche.isFile() && fileDroite.isFile())
 		{
 			if (this.comparerFichier(fileGauche, fileDroite))
-				System.out.println("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont identiques");
+				sRet += ("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont identiques");
 			else
-				System.out.println("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents");
+				sRet += ("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents");
 
 			return false;
 		}
 
-		System.out.println("element non comparable");
+		sRet += ("element non comparable");
 		return false;
 	}
 	
