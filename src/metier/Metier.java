@@ -75,7 +75,7 @@ public class Metier
 			}
 			else
 			{
-				sRet += "Les dossiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents";
+				sRet += "Les dossiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents\n";
 			}
 
 			return false;
@@ -85,14 +85,14 @@ public class Metier
 		if (fileGauche.isFile() && fileDroite.isFile())
 		{
 			if (this.comparerFichier(fileGauche, fileDroite))
-				sRet += ("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont identiques");
+				sRet += ("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont identiques\n");
 			else
-				sRet += ("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents");
+				sRet += ("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents\n");
 
 			return false;
 		}
 
-		sRet += ("element non comparable");
+		sRet += ("element non comparable\n");
 		return false;
 	}
 	
