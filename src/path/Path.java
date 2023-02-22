@@ -135,7 +135,7 @@ public interface Path
                             "    <pathLangageX>./bin/donnees/langages/langage_</pathLangageX>"                     + "\n"   +
                             "    <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>" + "\n"   +
                             "    <pathFolderIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFolderIcon>"   + "\n"   +
-                            "    <pathFileIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFileIcon>"       + "\n"   +
+                            "    <pathFileIcon>./bin/donnees/images/iconExplorer/fichier_blanc.png</pathFileIcon>" + "\n"   +
                             "</path>";
 
             PrintWriter pw = new PrintWriter(file_AllPath);

@@ -96,13 +96,13 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param root le fichier à partir duquel on crée l'arborescence
      * @return 
      */
-    public static DefaultMutableTreeNode createTree(File root)  
+    private DefaultMutableTreeNode createTree(File root)  
     {  
         DefaultMutableTreeNode top = new DefaultMutableTreeNode(root.getPath());  
         if(!(root.exists() && root.isDirectory()))  
-            return top;  
-
-        Explorer.remplirArbo(top , root.getPath());
+        {}
+        else
+            Explorer.remplirArbo(top , root.getPath());
 
         return top;
     }
@@ -110,24 +110,31 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
     /**
      * Rempli l'arborescence
-     * @param root le noeud racine
-     * @param filename le nom du fichier
+     * @param node le noeud au quel rajouter les noeuds fils
+     * @param filePath le chemin absolut du fichier
      */
-    private static void remplirArbo(DefaultMutableTreeNode root, String filename)  
+    public static void remplirArbo(DefaultMutableTreeNode node, String filePath)  
     {
-        File temp = new File(filename);  
+        System.out.println("filename : " + filePath);
+        File file = new File(filePath);  
         
-        if(temp.exists() && temp.isDirectory())
+        if (file.exists())
         {
-            File[] filelist = temp.listFiles();
-            
-            for(int i=0; i < filelist.length; i++)  
+            if(file.isDirectory())
             {
-                final DefaultMutableTreeNode tempDmtn = new DefaultMutableTreeNode(filelist[i].getName());  
-                root.add(tempDmtn);
-                final String newfilename = new String(filename+"\\"+filelist[i].getName());
+                File[] filelist = file.listFiles();
+                
+                for(int i=0; i < filelist.length; i++)  
+                {
+                    final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(filelist[i].getName());
+                    node.add(TEMP_DMTN);
 
-                Explorer.remplirArbo(tempDmtn, newfilename);
+                    Explorer.remplirArbo(TEMP_DMTN, filePath + File.separator + filelist[i].getName());
+                }
+            }
+            else
+            {
+                
             }
         }
     }

@@ -21,8 +21,8 @@ public class Controleur
 
     public Controleur()
     {
-        for (File f : File.listRoots()) 
-            System.out.println("'" + f.getPath() + "'");
+        //for (File f : File.listRoots()) 
+        //    System.out.println("'" + f.getPath() + "'");
 
         this.metier = new Metier         (this);
         this.ihm    = new FramePrincipale(this);

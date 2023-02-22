@@ -126,10 +126,10 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
                     String pathFileDroite = "";
 
                     for (Object o : tpSelectionGauche[i].getPath())
-                        pathFileGauche += o.toString() + "\\";
+                        pathFileGauche += o.toString() + File.separator;
 
                     for (Object o : tpSelectionDroite[i].getPath())
-                        pathFileDroite += o.toString() + "\\";
+                        pathFileDroite += o.toString() + File.separator;
 
                     pathFileGauche = pathFileGauche.substring(0, pathFileGauche.length() - 1);
                     pathFileDroite = pathFileDroite.substring(0, pathFileDroite.length() - 1);

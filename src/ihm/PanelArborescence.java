@@ -42,8 +42,12 @@ public class PanelArborescence extends JPanel
         this.setSize(200, 400);
 
         /* Arborescence */
-        DefaultMutableTreeNode root = Explorer.createTree(this.rootFile);
-        this.arborescence = new Explorer(root, this.ctrl);
+        DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getPath());  
+        if(this.rootFile.exists() && this.rootFile.isDirectory())
+            Explorer.remplirArbo(treeRoot, this.rootFile.getPath());
+
+        //DefaultMutableTreeNode root = Explorer.createTree(this.rootFile);
+        this.arborescence = new Explorer(treeRoot, this.ctrl);
 
         this.mycellRenderer = new MyCellRenderer(ctrl);
         this.arborescence.setCellRenderer(this.mycellRenderer);

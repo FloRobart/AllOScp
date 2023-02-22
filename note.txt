@@ -1,6 +1,9 @@
 faire des optionPane et des colorChooser personnaliser pour permettre de leur appliquer le thème et le language.
+fire un système de taille pour l'appli entière.
 
 faire en sorte de générer qu'un seul étage de l'arborescence à la fois pour optimiser.
+
+
 
 
 

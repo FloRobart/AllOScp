@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeNode;
 
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -14,12 +15,13 @@ import path.Path;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.io.File;
 
 
 public class MyCellRenderer extends DefaultTreeCellRenderer
 {
     private static final Icon FOLDER_ICON = new ImageIcon(Path.PATH_FOLDER_ICON);
-    private static final Icon FILE_ICON   = new ImageIcon("");
+    private static final Icon FILE_ICON   = new ImageIcon(Path.PATH_FILE_ICON);
 
     private String themeUsed;
 
@@ -79,7 +81,17 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
     {
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
-        this.setIcon(MyCellRenderer.FOLDER_ICON);
+        String filePath = "";
+        for(TreeNode t : ((DefaultMutableTreeNode) value).getPath())
+            filePath += t.toString() + File.separator;
+
+        filePath = filePath.substring(0, filePath.length() - 1);
+
+        if (new File(filePath).isDirectory())
+            this.setIcon(MyCellRenderer.FOLDER_ICON);
+        else
+            this.setIcon(MyCellRenderer.FILE_ICON);
+
         
         return this;
     }
