@@ -22,15 +22,10 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
 
     private JButton btnOuvrirArbo;
     private JButton btnComparerSelection;
-    private JButton btnComparerTout;
 
     private JButton btnSyncSelectionAB;
     private JButton btnSyncSelectionBA;
     private JButton btnSyncSelectionABBA;
-
-    private JButton btnSyncAllAB;
-    private JButton btnSyncAllBA;
-    private JButton btnSyncAllABBA;
 
     private JButton btnSyncAllInBackTask;
 
@@ -51,15 +46,10 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
         /* Boutons */
         this.btnOuvrirArbo        = new JButton("Ouvrir l'arborescence");
         this.btnComparerSelection = new JButton("Comparer la sélection");
-        this.btnComparerTout      = new JButton("Comparer tout");
 
         this.btnSyncSelectionAB   = new JButton("Synchroniser la sélection A vers B");
         this.btnSyncSelectionBA   = new JButton("Synchroniser la sélection B vers A");
         this.btnSyncSelectionABBA = new JButton("Synchroniser la sélection A vers B et B vers A");
-
-        this.btnSyncAllAB         = new JButton("Synchroniser tout A vers B");
-        this.btnSyncAllBA         = new JButton("Synchroniser tout B vers A");
-        this.btnSyncAllABBA       = new JButton("Synchroniser tout A vers B et B vers A");
 
         this.btnSyncAllInBackTask = new JButton("Synchroniser tout en tâche de fond");
 
@@ -70,18 +60,17 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
         /* Ce Panel */
         this.panelFonctionGlobal.add(this.btnOuvrirArbo);
         this.panelFonctionGlobal.add(this.btnComparerSelection);
-        this.panelFonctionGlobal.add(this.btnComparerTout);
         
         this.panelFonctionGlobal.add(this.btnSyncSelectionAB);
         this.panelFonctionGlobal.add(this.btnSyncSelectionBA);
         this.panelFonctionGlobal.add(this.btnSyncSelectionABBA);
 
-        this.panelFonctionGlobal.add(this.btnSyncAllAB);
-        this.panelFonctionGlobal.add(this.btnSyncAllBA);
-        this.panelFonctionGlobal.add(this.btnSyncAllABBA);
-
         this.panelFonctionGlobal.add(this.btnSyncAllInBackTask);
 
+        this.add(new JLabel(), BorderLayout.NORTH);
+        this.add(new JLabel(), BorderLayout.SOUTH);
+        this.add(new JLabel(), BorderLayout.WEST);
+        this.add(new JLabel(), BorderLayout.EAST);
         this.add(this.panelFonctionGlobal, BorderLayout.CENTER);
 
 
@@ -90,15 +79,10 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
         /*---------------------------*/
         this.btnOuvrirArbo.addActionListener(this);
         this.btnComparerSelection.addActionListener(this);
-        this.btnComparerTout.addActionListener(this);
 
         this.btnSyncSelectionAB.addActionListener(this);
         this.btnSyncSelectionBA.addActionListener(this);
         this.btnSyncSelectionABBA.addActionListener(this);
-
-        this.btnSyncAllAB.addActionListener(this);
-        this.btnSyncAllBA.addActionListener(this);
-        this.btnSyncAllABBA.addActionListener(this);
 
         this.btnSyncAllInBackTask.addActionListener(this);
     }
@@ -182,9 +166,6 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
         this.btnComparerSelection.setBackground(btnBackColor    );
         this.btnComparerSelection.setForeground(foreGeneralColor);
 
-        this.btnComparerTout.setBackground(btnBackColor    );
-        this.btnComparerTout.setForeground(foreGeneralColor);
-
         this.btnSyncSelectionAB.setBackground(btnBackColor    );
         this.btnSyncSelectionAB.setForeground(foreGeneralColor);
 
@@ -193,15 +174,6 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
 
         this.btnSyncSelectionABBA.setBackground(btnBackColor    );
         this.btnSyncSelectionABBA.setForeground(foreGeneralColor);
-
-        this.btnSyncAllAB.setBackground(btnBackColor    );
-        this.btnSyncAllAB.setForeground(foreGeneralColor);
-
-        this.btnSyncAllBA.setBackground(btnBackColor    );
-        this.btnSyncAllBA.setForeground(foreGeneralColor);
-
-        this.btnSyncAllABBA.setBackground(btnBackColor    );
-        this.btnSyncAllABBA.setForeground(foreGeneralColor);
 
         this.btnSyncAllInBackTask.setBackground(btnBackColor    );
         this.btnSyncAllInBackTask.setForeground(foreGeneralColor);

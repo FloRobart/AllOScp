@@ -33,8 +33,8 @@ public class PanelGlobal extends JPanel
 
         /* Autres Panels */
         this.panelFonctionGlobal = new PanelFonctionGlobal(this.ctrl, indexOnglet);
-        this.panelGauche         = new PanelArborescence  (this.ctrl, new File("G:\\Mon Drive\\Projet_perso\\Sync_files_and_folders\\testArboPanelGauche"));
-        this.panelDroite         = new PanelArborescence  (this.ctrl, new File("G:\\Mon Drive\\Projet_perso\\Sync_files_and_folders\\testArboPanelDroite"));
+        this.panelGauche         = new PanelArborescence  (this.ctrl, new File("G:\\Mon Drive\\Projet_perso\\Test_Sync\\panelGauche"));
+        this.panelDroite         = new PanelArborescence  (this.ctrl, new File("G:\\Mon Drive\\Projet_perso\\Test_Sync\\panelDroite"));
         this.panelSpliter        = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.panelGauche, this.panelDroite);
         this.panelSpliter.setOneTouchExpandable(true);
 		this.panelSpliter.setContinuousLayout(true);

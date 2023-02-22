@@ -24,6 +24,10 @@ public interface Path
 	public static final String PATH_LANGAGE_X    = Path.initPaths("pathLangageX"   );
 	public static final String PATH_LANGAGE_SAVE = Path.initPaths("pathLangageSave");
 
+    /* Icon de l'explorateur */
+    public static final String PATH_FOLDER_ICON = Path.initPaths("pathFolderIcon");
+    public static final String PATH_FILE_ICON   = Path.initPaths("pathFileIcon"  );
+
 
 
     /**
@@ -130,6 +134,8 @@ public interface Path
                             "    <pathLangages>./bin/donnees/langages/</pathLangages>"                             + "\n"   +
                             "    <pathLangageX>./bin/donnees/langages/langage_</pathLangageX>"                     + "\n"   +
                             "    <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>" + "\n"   +
+                            "    <pathFolderIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFolderIcon>"   + "\n"   +
+                            "    <pathFileIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFileIcon>"       + "\n"   +
                             "</path>";
 
             PrintWriter pw = new PrintWriter(file_AllPath);

@@ -37,6 +37,8 @@
     </onglets>
 
     <popUpMenu>
+        <changeDrive>Change drive</changeDrive>
+        <open>Open</open>
         <newFile>New file</newFile>
         <newFolder>New folder</newFolder>
         <delete>Delete</delete>

@@ -1,5 +1,7 @@
 package ihm.explorer;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -16,6 +18,9 @@ import java.awt.Component;
 
 public class MyCellRenderer extends DefaultTreeCellRenderer
 {
+    private static final Icon FOLDER_ICON = new ImageIcon(Path.PATH_FOLDER_ICON);
+    private static final Icon FILE_ICON   = new ImageIcon("");
+
     private String themeUsed;
 
     private Color backgroundSelection    = null;
@@ -72,11 +77,11 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
     @Override
     public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus)
     {
-        final Component ret = super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+        super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
-        final DefaultMutableTreeNode node = ((DefaultMutableTreeNode) (value));
-        this.setText(value.toString());
-        return ret;
+        this.setIcon(MyCellRenderer.FOLDER_ICON);
+        
+        return this;
     }
 
 

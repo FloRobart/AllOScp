@@ -37,13 +37,15 @@
     </onglets>
 
     <popUpMenu>
+        <changeDrive>Changer de lecteur</changeDrive>
+        <open>Ouvrir</open>
+        <rename>Renommer</rename>
         <newFile>Nouveau fichier</newFile>
         <newFolder>Nouveau dossier</newFolder>
         <delete>Supprimer</delete>
         <copy>Copier</copy>
         <cut>Couper</cut>
         <paste>Coller</paste>
-        <rename>Renommer</rename>
         <properties>Propriétés</properties>
 
         <newTab>Nouvel onglet</newTab>
