@@ -4,11 +4,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import java.awt.BorderLayout;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.Enumeration;
 
 import controleur.Controleur;
 import ihm.explorer.Explorer;
@@ -42,13 +45,26 @@ public class PanelArborescence extends JPanel
         this.setSize(200, 400);
 
         /* Arborescence */
-        DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getPath());  
-        if(this.rootFile.exists() && this.rootFile.isDirectory())
-            Explorer.remplirArbo(treeRoot, this.rootFile.getPath());
+        DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getPath());
+        this.arborescence = new Explorer(new DefaultTreeModel(treeRoot), this.ctrl);
+        this.arborescence.remplirArbo(treeRoot, this.rootFile.getPath());
 
-        //DefaultMutableTreeNode root = Explorer.createTree(this.rootFile);
-        this.arborescence = new Explorer(treeRoot, this.ctrl);
+        Enumeration<TreeNode> children = treeRoot.children();
+        while(children.hasMoreElements())
+        {
+            TreeNode tn = children.nextElement();
+            this.arborescence.remplirArbo(new DefaultMutableTreeNode(tn), (this.rootFile.getPath() + File.separator + tn.toString()));
+        }
 
+        this.arborescence.ouvrirArborescence();
+
+        //for(File f : this.rootFile.listFiles())
+        //{
+        //    this.arborescence.remplirArbo(new DefaultMutableTreeNode(treeRoot.getChildAfter(treeRoot)), f.getPath());
+        //}
+
+
+        /* Adaptation de l'arborescence */
         this.mycellRenderer = new MyCellRenderer(ctrl);
         this.arborescence.setCellRenderer(this.mycellRenderer);
 

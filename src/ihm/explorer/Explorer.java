@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.DropMode;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -27,9 +28,9 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
 
     
-    public Explorer(DefaultMutableTreeNode dmtn, Controleur ctrl)
+    public Explorer(TreeModel tm, Controleur ctrl)
     {
-        super(dmtn);
+        super(tm);
 
         this.ctrl = ctrl;
         this.popUpMenuArbo = new PopUpMenuArbo(this.ctrl);
@@ -96,16 +97,44 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param root le fichier à partir duquel on crée l'arborescence
      * @return 
      */
-    private DefaultMutableTreeNode createTree(File root)  
-    {  
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode(root.getPath());  
-        if(!(root.exists() && root.isDirectory()))  
-        {}
-        else
-            Explorer.remplirArbo(top , root.getPath());
+    //public static DefaultMutableTreeNode createTree(File root)  
+    //{  
+    //    DefaultMutableTreeNode top = new DefaultMutableTreeNode(root.getPath());  
+    //    if(!(root.exists() && root.isDirectory()))  
+    //        return top;
+    //
+    //    Explorer.remplirArbo(root.getPath());
+    //
+    //    return top;
+    //}
 
-        return top;
-    }
+
+    //private static void setRoot(DefaultMutableTreeNode root, String fileRootPath)
+    //{
+    //    File file = new File(fileRootPath);  
+    //    
+    //    System.out.println("root     : '" + root         + "'");
+    //    System.out.println("fileRoot : '" + fileRootPath + "'\n");
+    //    if (file.exists())
+    //    {
+    //        if(file.isDirectory())
+    //        {
+    //            File[] filelist = file.listFiles();
+    //            
+    //            for(int i=0; i < filelist.length; i++)  
+    //            {
+    //                final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(filelist[i].getName());
+    //                root.add(TEMP_DMTN);
+    //
+    //                Explorer.remplirArbo(fileRootPath + File.separator + filelist[i].getName());
+    //            }
+    //        }
+    //        else
+    //        {
+    //            
+    //        }
+    //    }
+    //}
 
 
     /**
@@ -113,30 +142,32 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du fichier
      */
-    public static void remplirArbo(DefaultMutableTreeNode node, String filePath)  
+    public void remplirArboRec(DefaultMutableTreeNode node, String filePath)  
     {
-        System.out.println("filename : " + filePath);
-        File file = new File(filePath);  
-        
-        if (file.exists())
+        File file = new File(filePath);
+        if (file.exists() && file.isDirectory())
         {
-            if(file.isDirectory())
+            for (File f : file.listFiles())
             {
-                File[] filelist = file.listFiles();
-                
-                for(int i=0; i < filelist.length; i++)  
-                {
-                    final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(filelist[i].getName());
-                    node.add(TEMP_DMTN);
+                final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(f.getName());
+                node.add(TEMP_DMTN);
 
-                    Explorer.remplirArbo(TEMP_DMTN, filePath + File.separator + filelist[i].getName());
-                }
-            }
-            else
-            {
-                
+                this.remplirArboRec(TEMP_DMTN, filePath + File.separator + f.getName());
             }
         }
+    }
+
+    /**
+     * Rempli l'arborescence
+     * @param node le noeud au quel rajouter les noeuds fils
+     * @param filePath le chemin absolut du fichier
+     */
+    public void remplirArbo(DefaultMutableTreeNode node, String filePath)  
+    {
+        File file = new File(filePath);
+        if (file.exists() && file.isDirectory())
+            for (File f : file.listFiles())
+                node.add(new DefaultMutableTreeNode(f.getName()));
     }
 
 
@@ -176,7 +207,52 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             else if (me.getButton() == MouseEvent.BUTTON1)
             {
                 this.setSelectionPath(tp);
+
+                // si double click
+                if (me.getClickCount() == 2)
+                {
+                    String pathFileSelected = "";
+                    for (Object o : tp.getPath())
+                        pathFileSelected += o.toString() + File.separator;
+
+                    pathFileSelected = pathFileSelected.substring(0, pathFileSelected.length()-1);
+
+                    File fileSelected = new File(pathFileSelected);
+                    if (fileSelected.exists())
+                    {
+                        if (fileSelected.isDirectory())
+                        {
+                            // si le noeud est une feuille
+                            if (((TreeNode)(tp.getLastPathComponent())).isLeaf())
+                            {
+                                if (fileSelected.list().length != 0)
+                                {
+                                    // remplir l'arborescence a partir du fichier selectionné
+                                    this.remplirArbo((DefaultMutableTreeNode) tp.getLastPathComponent(), pathFileSelected);
+
+                                    // ouvrir le noeud
+                                    this.expandPath(tp);
+                                }
+                            }
+                            else
+                            {
+                                if (this.isExpanded(tp))
+                                    this.expandPath(tp);
+                                else
+                                    this.collapsePath(tp);
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("ouvrire le fichier : '" + pathFileSelected + "'");
+                        }
+                    }
+                }
             }
+        }
+        else
+        {
+            this.clearSelection();
         }
     }
 
