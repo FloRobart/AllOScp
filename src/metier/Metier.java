@@ -2,16 +2,16 @@ package metier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.JOptionPane;
 
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import controleur.Controleur;
+import ihm.explorer.FolderListener;
 import path.Path;
 
 import java.awt.Color;
@@ -27,6 +27,10 @@ public class Metier
 {
     private Controleur ctrl;
 
+	/* Métier local */
+	private HashMap<String, FolderListener> hmFileListener;
+	private HashMap<String, Thread>       hmThread;
+
 	/* Thèmes */
 	private int                     nbThemePerso;
 	private List<String>            lstNomThemesPerso;
@@ -39,6 +43,10 @@ public class Metier
     public Metier(Controleur ctrl)
     {
         this.ctrl = ctrl;
+
+		/* Métier local */
+		this.hmFileListener = new HashMap<String, FolderListener>();
+		this.hmThread	    = new HashMap<String, Thread>();
 
 		/* Thèmes */
 		this.nbThemePerso      = this.initNbThemePerso();
@@ -95,7 +103,6 @@ public class Metier
 		sRet += ("element non comparable\n");
 		return false;
 	}
-	
 
 	/**
 	 * Permet de comparer deux fichiers byte par byte.
@@ -123,6 +130,29 @@ public class Metier
 
 		return false;
 	}
+
+	/**
+     * Permet de supprimer les écouteurs d'évènements d'un dossier
+     * @param filePath : chemin absolut du dossier à écouter
+     */
+	public void addFolderListener(String filePath)
+	{
+		this.hmFileListener.put(filePath, new FolderListener(filePath, this.ctrl));
+		this.hmThread.put(filePath, new Thread(this.hmFileListener.get(filePath)));
+        this.hmThread.get(filePath).start();
+	}
+
+	/**
+     * Permet de supprimer les écouteurs d'évènements d'un dossier
+     * @param filePath : chemin absolut du dossier à écouter
+     */
+    public void removeFolderListener(String filePath)
+	{
+		this.hmThread.get(filePath).interrupt();
+		this.hmFileListener.remove(filePath);
+		this.hmThread.remove(filePath);
+	}
+
 
 
 	/*========*/

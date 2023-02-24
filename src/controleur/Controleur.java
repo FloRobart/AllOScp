@@ -4,15 +4,23 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import java.awt.Color;
 import java.io.File;
 
 import ihm.FramePrincipale;
 import ihm.explorer.Explorer;
+import ihm.explorer.FolderListener;
 import metier.Metier;
 
 
+/**
+ * Classe Controleur
+ * Permet de gérer les interactions entre l'ihm et le metier
+ * @author Floris Robart
+ * @version 1.0
+ */
 public class Controleur
 {
     private Metier          metier;
@@ -21,9 +29,6 @@ public class Controleur
 
     public Controleur()
     {
-        //for (File f : File.listRoots()) 
-        //    System.out.println("'" + f.getPath() + "'");
-
         this.metier = new Metier         (this);
         this.ihm    = new FramePrincipale(this);
     }
@@ -226,6 +231,26 @@ public class Controleur
     /* Arborescence */
     /*==============*/
     /**
+     * Ajoute les noeuds fils à un noeud existant
+     * @param node le noeud au quel rajouter les noeuds fils
+     * @param filePath le chemin absolut du dossier à ajouter
+     */
+    public void addNode(DefaultMutableTreeNode node, String filePath)
+    {
+        this.ihm.addNode(node, filePath);
+    }
+
+    /**
+     * Permet de supprimer un noeud de l'arborescence
+     * @param node : noeud à supprimer
+     * @param filePath : chemin absolut du fichier ou du dossier à supprimer
+     */
+    public void removeNode(DefaultMutableTreeNode node, String filePath)
+    {
+        // TODO : remove node
+    }
+
+    /**
      * Permet de récupérer l'arborescence
      * @return Explorer : arborescence
      */
@@ -238,6 +263,19 @@ public class Controleur
      * @return boolean : true si les deux élément sont identiques, sinon false
      */
     public boolean comparer(File fileGauche, File fileDroite) { return this.metier.comparer(fileGauche, fileDroite); }
+
+    /**
+     * Permet de lire les évènements d'un dossier
+     * @param filePath : chemin absolut du dossier à écouter
+     */
+    public void addFolderListener(String filePath) { this.metier.addFolderListener(filePath); }
+
+    /**
+     * Permet de supprimer les écouteurs d'évènements d'un dossier
+     * @param filePath : chemin absolut du dossier à écouter
+     */
+    public void removeFolderListener(String filePath) { this.metier.removeFolderListener(filePath); }
+
 
 
     /*========*/

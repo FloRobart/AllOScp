@@ -1,5 +1,6 @@
 package ihm.explorer;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,35 +11,44 @@ import java.nio.file.WatchService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import controleur.Controleur;
+
 
 public class FolderListener implements Runnable
 {
-    private Path path = null;
+    private Controleur ctrl;
+
+    private Path folderPath = null;
 
 
     /**
      * Constructor
      * @param pathname String dossier à surveiller
      */
-    public FolderListener(String pathname)
+    public FolderListener(String pathname, Controleur ctrl)
     {
-        this.path = Paths.get(pathname);
-        System.out.println("ecoute du dossier : " + pathname);
+        this.ctrl = ctrl;
+        this.folderPath = Paths.get(pathname);
     }
 
+
+    @Override
     public void run()
     {
         WatchService watchService = null;
 
         try
         {
-            watchService = this.path.getFileSystem().newWatchService();
+            watchService = this.folderPath.getFileSystem().newWatchService();
 
             /* Enregistrement des opérations à surveiller */
-            this.path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
+            this.folderPath.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
 
             WatchKey watchKey = null;
 
+            System.out.println("ecoute du dossier : " + this.folderPath.toString());
             /* Boucle qui permet de détecter les évènement du système */
             while (!Thread.interrupted())
             {
@@ -49,21 +59,35 @@ public class FolderListener implements Runnable
                 {
                     String fileName = event.context().toString();
 
-                    if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind()))
+                    if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())) /* Création d'un élément */
                     {
-                        System.out.println("new file create " + fileName);
+                        System.out.println(String.format("%-20s", fileName) + " CREER     dans " + this.folderPath.toString());
+                        File file = new File(this.folderPath.toString() + File.separator + fileName);
+                        if (file.isDirectory())
+                            this.ctrl.addFolderListener(file.getAbsolutePath());
+
+                        this.ctrl.addNode(new DefaultMutableTreeNode(fileName), file.getAbsolutePath());
                     }
-                    else if (StandardWatchEventKinds.ENTRY_MODIFY.equals(event.kind()))
+                    else if (StandardWatchEventKinds.ENTRY_DELETE.equals(event.kind())) /* Suppression d'un élément */
                     {
-                        System.out.println(fileName + " has been modified");
+                        System.out.println(String.format("%-20s", fileName) + " SUPPRIMER dans " + this.folderPath.toString());
+                        File file = new File(this.folderPath.toString() + File.separator + fileName);
+                        System.out.println("file absolute path : " + file.getAbsolutePath());
+                        if (file.isDirectory())
+                        {
+                            System.out.println("Suppression du listener sur le dossier : " + file.getAbsolutePath());
+                            this.ctrl.removeFolderListener(file.getAbsolutePath());
+                        }
+
+                        //this.ctrl.removeNode(, fileName);
                     }
-                    else if (StandardWatchEventKinds.ENTRY_DELETE.equals(event.kind()))
+                    else if (StandardWatchEventKinds.ENTRY_MODIFY.equals(event.kind())) /* Modification d'un élément */
                     {
-                        System.out.println(fileName + " has been deleted");
+                        System.out.println(String.format("%-20s", fileName) + " MODIFIER  dans " + this.folderPath.toString());
                     }
-                    else if (StandardWatchEventKinds.OVERFLOW.equals(event.kind()))
+                    else if (StandardWatchEventKinds.OVERFLOW.equals(event.kind())) /* Evènement inconnu */
                     {
-                        System.out.println("Strange event");
+                        System.out.println("Evènement inconnu");
                         continue;
                     }
                 }
@@ -71,13 +95,16 @@ public class FolderListener implements Runnable
                 /* se place en attente de message */
                 watchKey.reset();
             }
+
+            System.out.println("FolderListener on '" + this.folderPath.toString() + "' stoper (thread interrompu)");
         }
         catch (InterruptedException ex)
         {
             try
             {
                 if (watchService != null) watchService.close();
-                System.out.println("FolderListener stoper");
+
+                System.out.println("FolderListener on '" + this.folderPath.toString() + "' stoper (watchService fermer)");
             }
             catch (IOException ex1)
             {
@@ -94,5 +121,7 @@ public class FolderListener implements Runnable
             ex.printStackTrace();
             System.out.println("Erreur lors de la mise en place du FolderListener");
         }
+
+        System.out.println("sortie du run FolderListener");
     }
 }

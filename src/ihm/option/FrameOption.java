@@ -145,7 +145,7 @@ public class FrameOption implements ActionListener
 
             try
             {
-                PrintWriter pw = new PrintWriter(new FileWriter(defaultFolder.getPath() + "\\" + defaultFolder.listFiles().length + ".txt"));
+                PrintWriter pw = new PrintWriter(new FileWriter(defaultFolder.getAbsolutePath() + "\\" + defaultFolder.listFiles().length + ".txt"));
                 pw.write(this.lblMessage.getText());
                 pw.close();
             }

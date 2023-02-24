@@ -3,10 +3,14 @@ package ihm.explorer;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.DropMode;
 import javax.swing.JTree;
@@ -67,7 +71,6 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         }
     }
 
-
     /**
      * Permet de fermer l'ensemble des noeuds de l'arborescence
      */
@@ -93,56 +96,11 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
 
     /**
-     * Crée l'arborescence à partir d'un fichier
-     * @param root le fichier à partir duquel on crée l'arborescence
-     * @return 
-     */
-    //public static DefaultMutableTreeNode createTree(File root)  
-    //{  
-    //    DefaultMutableTreeNode top = new DefaultMutableTreeNode(root.getPath());  
-    //    if(!(root.exists() && root.isDirectory()))  
-    //        return top;
-    //
-    //    Explorer.remplirArbo(root.getPath());
-    //
-    //    return top;
-    //}
-
-
-    //private static void setRoot(DefaultMutableTreeNode root, String fileRootPath)
-    //{
-    //    File file = new File(fileRootPath);  
-    //    
-    //    System.out.println("root     : '" + root         + "'");
-    //    System.out.println("fileRoot : '" + fileRootPath + "'\n");
-    //    if (file.exists())
-    //    {
-    //        if(file.isDirectory())
-    //        {
-    //            File[] filelist = file.listFiles();
-    //            
-    //            for(int i=0; i < filelist.length; i++)  
-    //            {
-    //                final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(filelist[i].getName());
-    //                root.add(TEMP_DMTN);
-    //
-    //                Explorer.remplirArbo(fileRootPath + File.separator + filelist[i].getName());
-    //            }
-    //        }
-    //        else
-    //        {
-    //            
-    //        }
-    //    }
-    //}
-
-
-    /**
-     * Rempli l'arborescence
+     * Rempli toute l'arborescence
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du fichier
      */
-    public void remplirArboRec(DefaultMutableTreeNode node, String filePath)  
+    public void addAllNodes(DefaultMutableTreeNode node, String filePath)  
     {
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
@@ -152,41 +110,25 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                 final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(f.getName());
                 node.add(TEMP_DMTN);
 
-                this.remplirArboRec(TEMP_DMTN, filePath + File.separator + f.getName());
+                this.addAllNodes(TEMP_DMTN, filePath + File.separator + f.getName());
             }
         }
     }
 
     /**
-     * Rempli l'arborescence
+     * Ajoute les noeuds fils à un noeud existant
      * @param node le noeud au quel rajouter les noeuds fils
-     * @param filePath le chemin absolut du fichier
+     * @param filePath le chemin absolut du dossier à ajouter
      */
-    public void remplirArbo(DefaultMutableTreeNode node, String filePath)  
+    public void addNode(DefaultMutableTreeNode node, String filePath)
     {
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
+        {
+            this.ctrl.addFolderListener(filePath);
             for (File f : file.listFiles())
                 node.add(new DefaultMutableTreeNode(f.getName()));
-    }
-
-
-
-    /**
-     * Permet d'appliquer le thème à chaque élément de l'aborescence
-     */
-    public void appliquerTheme()
-    {
-        this.popUpMenuArbo.appliquerTheme();
-    }
-
-
-    /**
-     * Permet d'appliquer le langage à chaque élément de l'aborescence
-     */
-    public void appliquerLangage()
-    {
-        this.popUpMenuArbo.appliquerLangage();
+        }
     }
 
 
@@ -208,7 +150,6 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             {
                 this.setSelectionPath(tp);
 
-                // si double click
                 if (me.getClickCount() == 2)
                 {
                     String pathFileSelected = "";
@@ -222,16 +163,13 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                     {
                         if (fileSelected.isDirectory())
                         {
-                            // si le noeud est une feuille
                             if (((TreeNode)(tp.getLastPathComponent())).isLeaf())
                             {
                                 if (fileSelected.list().length != 0)
                                 {
-                                    // remplir l'arborescence a partir du fichier selectionné
-                                    this.remplirArbo((DefaultMutableTreeNode) tp.getLastPathComponent(), pathFileSelected);
+                                    this.addNode((DefaultMutableTreeNode) tp.getLastPathComponent(), pathFileSelected); /* Génére les noeuds fils sur un seul étage */
 
-                                    // ouvrir le noeud
-                                    this.expandPath(tp);
+                                    this.expandPath(tp); /* Ouverture du noeud séléctionnée */
                                 }
                             }
                             else
@@ -244,7 +182,12 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                         }
                         else
                         {
-                            System.out.println("ouvrire le fichier : '" + pathFileSelected + "'");
+                            File file = new File(pathFileSelected);
+                            if (file.exists())
+                            {
+                                try { Desktop.getDesktop().open(file); }
+                                catch (IOException ex) { Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, "Erreur lors de l'ouverture du fichier '" + pathFileSelected + "'", ex); ex.printStackTrace(); System.out.println("Erreur lors de l'ouverture du fichier '" + pathFileSelected + "'"); }
+                            }
                         }
                     }
                 }
@@ -268,4 +211,21 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     public void mouseDragged (MouseEvent me) {}
     @Override
     public void mouseMoved   (MouseEvent me) {}
+
+
+    /**
+     * Permet d'appliquer le thème à chaque élément de l'aborescence
+     */
+    public void appliquerTheme()
+    {
+        this.popUpMenuArbo.appliquerTheme();
+    }
+
+    /**
+     * Permet d'appliquer le langage à chaque élément de l'aborescence
+     */
+    public void appliquerLangage()
+    {
+        this.popUpMenuArbo.appliquerLangage();
+    }
 }

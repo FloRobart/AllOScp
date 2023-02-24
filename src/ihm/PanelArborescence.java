@@ -45,23 +45,10 @@ public class PanelArborescence extends JPanel
         this.setSize(200, 400);
 
         /* Arborescence */
-        DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getPath());
+        DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getAbsolutePath());
         this.arborescence = new Explorer(new DefaultTreeModel(treeRoot), this.ctrl);
-        this.arborescence.remplirArbo(treeRoot, this.rootFile.getPath());
-
-        Enumeration<TreeNode> children = treeRoot.children();
-        while(children.hasMoreElements())
-        {
-            TreeNode tn = children.nextElement();
-            this.arborescence.remplirArbo(new DefaultMutableTreeNode(tn), (this.rootFile.getPath() + File.separator + tn.toString()));
-        }
-
+        this.arborescence.addNode(treeRoot, this.rootFile.getAbsolutePath());
         this.arborescence.ouvrirArborescence();
-
-        //for(File f : this.rootFile.listFiles())
-        //{
-        //    this.arborescence.remplirArbo(new DefaultMutableTreeNode(treeRoot.getChildAfter(treeRoot)), f.getPath());
-        //}
 
 
         /* Adaptation de l'arborescence */
@@ -92,6 +79,24 @@ public class PanelArborescence extends JPanel
     public Explorer getArborescence()
     {
         return this.arborescence;
+    }
+
+    /**
+     * Permet de récupérer le chemin du dossier racine
+     * @return String : chemin absolut du dossier racine
+     */
+    public String getRoot()
+    {
+        return this.rootFile.getAbsolutePath();
+    }
+
+    /**
+     * Permet de récupérer le fichier racine
+     * @return File : fichier racine
+     */
+    public File getRootFile()
+    {
+        return this.rootFile;
     }
 
 

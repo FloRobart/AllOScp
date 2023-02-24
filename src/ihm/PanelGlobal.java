@@ -2,6 +2,7 @@ package ihm;
 
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import java.awt.Color;
 import java.io.File;
@@ -56,6 +57,28 @@ public class PanelGlobal extends JPanel
         //this.addMouseListener(new PopClickListener());
     }
 
+
+    /**
+     * Ajoute les noeuds fils à un noeud existant
+     * @param node le noeud au quel rajouter les noeuds fils
+     * @param filePath le chemin absolut du dossier à ajouter
+     */
+    public void addNode(DefaultMutableTreeNode node, String filePath)
+    {
+        String rootGauche = this.panelGauche.getRoot().substring(0, 1);
+        String rootDroite = this.panelDroite.getRoot().substring(0, 1);
+
+        //System.out.println("rootGauche : " + rootGauche);
+        //System.out.println("rootDroite : " + rootDroite);
+
+        Explorer arboGauche = this.panelGauche.getArborescence();
+        Explorer arboDroite = this.panelDroite.getArborescence();
+
+        arboGauche.getPathForRow(0);
+        arboDroite.getPathForRow(0);
+
+        //System.out.println("arboGauche : " + arboGauche);
+    }
 
     /**
      * Permet de récupérer l'arborescence
