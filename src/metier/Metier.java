@@ -28,7 +28,7 @@ public class Metier
     private Controleur ctrl;
 
 	/* Métier local */
-	private HashMap<String, FolderListener> hmFileListener;
+	private HashMap<String, FolderListener> hmFolderListener;
 	private HashMap<String, Thread>       hmThread;
 
 	/* Thèmes */
@@ -45,7 +45,7 @@ public class Metier
         this.ctrl = ctrl;
 
 		/* Métier local */
-		this.hmFileListener = new HashMap<String, FolderListener>();
+		this.hmFolderListener = new HashMap<String, FolderListener>();
 		this.hmThread	    = new HashMap<String, Thread>();
 
 		/* Thèmes */
@@ -135,22 +135,57 @@ public class Metier
      * Permet de supprimer les écouteurs d'évènements d'un dossier
      * @param filePath : chemin absolut du dossier à écouter
      */
-	public void addFolderListener(String filePath)
+	public synchronized void addFolderListener(String filePath)
 	{
-		this.hmFileListener.put(filePath, new FolderListener(filePath, this.ctrl));
-		this.hmThread.put(filePath, new Thread(this.hmFileListener.get(filePath)));
-        this.hmThread.get(filePath).start();
+		if (new File(filePath).isDirectory())
+		{
+			if (this.hmFolderListener.containsKey(filePath))
+				this.removeFolderListener(filePath);
+
+			this.hmFolderListener.put(filePath, new FolderListener(filePath, this.ctrl));
+			this.hmThread.put(filePath, new Thread(this.hmFolderListener.get(filePath)));
+			this.hmThread.get(filePath).start();
+
+			System.out.println("listener ajouté pour le dossier : '" + filePath + "'");
+		}
+		else
+			System.out.println("le chemin '" + filePath + "' n'est pas un dossier");
+
+		// affiché la hashmap
+		System.out.println();
+		for (String key : this.hmFolderListener.keySet())
+			System.out.println("key : " + key + " - value : " + this.hmFolderListener.get(key));
+		
+		System.out.println();
 	}
 
 	/**
      * Permet de supprimer les écouteurs d'évènements d'un dossier
      * @param filePath : chemin absolut du dossier à écouter
      */
-    public void removeFolderListener(String filePath)
+    public synchronized void removeFolderListener(String filePath)
 	{
-		this.hmThread.get(filePath).interrupt();
-		this.hmFileListener.remove(filePath);
-		this.hmThread.remove(filePath);
+		if (filePath.equals("")) return;
+
+		for (String key : this.hmFolderListener.keySet())
+		{
+			if (key.startsWith(filePath))
+			{
+				this.hmThread.get(key).interrupt();
+				this.hmFolderListener.remove(key);
+				this.hmThread.remove(key);
+				System.out.println("listener supprimé pour le dossier : '" + key + "'");
+			}
+			else
+				System.out.println("pas de listener pour le dossier : '" + key + "'");
+		}
+
+		// affiché la hashmap
+		System.out.println();
+		for (String key : this.hmFolderListener.keySet())
+			System.out.println("key : " + key + " - value : " + this.hmFolderListener.get(key));
+		
+		System.out.println();
 	}
 
 

@@ -61,29 +61,25 @@ public class FolderListener implements Runnable
 
                     if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())) /* Création d'un élément */
                     {
-                        System.out.println(String.format("%-20s", fileName) + " CREER     dans " + this.folderPath.toString());
+                        //System.out.println(String.format("%-20s", fileName) + " CREER     dans " + this.folderPath.toString());
                         File file = new File(this.folderPath.toString() + File.separator + fileName);
                         if (file.isDirectory())
                             this.ctrl.addFolderListener(file.getAbsolutePath());
 
                         this.ctrl.addNode(new DefaultMutableTreeNode(fileName), file.getAbsolutePath());
+
+                        System.out.println("=============================================================================================================================================================");
                     }
                     else if (StandardWatchEventKinds.ENTRY_DELETE.equals(event.kind())) /* Suppression d'un élément */
                     {
-                        System.out.println(String.format("%-20s", fileName) + " SUPPRIMER dans " + this.folderPath.toString());
-                        File file = new File(this.folderPath.toString() + File.separator + fileName);
-                        System.out.println("file absolute path : " + file.getAbsolutePath());
-                        if (file.isDirectory())
-                        {
-                            System.out.println("Suppression du listener sur le dossier : " + file.getAbsolutePath());
-                            this.ctrl.removeFolderListener(file.getAbsolutePath());
-                        }
-
+                        //System.out.println(String.format("%-20s", fileName) + " SUPPRIMER dans " + this.folderPath.toString());
+                        this.ctrl.removeFolderListener(this.folderPath.toString() + File.separator + fileName);
+                        System.out.println("=============================================================================================================================================================");
                         //this.ctrl.removeNode(, fileName);
                     }
                     else if (StandardWatchEventKinds.ENTRY_MODIFY.equals(event.kind())) /* Modification d'un élément */
                     {
-                        System.out.println(String.format("%-20s", fileName) + " MODIFIER  dans " + this.folderPath.toString());
+                        //System.out.println(String.format("%-20s", fileName) + " MODIFIER  dans " + this.folderPath.toString());
                     }
                     else if (StandardWatchEventKinds.OVERFLOW.equals(event.kind())) /* Evènement inconnu */
                     {
@@ -123,5 +119,12 @@ public class FolderListener implements Runnable
         }
 
         System.out.println("sortie du run FolderListener");
+    }
+
+
+    @Override
+    public String toString()
+    {
+        return this.folderPath.toString();
     }
 }

@@ -100,7 +100,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du fichier
      */
-    public void addAllNodes(DefaultMutableTreeNode node, String filePath)  
+    public synchronized void addAllNodes(DefaultMutableTreeNode node, String filePath)  
     {
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
@@ -120,7 +120,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du dossier à ajouter
      */
-    public void addNode(DefaultMutableTreeNode node, String filePath)
+    public synchronized void addNode(DefaultMutableTreeNode node, String filePath)
     {
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
@@ -129,6 +129,8 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             for (File f : file.listFiles())
                 node.add(new DefaultMutableTreeNode(f.getName()));
         }
+
+        this.updateUI();
     }
 
 
