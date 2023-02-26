@@ -3,6 +3,7 @@ package ihm;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 import java.awt.Color;
 import java.io.File;
@@ -35,7 +36,7 @@ public class PanelGlobal extends JPanel
         /* Autres Panels */
         this.panelFonctionGlobal = new PanelFonctionGlobal(this.ctrl, indexOnglet);
         this.panelGauche         = new PanelArborescence  (this.ctrl, new File("G:\\Mon Drive\\Projet_perso\\Test_Sync\\panelGauche"));
-        System.out.println("\npanelGlobal\n");
+
         this.panelDroite         = new PanelArborescence  (this.ctrl, new File("G:\\Mon Drive\\Projet_perso\\Test_Sync\\panelDroite"));
         this.panelSpliter        = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.panelGauche, this.panelDroite);
         this.panelSpliter.setOneTouchExpandable(true);
@@ -65,20 +66,63 @@ public class PanelGlobal extends JPanel
      */
     public void addNode(DefaultMutableTreeNode node, String filePath)
     {
-        String rootGauche = this.panelGauche.getRoot().substring(0, 1);
-        String rootDroite = this.panelDroite.getRoot().substring(0, 1);
-
-        //System.out.println("rootGauche : " + rootGauche);
-        //System.out.println("rootDroite : " + rootDroite);
-
-        Explorer arboGauche = this.panelGauche.getArborescence();
-        Explorer arboDroite = this.panelDroite.getArborescence();
-
-        arboGauche.getPathForRow(0);
-        arboDroite.getPathForRow(0);
-
-        //System.out.println("arboGauche : " + arboGauche);
+        this.getPanelArborescence(filePath).addNode(node, filePath);
     }
+
+    /**
+     * Permet de supprimer un noeud de l'arborescence
+     * @param node : noeud à supprimer
+     * @param filePath : chemin absolut du fichier ou du dossier à supprimer
+     */
+    public void removeNode(DefaultMutableTreeNode node, String filePath)
+    {
+        this.getPanelArborescence(filePath).removeNode(node);
+    }
+
+    /**
+     * Permet de récupérer le panel de l'arborescence qui contenue le fichier ou le dossier passé en paramètre
+     * @param filePath : chemin absolut du fichier ou du dossier
+     * @return PanelArborescence : panel de l'arborescence qui contien le fichier ou le dossier passé en paramètre
+     */
+    private PanelArborescence getPanelArborescence(String filePath)
+    {
+        String fileParent = filePath.substring(0, filePath.lastIndexOf(File.separator));
+
+        Explorer arborescence = this.panelGauche.getArborescence();
+        for (int i = 0; i < arborescence.getRowCount(); i++)
+        {
+            String path = "";
+            for (Object o : arborescence.getPathForRow(i).getPath())
+                path += o + File.separator;
+
+            path = path.substring(0, path.length()-1);
+
+            if (path.equals(fileParent))
+            {
+                System.out.println(filePath + " est dans le panel de gauche");
+                return this.panelGauche;
+            }
+        }
+
+        arborescence = this.panelDroite.getArborescence();
+        for (int i = 1; i < arborescence.getRowCount(); i++)
+        {
+            String path = "";
+            for (Object o : arborescence.getPathForRow(i).getPath())
+                path += o + File.separator;
+
+            path = path.substring(0, path.length()-1);
+
+            if (path.equals(fileParent))
+            {
+                System.out.println(filePath + " est dans le panel droite");
+                return this.panelDroite;
+            }
+        }
+
+        return null;
+    }
+
 
     /**
      * Permet de récupérer l'arborescence
@@ -87,14 +131,9 @@ public class PanelGlobal extends JPanel
     public Explorer getArborescence(String panel)
     {
         if(panel.equals("gauche"))
-        {
             return this.panelGauche.getArborescence();
-        }
-        
-        if(panel.equals("droite"))
-        {
+        else if(panel.equals("droite"))
             return this.panelDroite.getArborescence();
-        }
 
         throw new IllegalArgumentException("Ligne 70, PanelGlobal\nErreur dans le nom du panel (seulement gauche ou droite autorisé)");
     }

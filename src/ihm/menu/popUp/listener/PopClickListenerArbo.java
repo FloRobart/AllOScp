@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import controleur.Controleur;
+import ihm.explorer.Explorer;
 import ihm.menu.popUp.menu.PopUpMenuArbo;
 
 
@@ -11,9 +12,9 @@ public class PopClickListenerArbo extends MouseAdapter
 {
     private PopUpMenuArbo menu;
 
-    public PopClickListenerArbo(Controleur ctrl)
+    public PopClickListenerArbo(Explorer arbo, Controleur ctrl)
     {
-        this.menu = new PopUpMenuArbo(ctrl);
+        this.menu = new PopUpMenuArbo(arbo, ctrl);
     }
 
     public void mousePressed(MouseEvent e)

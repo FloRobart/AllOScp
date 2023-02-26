@@ -43,6 +43,7 @@
         <newFolder>New folder</newFolder>
         <delete>Delete</delete>
         <copy>Copy</copy>
+        <copyPath>Copy path</copyPath>
         <cut>Cut</cut>
         <paste>Paste</paste>
         <rename>Rename</rename>

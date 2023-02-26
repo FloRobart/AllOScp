@@ -25,6 +25,7 @@
 .\src\ihm\option\FrameOption.java  
  
 .\src\metier\Metier.java  
+.\src\metier\FileTransferable.java  
  
 .\src\path\Path.java  
  

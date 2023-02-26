@@ -307,6 +307,16 @@ public class FramePrincipale extends JFrame
     }
 
     /**
+     * Permet de supprimer un noeud de l'arborescence
+     * @param node : noeud à supprimer
+     * @param filePath : chemin absolut du fichier ou du dossier à supprimer
+     */
+    public void removeNode(DefaultMutableTreeNode node, String filePath)
+    {
+        this.lstPanelGlobal.get(this.onglets.getSelectedIndex()).removeNode(node, filePath);
+    }
+
+    /**
      * Permet de récupérer l'arborescence
      * @return Explorer : arborescence
      */

@@ -44,6 +44,7 @@
         <newFolder>Nouveau dossier</newFolder>
         <delete>Supprimer</delete>
         <copy>Copier</copy>
+        <copyPath>Copier le chemin</copyPath>
         <cut>Couper</cut>
         <paste>Coller</paste>
         <properties>Propriétés</properties>

@@ -47,8 +47,10 @@ public class PanelArborescence extends JPanel
         /* Arborescence */
         DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getAbsolutePath());
         this.arborescence = new Explorer(new DefaultTreeModel(treeRoot), this.ctrl);
-        this.arborescence.addNode(treeRoot, this.rootFile.getAbsolutePath());
+        this.arborescence.addAllNodes(treeRoot, this.rootFile.getAbsolutePath());
         this.arborescence.ouvrirArborescence();
+
+        //this.ctrl.addFolderListener(this.rootFile.getAbsolutePath());
 
 
         /* Adaptation de l'arborescence */
@@ -97,6 +99,26 @@ public class PanelArborescence extends JPanel
     public File getRootFile()
     {
         return this.rootFile;
+    }
+
+    /**
+     * Ajoute les noeuds fils à un noeud existant
+     * @param node le noeud au quel rajouter les noeuds fils
+     * @param filePath le chemin absolut du dossier à ajouter
+     */
+    public void addNode(DefaultMutableTreeNode node, String filePath)
+    {
+        this.arborescence.addNodeTemp(node, filePath);
+    }
+
+    /**
+     * Permet de supprimer un noeud de l'arborescence
+     * @param node : noeud à supprimer
+     * @param filePath : chemin absolut du fichier ou du dossier à supprimer
+     */
+    public void removeNode(DefaultMutableTreeNode node)
+    {
+        //this.arborescence.removeNode(node);
     }
 
 

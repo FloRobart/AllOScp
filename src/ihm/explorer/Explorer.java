@@ -15,10 +15,12 @@ import java.util.logging.Logger;
 import javax.swing.DropMode;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import javax.swing.tree.DefaultTreeModel;
 
 import controleur.Controleur;
 import ihm.menu.popUp.menu.PopUpMenuArbo;
@@ -37,8 +39,9 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         super(tm);
 
         this.ctrl = ctrl;
-        this.popUpMenuArbo = new PopUpMenuArbo(this.ctrl);
+        this.popUpMenuArbo = new PopUpMenuArbo(this, this.ctrl);
 
+        this.setEditable(true);
         this.setDragEnabled(true);
         this.setDropMode(DropMode.ON_OR_INSERT);
         this.setTransferHandler(new TreeTransferHandler());
@@ -120,17 +123,27 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du dossier à ajouter
      */
-    public synchronized void addNode(DefaultMutableTreeNode node, String filePath)
+    public synchronized void addNodeTemp(DefaultMutableTreeNode node, String filePath)
     {
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
-        {
-            this.ctrl.addFolderListener(filePath);
             for (File f : file.listFiles())
                 node.add(new DefaultMutableTreeNode(f.getName()));
-        }
+    }
 
-        this.updateUI();
+    public synchronized void addNode(String nodeChildName, TreePath nodeParent)
+    {
+        ((DefaultTreeModel) this.getModel()).insertNodeInto(new DefaultMutableTreeNode(nodeChildName), (MutableTreeNode) (nodeParent.getLastPathComponent()), ((MutableTreeNode) (nodeParent.getLastPathComponent())).getChildCount());
+    }
+
+    /**
+     * Permet de supprimer un noeud de l'arborescence
+     * @param node : noeud à supprimer
+     * @param filePath : chemin absolut du fichier ou du dossier à supprimer
+     */
+    public synchronized void removeNode(TreePath node)
+    {
+        ((DefaultTreeModel) this.getModel()).removeNodeFromParent((MutableTreeNode) node.getLastPathComponent());
     }
 
 
@@ -169,17 +182,27 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                             {
                                 if (fileSelected.list().length != 0)
                                 {
-                                    this.addNode((DefaultMutableTreeNode) tp.getLastPathComponent(), pathFileSelected); /* Génére les noeuds fils sur un seul étage */
+                                    this.addNodeTemp((DefaultMutableTreeNode) tp.getLastPathComponent(), pathFileSelected); /* Génére les noeuds fils sur un seul étage */
 
                                     this.expandPath(tp); /* Ouverture du noeud séléctionnée */
+
+                                    //this.ctrl.addFolderListener(pathFileSelected); /* Ajout du listener sur le dossier sélectionner */
                                 }
                             }
                             else
                             {
                                 if (this.isExpanded(tp))
+                                {
                                     this.expandPath(tp);
+                                    //if (fileSelected.isDirectory())
+                                        //this.ctrl.addFolderListener(pathFileSelected);
+                                }
                                 else
+                                {
                                     this.collapsePath(tp);
+                                    //if (fileSelected.isDirectory())
+                                        //this.ctrl.removeFolderListener(pathFileSelected);
+                                }
                             }
                         }
                         else

@@ -247,7 +247,7 @@ public class Controleur
      */
     public void removeNode(DefaultMutableTreeNode node, String filePath)
     {
-        // TODO : remove node
+        this.ihm.removeNode(node, filePath);
     }
 
     /**
