@@ -119,13 +119,14 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void actionPerformed(ActionEvent e)
     {
+        /* Changer de lecteur */
         if (e.getSource() == this.changeDrive)
         {
             System.out.println("Changer de lecteur");
         }
+        /* Ouvrir */
         else if (e.getSource() == this.open)
         {
             System.out.println("Ouvrir");
@@ -145,6 +146,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
                 catch (IOException ex) { Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, "Erreur lors de l'ouverture du fichier '" + file.getAbsolutePath() + "'", ex); ex.printStackTrace(); System.out.println("Erreur lors de l'ouverture du fichier '" + file.getAbsolutePath() + "'"); }
             }
         }
+        /* Renommer */
         else if (e.getSource() == this.rename)
         {
             System.out.println("Renommer");
@@ -154,6 +156,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
             //this.arborescence.getSelectionPath().
         }
+        /* Nouveau fichier */
         else if (e.getSource() == this.newFile)
         {
             String filePath = "";
@@ -174,6 +177,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
             this.createNewFile(fileToCreate);
             this.arborescence.expandPath(this.arborescence.getSelectionPath());
         }
+        /* Nouveau dossier */
         else if (e.getSource() == this.newFolder)
         {
             System.out.println("Nouveau dossier");
@@ -196,6 +200,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
             this.createNewFolder(folderToCreate);
             this.arborescence.expandPath(this.arborescence.getSelectionPath());
         }
+        /* Supprimer */
         else if (e.getSource() == this.delete)
         {
             System.out.println("Supprimer");
@@ -209,6 +214,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
             this.arborescence.removeNode(this.arborescence.getSelectionPath());
         }
+        /* Copier */
         else if (e.getSource() == this.copy)
         {
             System.out.println("Copier");
@@ -224,6 +230,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(lstFiles), null);
         }
+        /* Copier le chemin */
         else if (e.getSource() == this.copyPath)
         {
             System.out.println("Copier le chemin");
@@ -236,10 +243,12 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection("\"" + filePath + "\""), null);
         }
+        /* Couper */
         else if (e.getSource() == this.cut)
         {
             System.out.println("Couper");
         }
+        /* Coller */
         else if (e.getSource() == this.paste)
         {
             System.out.println("Coller");
@@ -248,46 +257,16 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
             for (Object o : this.arborescence.getSelectionPath().getPath())
                 filePath += o.toString() + File.separator;
 
-            File fileSelectioned = new File(filePath.substring(0, filePath.length() - 1));
-            if (fileSelectioned.isDirectory())
-            {
-                Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
-                try
-                {
-                    Transferable t = cb.getContents(null);
-                    if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
-                    {
-                        List<File> fileList = (List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
+            filePath = filePath.substring(0, filePath.length() - 1);
 
-                        for (File f : fileList)
-                        {
-                            if (f.isDirectory())
-                                this.pasteFolder(f, new File(fileSelectioned.getAbsolutePath() + File.separator + f.getName()));
-                            else
-                                this.pasteFile(f, new File(fileSelectioned.getAbsolutePath() + File.separator + f.getName()));
-                        }
-                    }
-                }
-                catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors du collage des fichiers"); }
-            }
-            else
-            {
-                String parentPath = fileSelectioned.getParent();
+            File fileDestination = new File(filePath);
+            if (!fileDestination.isDirectory())
+                fileDestination = fileDestination.getParentFile();
 
-                Transferable contents =  Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-                if ((contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor))
-                {
-                    try
-                    {
-                        System.out.println("content = '" + contents.getTransferData(DataFlavor.stringFlavor) + "'");
-                    }
-                    catch (Exception ex) { System.out.println(ex); ex.printStackTrace(); }
-                }
-                else { System.out.println("Pas de contenu"); }
-            }
-
+            this.pasteFolder(fileDestination);
             this.arborescence.expandPath(this.arborescence.getSelectionPath());
         }
+        /* Propriété */
         else if (e.getSource() == this.properties)
         {
             System.out.println("Propriétés");
@@ -296,20 +275,72 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
     /**
      * Permet de coller un dossier et son contenue dans le dossier sélectionné
-     * @param folderToPaste : le dossier à coller
+     * @param folderDestination : le dossier de destination (le dossier de destination + le nom du dossier à coller)
      */
-    private void pasteFolder(File folderToPaste, File folderDestination)
+    @SuppressWarnings("unchecked")
+    private void pasteFolder(File folderDestination)
     {
+        Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+        try
+        {
+            Transferable t = cb.getContents(null);
+            if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
+            {
+                List<File> fileList = (List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
 
+                for (File f : fileList)
+                {
+                    if (f.isDirectory())
+                        this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                    else
+                        this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                }
+            }
+        }
+        catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors du collage des fichiers"); }
+    }
+
+    /**
+     * Permet de coller un dossier et son contenue dans le dossier sélectionné
+     * @param folderToPaste : le dossier à coller
+     * @param folderDestination : le dossier de destination (le dossier de destination + le nom du dossier à coller)
+     */
+    private void pasteFolderRec(File folderToPaste, File folderDestination)
+    {
+        System.out.println("Collage du dossier " + folderToPaste.getAbsolutePath() + " dans " + folderDestination.getAbsolutePath());
+        try
+        {
+            if (folderDestination.mkdir())
+            {
+                System.out.println("dossier créé");
+                for (File f : folderToPaste.listFiles())
+                {
+                    if (f.isDirectory())
+                        this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                    else
+                        this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                }
+            }
+            else
+                System.out.println("le dossier existe déjà");
+        }
+        catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors de la création du dossier"); }
     }
 
     /**
      * Permet de coller un fichier dans le dossier sélectionné
      * @param fileToPaste : le fichier à coller
+     * @param fileDestination : le fichier de destination (dossier de destination + nom du fichier)
      */
     private void pasteFile(File fileToPaste, File fileDestination)
     {
-        
+        try
+        {
+            Files.copy(fileToPaste.toPath(), fileDestination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e)
+        {
+            e.printStackTrace(); System.out.println("Erreur lors du collage du fichier");
+        }
     }
 
     /**
