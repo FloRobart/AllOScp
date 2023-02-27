@@ -233,6 +233,7 @@ public class Metier
      */
     public boolean changeDrive(Explorer arborescence)
 	{
+		// TODO : changer le driver
 		return false;
 	}
 
@@ -258,12 +259,14 @@ public class Metier
      */
     public boolean rename(Explorer arborescence, File fileToRename)
 	{
+		// TODO : renommer le fichier ou le dossier
+
 		//arborescence.startEditingAtPath(arborescence.getSelectionPath());
 		return false;
 	}
 
 	/**
-     * Permet de créer un nouvelle élements (fichier ou dossier)
+     * Permet de créer un nouvelle élements (fichier ou dossier) ET d'ajouter l'élement à l'arborescence
      * @param arborescence : arborescence dans le quel créer l'élement
      * @param folderDestination : dossier dans le quel créer l'élement
 	 * @param type : 0 pour un fichier, 1 pour un dossier
@@ -297,26 +300,39 @@ public class Metier
 	}
 
     /**
-     * Permet de supprimer un fichier ou un dossier (ainsi que tout son contenu)
+     * Permet de supprimer un fichier ou un dossier (ainsi que tout son contenu) ET de supprimer l'élement de l'arborescence
      * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à supprimer
      * @param fileToDelete : fichier ou dossier à supprimer
      * @return boolean : true si la suppression à réussi, sinon false
      */
-    public boolean delete(Explorer arborescence, File fileToDelete)
+    public void deleteElement(Explorer arborescence, File fileToDelete)
 	{
-		return false;
+		this.deleteFile(fileToDelete);
+		arborescence.removeNode(arborescence.getSelectionPath());
 	}
 
     /**
      * Permet de copier un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
      * Copie le fichier ou le dossier dans le dossier dans le press-papier, donc il peut être coller dans une autre application.
-     * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à copier
      * @param fileToCopy : fichier ou dossier à copier
      * @return boolean : true si la copie à réussi, sinon false
      */
-    public boolean copy(Explorer arborescence, File fileToCopy)
+    public void copyElement(File fileToCopy)
 	{
-		return false;
+		List<File> lstFiles = new ArrayList<File>();
+		lstFiles.add(fileToCopy);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(lstFiles), null);
+	}
+
+	/**
+     * Permet de copier des fichiers.
+     * Copie les fichiers dans le press-papier, donc il peut être coller dans une autre application.
+     * @param filesToCopy : fichiers à copier
+     * @return boolean : true si la copie à réussi, sinon false
+     */
+    public void copyElements(List<File> filesToCopy)
+	{
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(filesToCopy), null);
 	}
 
     /**
@@ -324,9 +340,9 @@ public class Metier
      * @param pathToCopy : chemin absolut du fichier ou du dossier à copier
      * @return boolean : true si la copie à réussi, sinon false
      */
-    public boolean copyPath(String pathToCopy)
+    public void copyPath(String pathToCopy)
 	{
-		return false;
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection("\"" + pathToCopy + "\""), null);
 	}
 
     /**
@@ -336,9 +352,11 @@ public class Metier
      * @param filToCut : fichier ou dossier à couper
      * @return boolean : true si le coupage à réussi, sinon false
      */
-    public boolean cut(Explorer arborescence, File filToCut)
+    public void cutElement(Explorer arborescence, File filToCut)
 	{
-		return false;
+		// TODO : l'élement ne peux pas être coller s'il à été supprimé
+		this.copyElement(filToCut);
+		//this.deleteElement(arborescence, filToCut);
 	}
 
     /**
@@ -348,9 +366,10 @@ public class Metier
      * @param folderDestination : dossier dans le quel coller le fichier ou le dossier
      * @return boolean : true si le collage à réussi, sinon false
      */
-    public boolean paste(Explorer arborescence, File folderDestination)
+    public void pasteElement(Explorer arborescence, File folderDestination)
 	{
-		return false;
+		this.pasteFolder(folderDestination);
+		// TODO : ajouter les éléments collés à l'arborescence
 	}
 
     /**
@@ -359,7 +378,7 @@ public class Metier
      */
     public void properties(File fileToGetProperties)
 	{
-
+		// TODO : afficher les propriétés du fichier ou du dossier
 	}
 
 	/**
@@ -418,6 +437,19 @@ public class Metier
     }
 
 	/**
+     * Permet de supprimer un fichier ou un dossier (ainsi que tout son contenu).
+     * @param file le dossier (ou fichier) à supprimer
+     */
+    private void deleteFile(File file)
+    {
+        if (file.isDirectory())
+            for (File f : file.listFiles())
+                this.deleteFile(f);
+
+        file.delete();
+    }
+
+	/**
      * Permet de coller un dossier et son contenue dans le dossier sélectionné
      * @param folderDestination : le dossier de destination (le dossier de destination + le nom du dossier à coller)
      */
@@ -451,12 +483,10 @@ public class Metier
      */
     private void pasteFolderRec(File folderToPaste, File folderDestination)
     {
-        System.out.println("Collage du dossier " + folderToPaste.getAbsolutePath() + " dans " + folderDestination.getAbsolutePath());
         try
         {
             if (folderDestination.mkdir())
             {
-                System.out.println("dossier créé");
                 for (File f : folderToPaste.listFiles())
                 {
                     if (f.isDirectory())

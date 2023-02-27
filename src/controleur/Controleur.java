@@ -323,7 +323,7 @@ public class Controleur
     public boolean rename(Explorer arborescence, File fileToRename) { return this.metier.rename(arborescence, fileToRename); }
 
     /**
-     * Permet de créer un nouvelle élements (fichier ou dossier)
+     * Permet de créer un nouvelle élements (fichier ou dossier) ET d'ajouter l'élement à l'arborescence
      * @param arborescence : arborescence dans le quel créer l'élement
      * @param folderDestination : dossier dans le quel créer l'élement
 	 * @param type : 0 pour un fichier, 1 pour un dossier
@@ -332,28 +332,35 @@ public class Controleur
     public boolean newElement(Explorer arborescence, File folderDestination, int type) { return this.metier.newElement(arborescence, folderDestination, type); }
 
     /**
-     * Permet de supprimer un fichier ou un dossier (ainsi que tout son contenu)
+     * Permet de supprimer un fichier ou un dossier (ainsi que tout son contenu) ET de supprimer l'élement de l'arborescence
      * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à supprimer
      * @param fileToDelete : fichier ou dossier à supprimer
      * @return boolean : true si la suppression à réussi, sinon false
      */
-    public boolean delete(Explorer arborescence, File fileToDelete) { return this.metier.delete(arborescence, fileToDelete); }
+    public void deleteElement(Explorer arborescence, File fileToDelete) { this.metier.deleteElement(arborescence, fileToDelete); }
 
     /**
      * Permet de copier un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
      * Copie le fichier ou le dossier dans le dossier dans le press-papier, donc il peut être coller dans une autre application.
-     * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à copier
      * @param fileToCopy : fichier ou dossier à copier
      * @return boolean : true si la copie à réussi, sinon false
      */
-    public boolean copy(Explorer arborescence, File fileToCopy) { return this.metier.copy(arborescence, fileToCopy); }
+    public void copyElement(File fileToCopy) { this.metier.copyElement(fileToCopy); }
+
+    /**
+     * Permet de copier des fichiers.
+     * Copie les fichiers dans le press-papier, donc il peut être coller dans une autre application.
+     * @param filesToCopy : fichiers à copier
+     * @return boolean : true si la copie à réussi, sinon false
+     */
+    public void copyElements(List<File> filesToCopy) { this.metier.copyElements(filesToCopy); }
 
     /**
      * Permet de copier le chemin absolut d'un fichier ou d'un dossier.
      * @param pathToCopy : chemin absolut du fichier ou du dossier à copier
      * @return boolean : true si la copie à réussi, sinon false
      */
-    public boolean copyPath(String pathToCopy) { return this.metier.copyPath(pathToCopy); }
+    public void copyPath(String pathToCopy) { this.metier.copyPath(pathToCopy); }
 
     /**
      * Permet de couper un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
@@ -362,7 +369,7 @@ public class Controleur
      * @param filToCut : fichier ou dossier à couper
      * @return boolean : true si le coupage à réussi, sinon false
      */
-    public boolean cut(Explorer arborescence, File filToCut) { return this.metier.cut(arborescence, filToCut); }
+    public void cutElement(Explorer arborescence, File filToCut) { this.metier.cutElement(arborescence, filToCut); }
 
     /**
      * Permet de coller un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
@@ -371,7 +378,7 @@ public class Controleur
      * @param folderDestination : dossier dans le quel coller le fichier ou le dossier
      * @return boolean : true si le collage à réussi, sinon false
      */
-    public boolean paste(Explorer arborescence, File folderDestination) { return this.metier.paste(arborescence, folderDestination); }
+    public void pasteElement(Explorer arborescence, File folderDestination) { this.metier.pasteElement(arborescence, folderDestination); }
 
     /**
      * Permet d'fficher une fenêtre de dialogue avec tout les propriétés d'un fichier ou d'un dossier.
