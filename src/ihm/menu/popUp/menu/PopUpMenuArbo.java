@@ -121,101 +121,47 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        Object source = e.getSource();
+
         /* Changer de lecteur */
-        if (e.getSource() == this.changeDrive)
+        if (source == this.changeDrive)
         {
             System.out.println("Changer de lecteur");
         }
         /* Ouvrir */
-        else if (e.getSource() == this.open)
+        else if (source == this.open)
         {
-            System.out.println("Ouvrir");
-
-            String filePath = "";
-            for (Object o : this.arborescence.getSelectionPath().getPath())
-                filePath += o.toString() + File.separator;
-
-            File file = new File(filePath.substring(0, filePath.length() - 1));
-            if (file.isDirectory())
-            {
-                this.arborescence.expandPath(this.arborescence.getSelectionPath());
-            }
-            else if (file.exists())
-            {
-                try { Desktop.getDesktop().open(file); }
-                catch (IOException ex) { Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, "Erreur lors de l'ouverture du fichier '" + file.getAbsolutePath() + "'", ex); ex.printStackTrace(); System.out.println("Erreur lors de l'ouverture du fichier '" + file.getAbsolutePath() + "'"); }
-            }
+            this.ctrl.open(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
         }
         /* Renommer */
-        else if (e.getSource() == this.rename)
+        else if (source == this.rename)
         {
             System.out.println("Renommer");
-
-            this.arborescence.startEditingAtPath(this.arborescence.getSelectionPath());
-
-
-            //this.arborescence.getSelectionPath().
+            this.ctrl.rename(this.arborescence, this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
         }
         /* Nouveau fichier */
-        else if (e.getSource() == this.newFile)
+        else if (source == this.newFile)
         {
-            String filePath = "";
-            for (Object o : this.arborescence.getSelectionPath().getPath())
-                filePath += o.toString() + File.separator;
-
-            File file = new File(filePath.substring(0, filePath.length() - 1));
-
-            String fileName   = "Nouveau_fichier.txt";
-            TreePath tpParent = this.arborescence.getSelectionPath();
-            File fileToCreate = null;
-            if (file.isDirectory())
-                fileToCreate = new File(file.getAbsolutePath() + File.separator + fileName);
-            else
-                { tpParent = tpParent.getParentPath(); fileToCreate = new File(file.getParent() + File.separator + fileName); }
-            
-            this.arborescence.addNode(fileName, tpParent);
-            this.createNewFile(fileToCreate);
-            this.arborescence.expandPath(this.arborescence.getSelectionPath());
+            this.ctrl.newElement(this.arborescence, this.determinateFolderDestination(), 0);
+            this.arborescence.expandPath(this.determinateTreePathDestination());
         }
         /* Nouveau dossier */
-        else if (e.getSource() == this.newFolder)
+        else if (source == this.newFolder)
         {
-            System.out.println("Nouveau dossier");
-
-            String filePath = "";
-            for (Object o : this.arborescence.getSelectionPath().getPath())
-                filePath += o.toString() + File.separator;
-
-            File file = new File(filePath.substring(0, filePath.length() - 1));
-
-            String folderName   = "Nouveau_dossier";
-            TreePath tpParent   = this.arborescence.getSelectionPath();
-            File folderToCreate = null;
-            if (file.isDirectory())
-                folderToCreate = new File(file.getAbsolutePath() + File.separator + folderName);
-            else
-                { tpParent = tpParent.getParentPath(); folderToCreate = new File(file.getParent() + File.separator + folderName); }
-
-            this.arborescence.addNode(folderName, tpParent);
-            this.createNewFolder(folderToCreate);
-            this.arborescence.expandPath(this.arborescence.getSelectionPath());
+            this.ctrl.newElement(this.arborescence, this.determinateFolderDestination(), 1);
+            this.arborescence.expandPath(this.determinateTreePathDestination());
         }
         /* Supprimer */
-        else if (e.getSource() == this.delete)
+        else if (source == this.delete)
         {
             System.out.println("Supprimer");
-
-            String filePath = "";
-            for(Object o : this.arborescence.getSelectionPath().getPath())
-                filePath += o.toString() + File.separator;
-
-            File file = new File(filePath.substring(0, filePath.length()-1));
+            File file = this.ctrl.treePathToFile(this.arborescence.getSelectionPath());
             this.supprimerDossier(file);
 
             this.arborescence.removeNode(this.arborescence.getSelectionPath());
         }
         /* Copier */
-        else if (e.getSource() == this.copy)
+        else if (source == this.copy)
         {
             System.out.println("Copier");
 
@@ -231,10 +177,8 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(lstFiles), null);
         }
         /* Copier le chemin */
-        else if (e.getSource() == this.copyPath)
+        else if (source == this.copyPath)
         {
-            System.out.println("Copier le chemin");
-
             String filePath = "";
             for(Object o : this.arborescence.getSelectionPath().getPath())
                 filePath += o.toString() + File.separator;
@@ -244,12 +188,12 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection("\"" + filePath + "\""), null);
         }
         /* Couper */
-        else if (e.getSource() == this.cut)
+        else if (source == this.cut)
         {
             System.out.println("Couper");
         }
         /* Coller */
-        else if (e.getSource() == this.paste)
+        else if (source == this.paste)
         {
             System.out.println("Coller");
 
@@ -267,10 +211,36 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
             this.arborescence.expandPath(this.arborescence.getSelectionPath());
         }
         /* Propriété */
-        else if (e.getSource() == this.properties)
+        else if (source == this.properties)
         {
             System.out.println("Propriétés");
         }
+    }
+
+    /**
+     * Permet de determiner le dossier de destination en fonction de la sélection de l'utilisateur
+     * @return File : le dossier de destination
+     */
+    private File determinateFolderDestination()
+    {
+        File folderDestination = this.ctrl.treePathToFile(this.arborescence.getSelectionPath());
+        if (!folderDestination.isDirectory())
+            folderDestination = folderDestination.getParentFile();
+
+        return folderDestination;
+    }
+
+    /**
+     * Permet de determiner le dossier de destination en fonction de la sélection de l'utilisateur
+     * @return File : le dossier de destination
+     */
+    private TreePath determinateTreePathDestination()
+    {
+        TreePath tpParent = this.arborescence.getSelectionPath();
+        if (!this.ctrl.treePathToFile(this.arborescence.getSelectionPath()).isDirectory())
+            tpParent = tpParent.getParentPath();
+
+        return tpParent;
     }
 
     /**

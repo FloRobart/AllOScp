@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 import java.awt.Color;
 import java.io.File;
@@ -230,6 +231,16 @@ public class Controleur
     /*==============*/
     /* Arborescence */
     /*==============*/
+    /*------------------*/
+	/* Méthode générale */
+	/*------------------*/
+    /**
+	 * Permet de convertir un TreePath en File
+	 * @param tp : TreePath à convertir
+	 * @return File : fichier correspondant au TreePath passé en paramètre
+	 */
+	public File treePathToFile(TreePath tp) { return this.metier.treePathToFile(tp); }
+
     /**
      * Ajoute les noeuds fils à un noeud existant
      * @param node le noeud au quel rajouter les noeuds fils
@@ -256,6 +267,10 @@ public class Controleur
      */
     public Explorer getArborescence(String panel) { return this.ihm.getArborescence(panel); }
 
+
+    /*-------------------------------*/
+	/* Méthode panel fonction global */
+	/*-------------------------------*/
     /**
      * Permet de comparer deux éléments de l'arborescence (fichier ou dossier)
      * @param fileGauche : fichier provenant de l'arborescence de gauche
@@ -264,6 +279,10 @@ public class Controleur
      */
     public boolean comparer(File fileGauche, File fileDroite) { return this.metier.comparer(fileGauche, fileDroite); }
 
+
+    /*----------------*/
+	/* FolderListener */
+	/*----------------*/
     /**
      * Permet de lire les évènements d'un dossier
      * @param filePath : chemin absolut du dossier à écouter
@@ -275,6 +294,90 @@ public class Controleur
      * @param filePath : chemin absolut du dossier à écouter
      */
     public void removeFolderListener(String filePath) { this.metier.removeFolderListener(filePath); }
+
+
+    /*--------------------*/
+	/* Option click droit */
+	/*--------------------*/
+    /**
+     * Permet de changer la racine de l'arborescence
+     * @param arborescence : arborescence sur le quel changer la racine (le lecteur)
+     * @return boolean : true si le changement à réussi, sinon false
+     */
+    public boolean changeDrive(Explorer arborescence) { return this.metier.changeDrive(arborescence); }
+
+    /**
+     * Permet d'ouvrire le fichier (ou le dossier) passé en paramètre
+     * @param arborescence : arborescence dans le quel ouvrir le dossier
+     * @param fileToOpen : fichier à ouvrir
+     * @return boolean : true si l'ouverture à réussi, sinon false
+     */
+    public boolean open(File fileToOpen) { return this.metier.open(fileToOpen); }
+
+    /**
+     * Permet de renommer un fichier ou un dossier
+     * @param arborescence : arborescence dans le quel renommer le fichier ou le dossier
+     * @param fileToRename : fichier ou dossier à renommer
+     * @return boolean : true si le renommage à réussi, sinon false
+     */
+    public boolean rename(Explorer arborescence, File fileToRename) { return this.metier.rename(arborescence, fileToRename); }
+
+    /**
+     * Permet de créer un nouvelle élements (fichier ou dossier)
+     * @param arborescence : arborescence dans le quel créer l'élement
+     * @param folderDestination : dossier dans le quel créer l'élement
+	 * @param type : 0 pour un fichier, 1 pour un dossier
+     * @return boolean : true si la création à réussi, sinon false
+     */
+    public boolean newElement(Explorer arborescence, File folderDestination, int type) { return this.metier.newElement(arborescence, folderDestination, type); }
+
+    /**
+     * Permet de supprimer un fichier ou un dossier (ainsi que tout son contenu)
+     * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à supprimer
+     * @param fileToDelete : fichier ou dossier à supprimer
+     * @return boolean : true si la suppression à réussi, sinon false
+     */
+    public boolean delete(Explorer arborescence, File fileToDelete) { return this.metier.delete(arborescence, fileToDelete); }
+
+    /**
+     * Permet de copier un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
+     * Copie le fichier ou le dossier dans le dossier dans le press-papier, donc il peut être coller dans une autre application.
+     * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à copier
+     * @param fileToCopy : fichier ou dossier à copier
+     * @return boolean : true si la copie à réussi, sinon false
+     */
+    public boolean copy(Explorer arborescence, File fileToCopy) { return this.metier.copy(arborescence, fileToCopy); }
+
+    /**
+     * Permet de copier le chemin absolut d'un fichier ou d'un dossier.
+     * @param pathToCopy : chemin absolut du fichier ou du dossier à copier
+     * @return boolean : true si la copie à réussi, sinon false
+     */
+    public boolean copyPath(String pathToCopy) { return this.metier.copyPath(pathToCopy); }
+
+    /**
+     * Permet de couper un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
+     * Couper un fichier ou un dossier revient à le copier puis à le supprimer.
+     * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à couper
+     * @param filToCut : fichier ou dossier à couper
+     * @return boolean : true si le coupage à réussi, sinon false
+     */
+    public boolean cut(Explorer arborescence, File filToCut) { return this.metier.cut(arborescence, filToCut); }
+
+    /**
+     * Permet de coller un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
+     * Le fichier ou le dossier à coller est celui qui est présent dans le presse-papier donc peux avoir été copier depuis une autre application.
+     * @param arborescence : arborescence dans le quel se trouve le dossier de destination
+     * @param folderDestination : dossier dans le quel coller le fichier ou le dossier
+     * @return boolean : true si le collage à réussi, sinon false
+     */
+    public boolean paste(Explorer arborescence, File folderDestination) { return this.metier.paste(arborescence, folderDestination); }
+
+    /**
+     * Permet d'fficher une fenêtre de dialogue avec tout les propriétés d'un fichier ou d'un dossier.
+     * @param fileToGetProperties : fichier ou dossier dont on veut afficher les propriétés
+     */
+    public void properties(File fileToGetProperties) { this.metier.properties(fileToGetProperties); }
 
 
 

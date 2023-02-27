@@ -41,7 +41,9 @@
         <open>Ouvrir</open>
         <rename>Renommer</rename>
         <newFile>Nouveau fichier</newFile>
+        <newFileName>Nouveau_fichier.txt</newFileName>
         <newFolder>Nouveau dossier</newFolder>
+        <newFolderName>Nouveau_dossier</newFolderName>
         <delete>Supprimer</delete>
         <copy>Copier</copy>
         <copyPath>Copier le chemin</copyPath>

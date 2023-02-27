@@ -6,21 +6,32 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.tree.TreePath;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import controleur.Controleur;
+import ihm.explorer.Explorer;
 import ihm.explorer.FolderListener;
 import path.Path;
 
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 
 public class Metier
@@ -63,6 +74,27 @@ public class Metier
 	/*======================*/
 	/* Metier pour le local */
 	/*======================*/
+	/*------------------*/
+	/* Méthode générale */
+	/*------------------*/
+	/**
+	 * Permet de convertir un TreePath en File
+	 * @param tp : TreePath à convertir
+	 * @return File : fichier correspondant au TreePath passé en paramètre
+	 */
+	public File treePathToFile(TreePath tp)
+	{
+		String filePath = "";
+		for (Object o : tp.getPath())
+			filePath += o.toString() + File.separator;
+
+		return new File(filePath.substring(0, filePath.length() - 1));
+	}
+
+
+	/*-------------------------------*/
+	/* Méthode panel fonction global */
+	/*-------------------------------*/
 	/**
 	 * Permet de comparer des fichiers ou des dossiers.
 	 * @param fileGauche : fichier ou dossier provenant du panel gauche
@@ -131,6 +163,9 @@ public class Metier
 		return false;
 	}
 
+	/*----------------*/
+	/* FolderListener */
+	/*----------------*/
 	/**
      * Permet de supprimer les écouteurs d'évènements d'un dossier
      * @param filePath : chemin absolut du dossier à écouter
@@ -188,6 +223,302 @@ public class Metier
 		System.out.println();
 	}
 
+	/*--------------------*/
+	/* Option click droit */
+	/*--------------------*/
+	/**
+     * Permet de changer la racine de l'arborescence
+     * @param arborescence : arborescence sur le quel changer la racine (le lecteur)
+     * @return boolean : true si le changement à réussi, sinon false
+     */
+    public boolean changeDrive(Explorer arborescence)
+	{
+		return false;
+	}
+
+    /**
+     * Permet d'ouvrire le fichier (ou le dossier) passé en paramètre
+     * @param arborescence : arborescence dans le quel ouvrir le dossier
+     * @param fileToOpen : fichier à ouvrir
+     * @return boolean : true si l'ouverture à réussi, sinon false
+     */
+    public boolean open(File fileToOpen)
+	{
+		try { Desktop.getDesktop().open(fileToOpen); }
+        catch (IOException ex) { Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, "Erreur lors de l'ouverture du fichier '" + fileToOpen.getAbsolutePath() + "'", ex); ex.printStackTrace(); System.out.println("Erreur lors de l'ouverture du fichier '" + fileToOpen.getAbsolutePath() + "'"); return false; }
+
+		return true;
+	}
+
+    /**
+     * Permet de renommer un fichier ou un dossier
+     * @param arborescence : arborescence dans le quel renommer le fichier ou le dossier
+     * @param fileToRename : fichier ou dossier à renommer
+     * @return boolean : true si le renommage à réussi, sinon false
+     */
+    public boolean rename(Explorer arborescence, File fileToRename)
+	{
+		//arborescence.startEditingAtPath(arborescence.getSelectionPath());
+		return false;
+	}
+
+	/**
+     * Permet de créer un nouvelle élements (fichier ou dossier)
+     * @param arborescence : arborescence dans le quel créer l'élement
+     * @param folderDestination : dossier dans le quel créer l'élement
+	 * @param type : 0 pour un fichier, 1 pour un dossier
+     * @return boolean : true si la création à réussi, sinon false
+     */
+    public boolean newElement(Explorer arborescence, File folderDestination, int type)
+	{
+		String fileName = this.hmLangage.get("popUpMenu").get("newFileName");
+
+		TreePath tpParent = arborescence.getSelectionPath();
+		File fileToCreate = this.treePathToFile(arborescence.getSelectionPath());
+		if (fileToCreate.isDirectory())
+			fileToCreate = new File(fileToCreate.getAbsolutePath() + File.separator + fileName);
+		else
+			{ tpParent = tpParent.getParentPath(); fileToCreate = new File(fileToCreate.getParent() + File.separator + fileName); }
+		
+		String fileNameCreated;
+		if (type == 0)
+			fileNameCreated = this.createNewFile(fileToCreate, 0);
+		else if (type == 1)
+			fileNameCreated = this.createNewFolder(fileToCreate, 0);
+		else
+			throw new IllegalArgumentException("Le type doit être 0 pour un fichier ou 1 pour un dossier");
+
+		if (fileNameCreated != null)
+			arborescence.addNode(fileNameCreated, tpParent);
+		else
+			return false;
+
+		return true;
+	}
+
+    /**
+     * Permet de supprimer un fichier ou un dossier (ainsi que tout son contenu)
+     * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à supprimer
+     * @param fileToDelete : fichier ou dossier à supprimer
+     * @return boolean : true si la suppression à réussi, sinon false
+     */
+    public boolean delete(Explorer arborescence, File fileToDelete)
+	{
+		return false;
+	}
+
+    /**
+     * Permet de copier un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
+     * Copie le fichier ou le dossier dans le dossier dans le press-papier, donc il peut être coller dans une autre application.
+     * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à copier
+     * @param fileToCopy : fichier ou dossier à copier
+     * @return boolean : true si la copie à réussi, sinon false
+     */
+    public boolean copy(Explorer arborescence, File fileToCopy)
+	{
+		return false;
+	}
+
+    /**
+     * Permet de copier le chemin absolut d'un fichier ou d'un dossier.
+     * @param pathToCopy : chemin absolut du fichier ou du dossier à copier
+     * @return boolean : true si la copie à réussi, sinon false
+     */
+    public boolean copyPath(String pathToCopy)
+	{
+		return false;
+	}
+
+    /**
+     * Permet de couper un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
+     * Couper un fichier ou un dossier revient à le copier puis à le supprimer.
+     * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à couper
+     * @param filToCut : fichier ou dossier à couper
+     * @return boolean : true si le coupage à réussi, sinon false
+     */
+    public boolean cut(Explorer arborescence, File filToCut)
+	{
+		return false;
+	}
+
+    /**
+     * Permet de coller un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
+     * Le fichier ou le dossier à coller est celui qui est présent dans le presse-papier donc peux avoir été copier depuis une autre application.
+     * @param arborescence : arborescence dans le quel se trouve le dossier de destination
+     * @param folderDestination : dossier dans le quel coller le fichier ou le dossier
+     * @return boolean : true si le collage à réussi, sinon false
+     */
+    public boolean paste(Explorer arborescence, File folderDestination)
+	{
+		return false;
+	}
+
+    /**
+     * Permet d'fficher une fenêtre de dialogue avec tout les propriétés d'un fichier ou d'un dossier.
+     * @param fileToGetProperties : fichier ou dossier dont on veut afficher les propriétés
+     */
+    public void properties(File fileToGetProperties)
+	{
+
+	}
+
+	/**
+     * Permet de créer un nouveau fichier 
+     * @param fileToCreate : le fichier à créer
+	 * @param i : le numéro du fichier à créer (si le fichier existe déjà). Si i = 0, alors le fichier n'aura pas de numéro.
+	 * @return String : le nom du fichier créé. En cas d'erreur lors de la création du fichier, la méthode retourne null.
+     */
+    public String createNewFile(File fileToCreate, int i)
+    {
+        try
+        {
+            if (fileToCreate.createNewFile())
+                return fileToCreate.getName();
+            else
+			{
+				String name = fileToCreate.getAbsolutePath();
+				String extension = name.substring(name.lastIndexOf("."), name.length());
+
+				if (i == 0)
+					name = name.substring(0, name.lastIndexOf("."));
+				else
+					name = name.substring(0, name.lastIndexOf("_("));
+
+				fileToCreate = new File(name + "_(" + (++i) + ")" + extension);
+				return this.createNewFile(fileToCreate, i);
+			}
+        }
+        catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors de la création du fichier"); return null; }
+    }
+
+	/**
+     * Permet de supprimer un dossier et son contenu
+     * @param folderToCreate : le dossier à supprimer
+	 * @param i : le numéro du dossier à créer (si le dossier existe déjà). Si i = 0, alors le dossier n'aura pas de numéro.
+	 * @return String : le nom du dossier créé. En cas d'erreur lors de la création du dossier, la méthode retourne null.
+     */
+    public String createNewFolder(File folderToCreate, int i)
+    {
+		try
+        {
+            if (folderToCreate.mkdir())
+                return folderToCreate.getName();
+            else
+			{
+				String name = folderToCreate.getAbsolutePath();
+
+				if (i != 0)
+					name = name.substring(0, name.lastIndexOf("_("));
+
+				folderToCreate = new File(name + "_(" + (++i) + ")");
+				return this.createNewFolder(folderToCreate, i);
+			}
+        }
+        catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors de la création du dossier"); return null; }
+    }
+
+	/**
+     * Permet de coller un dossier et son contenue dans le dossier sélectionné
+     * @param folderDestination : le dossier de destination (le dossier de destination + le nom du dossier à coller)
+     */
+    @SuppressWarnings("unchecked")
+    public void pasteFolder(File folderDestination)
+    {
+        Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+        try
+        {
+            Transferable t = cb.getContents(null);
+            if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
+            {
+                List<File> fileList = (List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
+
+                for (File f : fileList)
+                {
+                    if (f.isDirectory())
+                        this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                    else
+                        this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                }
+            }
+        }
+        catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors du collage des fichiers"); }
+    }
+
+    /**
+     * Permet de coller un dossier et son contenue dans le dossier sélectionné
+     * @param folderToPaste : le dossier à coller
+     * @param folderDestination : le dossier de destination (le dossier de destination + le nom du dossier à coller)
+     */
+    private void pasteFolderRec(File folderToPaste, File folderDestination)
+    {
+        System.out.println("Collage du dossier " + folderToPaste.getAbsolutePath() + " dans " + folderDestination.getAbsolutePath());
+        try
+        {
+            if (folderDestination.mkdir())
+            {
+                System.out.println("dossier créé");
+                for (File f : folderToPaste.listFiles())
+                {
+                    if (f.isDirectory())
+                        this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                    else
+                        this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                }
+            }
+            else
+                System.out.println("le dossier existe déjà");
+        }
+        catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors de la création du dossier"); }
+    }
+
+    /**
+     * Permet de coller un fichier dans le dossier sélectionné
+     * @param fileToPaste : le fichier à coller
+     * @param fileDestination : le fichier de destination (dossier de destination + nom du fichier)
+     */
+    public void pasteFile(File fileToPaste, File fileDestination)
+    {
+        try
+        {
+            Files.copy(fileToPaste.toPath(), fileDestination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+		catch (IOException e) { e.printStackTrace(); System.out.println("Erreur lors du collage du fichier"); }
+    }
+
+    /**
+     * Permet de copier un dossier et son contenu
+     * @param file : le dossier à copier
+     * @return la liste des fichiers copiés et dossier copiés
+     */
+    private List<File> copierDossier(File file)
+    {
+        List<File> lstFiles = new ArrayList<File>();
+
+        if (file.isDirectory())
+        {
+            for (File f : file.listFiles())
+                lstFiles.addAll(this.copierDossier(f));
+        }
+
+        lstFiles.add(file);
+
+        return lstFiles;
+    }
+
+    /**
+     * Permet de supprimer un dossier et son contenu
+     * @param file le dossier à supprimer
+     */
+    private void supprimerDossier(File file)
+    {
+        if (file.isDirectory())
+        {
+            for (File f : file.listFiles())
+                this.supprimerDossier(f);
+        }
+
+        file.delete();
+    }
 
 
 	/*========*/

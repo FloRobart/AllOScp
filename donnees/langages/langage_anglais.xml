@@ -40,7 +40,9 @@
         <changeDrive>Change drive</changeDrive>
         <open>Open</open>
         <newFile>New file</newFile>
+        <newFileName>New_file.txt</newFileName>
         <newFolder>New folder</newFolder>
+        <newFolderName>New_folder</newFolderName>
         <delete>Delete</delete>
         <copy>Copy</copy>
         <copyPath>Copy path</copyPath>
