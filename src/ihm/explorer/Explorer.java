@@ -143,7 +143,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      */
     public synchronized void removeNode(TreePath node)
     {
-        ((DefaultTreeModel) this.getModel()).removeNodeFromParent((MutableTreeNode) node.getLastPathComponent());
+        ((DefaultTreeModel) this.getModel()).removeNodeFromParent((MutableTreeNode) (node.getLastPathComponent()));
     }
 
 
@@ -221,6 +221,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         else
         {
             this.clearSelection();
+            this.ctrl.setCut(false);
         }
     }
 

@@ -148,7 +148,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
             List<File> lstFiles = new ArrayList<File>();
             lstFiles.add(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
 
-            this.ctrl.copyElement(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            this.ctrl.copyElement(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()), false);
 
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(lstFiles), null);
         }

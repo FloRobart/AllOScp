@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -41,6 +42,7 @@ public class Metier
 	/* Métier local */
 	private HashMap<String, FolderListener> hmFolderListener;
 	private HashMap<String, Thread>       hmThread;
+	private boolean cut;
 
 	/* Thèmes */
 	private int                     nbThemePerso;
@@ -58,6 +60,7 @@ public class Metier
 		/* Métier local */
 		this.hmFolderListener = new HashMap<String, FolderListener>();
 		this.hmThread	    = new HashMap<String, Thread>();
+		this.cut = false;
 
 		/* Thèmes */
 		this.nbThemePerso      = this.initNbThemePerso();
@@ -89,6 +92,41 @@ public class Metier
 			filePath += o.toString() + File.separator;
 
 		return new File(filePath.substring(0, filePath.length() - 1));
+	}
+
+	/**
+	 * Permet de convertir un File en Treepath
+	 * @param f : File à convertir
+	 * @return TreePath : Treepath correspondant au file passé en paramètre
+	 */
+	public TreePath fileToTreePath(File f)
+	{
+		Object[] tabPath = f.getPath().split(File.separator + File.separator);
+
+		List<Object> lst = new ArrayList<Object>();
+		for (Object s : tabPath)
+			lst.add(s);
+
+		System.out.println(lst);
+		for (int i = 1; i < 5; i++)
+			lst.set(0, lst.get(0) + File.separator + lst.remove(1));
+
+		System.out.print("TreePath : [");
+		for (Object s : lst)
+			System.out.print(s + ", ");
+		System.out.println("]");
+
+
+		return new TreePath(lst.toArray());
+	}
+
+	/**
+	 * Permet de définir la suppression d'un fichier ou d'un dossier après l'avoir copier
+	 * @param b : true si on veut supprimer le fichier ou le dossier après l'avoir copier, sinon false
+	 */
+	public void setCut(boolean b)
+	{
+		this.cut = b;
 	}
 
 
@@ -233,7 +271,10 @@ public class Metier
      */
     public boolean changeDrive(Explorer arborescence)
 	{
+		this.cut = false;
 		// TODO : changer le driver
+
+
 		return false;
 	}
 
@@ -245,6 +286,8 @@ public class Metier
      */
     public boolean open(File fileToOpen)
 	{
+		this.cut = false;
+
 		try { Desktop.getDesktop().open(fileToOpen); }
         catch (IOException ex) { Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, "Erreur lors de l'ouverture du fichier '" + fileToOpen.getAbsolutePath() + "'", ex); ex.printStackTrace(); System.out.println("Erreur lors de l'ouverture du fichier '" + fileToOpen.getAbsolutePath() + "'"); return false; }
 
@@ -259,9 +302,12 @@ public class Metier
      */
     public boolean rename(Explorer arborescence, File fileToRename)
 	{
+		this.cut = false;
+
 		// TODO : renommer le fichier ou le dossier
 
 		//arborescence.startEditingAtPath(arborescence.getSelectionPath());
+
 		return false;
 	}
 
@@ -275,6 +321,7 @@ public class Metier
     public boolean newElement(Explorer arborescence, File folderDestination, int type)
 	{
 		String fileName = this.hmLangage.get("popUpMenu").get("newFileName");
+		if (type != 0) { fileName = this.hmLangage.get("popUpMenu").get("newFolderName"); }
 
 		TreePath tpParent = arborescence.getSelectionPath();
 		File fileToCreate = this.treePathToFile(arborescence.getSelectionPath());
@@ -317,11 +364,11 @@ public class Metier
      * @param fileToCopy : fichier ou dossier à copier
      * @return boolean : true si la copie à réussi, sinon false
      */
-    public void copyElement(File fileToCopy)
+    public void copyElement(File fileToCopy, boolean cut)
 	{
 		List<File> lstFiles = new ArrayList<File>();
 		lstFiles.add(fileToCopy);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(lstFiles), null);
+		this.copyElements(lstFiles, cut);
 	}
 
 	/**
@@ -330,8 +377,9 @@ public class Metier
      * @param filesToCopy : fichiers à copier
      * @return boolean : true si la copie à réussi, sinon false
      */
-    public void copyElements(List<File> filesToCopy)
+    public void copyElements(List<File> filesToCopy, boolean cut)
 	{
+		this.cut = cut;
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(filesToCopy), null);
 	}
 
@@ -342,6 +390,7 @@ public class Metier
      */
     public void copyPath(String pathToCopy)
 	{
+		this.cut = false;
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection("\"" + pathToCopy + "\""), null);
 	}
 
@@ -354,9 +403,8 @@ public class Metier
      */
     public void cutElement(Explorer arborescence, File filToCut)
 	{
-		// TODO : l'élement ne peux pas être coller s'il à été supprimé
-		this.copyElement(filToCut);
-		//this.deleteElement(arborescence, filToCut);
+		this.cut = true;
+		this.copyElement(filToCut, true);
 	}
 
     /**
@@ -366,10 +414,28 @@ public class Metier
      * @param folderDestination : dossier dans le quel coller le fichier ou le dossier
      * @return boolean : true si le collage à réussi, sinon false
      */
+	@SuppressWarnings("unchecked")
     public void pasteElement(Explorer arborescence, File folderDestination)
 	{
-		this.pasteFolder(folderDestination);
-		// TODO : ajouter les éléments collés à l'arborescence
+        try
+        {
+			TreePath tp = arborescence.getSelectionPath();
+			if (!this.treePathToFile(tp).isDirectory()) 
+				tp = tp.getParentPath();
+
+            Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+            if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
+                for (File f : ((List<File>) t.getTransferData(DataFlavor.javaFileListFlavor)))
+				{
+					if (f.isDirectory()) this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()), 0);
+                    else this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+
+					arborescence.addNode(f.getName(), tp);
+				}
+        }
+        catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors dde la récupération des fichiers dans le clipboard"); }
+
+		this.cut = false;
 	}
 
     /**
@@ -449,54 +515,23 @@ public class Metier
         file.delete();
     }
 
-	/**
-     * Permet de coller un dossier et son contenue dans le dossier sélectionné
-     * @param folderDestination : le dossier de destination (le dossier de destination + le nom du dossier à coller)
-     */
-    @SuppressWarnings("unchecked")
-    public void pasteFolder(File folderDestination)
-    {
-        Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
-        try
-        {
-            Transferable t = cb.getContents(null);
-            if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
-            {
-                List<File> fileList = (List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
-
-                for (File f : fileList)
-                {
-                    if (f.isDirectory())
-                        this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
-                    else
-                        this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
-                }
-            }
-        }
-        catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors du collage des fichiers"); }
-    }
-
     /**
      * Permet de coller un dossier et son contenue dans le dossier sélectionné
      * @param folderToPaste : le dossier à coller
      * @param folderDestination : le dossier de destination (le dossier de destination + le nom du dossier à coller)
      */
-    private void pasteFolderRec(File folderToPaste, File folderDestination)
+    private void pasteFolderRec(File folderToPaste, File folderDestination, int i)
     {
         try
         {
             if (folderDestination.mkdir())
-            {
                 for (File f : folderToPaste.listFiles())
-                {
                     if (f.isDirectory())
-                        this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+                        this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()), i);
                     else
                         this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
-                }
-            }
             else
-                System.out.println("le dossier existe déjà");
+				this.pasteFolderRec(folderToPaste, new File(folderDestination.getAbsolutePath() + "_(" + (++i) + ")"), i);
         }
         catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors de la création du dossier"); }
     }
@@ -511,44 +546,30 @@ public class Metier
         try
         {
             Files.copy(fileToPaste.toPath(), fileDestination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			if (this.cut)
+				this.deleteFile(fileToPaste);
         }
 		catch (IOException e) { e.printStackTrace(); System.out.println("Erreur lors du collage du fichier"); }
     }
 
     /**
-     * Permet de copier un dossier et son contenu
-     * @param file : le dossier à copier
-     * @return la liste des fichiers copiés et dossier copiés
+     * Permet de copier les fichiers dans un dossier
+     * @param folderToCopy : le dossier à copier
+     * @return la liste des fichiers copiés
      */
-    private List<File> copierDossier(File file)
+    private List<File> copyFilesInFolder(File folderToCopy)
     {
         List<File> lstFiles = new ArrayList<File>();
 
-        if (file.isDirectory())
-        {
-            for (File f : file.listFiles())
-                lstFiles.addAll(this.copierDossier(f));
-        }
+        if (folderToCopy.isDirectory())
+            for (File f : folderToCopy.listFiles())
+                lstFiles.addAll(this.copyFilesInFolder(f));
 
-        lstFiles.add(file);
+        lstFiles.add(folderToCopy);
 
         return lstFiles;
     }
 
-    /**
-     * Permet de supprimer un dossier et son contenu
-     * @param file le dossier à supprimer
-     */
-    private void supprimerDossier(File file)
-    {
-        if (file.isDirectory())
-        {
-            for (File f : file.listFiles())
-                this.supprimerDossier(f);
-        }
-
-        file.delete();
-    }
 
 
 	/*========*/

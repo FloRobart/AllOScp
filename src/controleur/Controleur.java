@@ -242,6 +242,13 @@ public class Controleur
 	public File treePathToFile(TreePath tp) { return this.metier.treePathToFile(tp); }
 
     /**
+	 * Permet de convertir un File en Treepath
+	 * @param f : File à convertir
+	 * @return TreePath : Treepath correspondant au file passé en paramètre
+	 */
+	public TreePath fileToTreePath(File f) { return this.metier.fileToTreePath(f); }
+
+    /**
      * Ajoute les noeuds fils à un noeud existant
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du dossier à ajouter
@@ -266,6 +273,12 @@ public class Controleur
      * @return Explorer : arborescence
      */
     public Explorer getArborescence(String panel) { return this.ihm.getArborescence(panel); }
+
+    /**
+	 * Permet de définir la suppression d'un fichier ou d'un dossier après l'avoir copier
+	 * @param b : true si on veut supprimer le fichier ou le dossier après l'avoir copier, sinon false
+	 */
+	public void setCut(boolean b) { this.metier.setCut(b); }
 
 
     /*-------------------------------*/
@@ -345,7 +358,7 @@ public class Controleur
      * @param fileToCopy : fichier ou dossier à copier
      * @return boolean : true si la copie à réussi, sinon false
      */
-    public void copyElement(File fileToCopy) { this.metier.copyElement(fileToCopy); }
+    public void copyElement(File fileToCopy, boolean cut) { this.metier.copyElement(fileToCopy, cut); }
 
     /**
      * Permet de copier des fichiers.
@@ -353,7 +366,7 @@ public class Controleur
      * @param filesToCopy : fichiers à copier
      * @return boolean : true si la copie à réussi, sinon false
      */
-    public void copyElements(List<File> filesToCopy) { this.metier.copyElements(filesToCopy); }
+    public void copyElements(List<File> filesToCopy, boolean cut) { this.metier.copyElements(filesToCopy, cut); }
 
     /**
      * Permet de copier le chemin absolut d'un fichier ou d'un dossier.
