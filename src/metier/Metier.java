@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -26,13 +27,21 @@ import path.Path;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileStore;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 
@@ -102,23 +111,41 @@ public class Metier
 	 */
 	public TreePath fileToTreePath(File f)
 	{
-		Object[] tabPath = f.getPath().split(File.separator + File.separator);
+		String[] tabPath = f.getAbsolutePath().split(File.separator + File.separator);
 
-		List<Object> lst = new ArrayList<Object>();
-		for (Object s : tabPath)
-			lst.add(s);
-
-		System.out.println(lst);
+		String root = tabPath[0];
 		for (int i = 1; i < 5; i++)
-			lst.set(0, lst.get(0) + File.separator + lst.remove(1));
+		{
+			root += File.separator + tabPath[i];
+		}
 
-		System.out.print("TreePath : [");
-		for (Object s : lst)
-			System.out.print(s + ", ");
-		System.out.println("]");
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(f.getAbsolutePath().split(File.separator + File.separator)[0]);
+		for (String s : f.getAbsolutePath().split(File.separator + File.separator))
+		{
+			System.out.println(s);
+			root.add(new DefaultMutableTreeNode(s));
+		}
+		System.out.println();
+
+		TreeNode[] tabPath = root.getPath();
+		for (TreeNode treeNode : tabPath)
+		{
+			System.out.print(treeNode.toString() + ", ");
+		}
+		System.out.println();
 
 
-		return new TreePath(lst.toArray());
+		return new TreePath(root);
+	}
+
+	/**
+	 * Permet de récupérer l'extension d'un fichier
+	 * @param fileToGetExt : fichier dont on veut récupérer l'extension
+	 * @return String : extension du fichier passé en paramètre (sans le point)
+	 */
+	public String getFileExtension(File fileToGetExt)
+	{
+		return fileToGetExt.getName().substring(fileToGetExt.getName().lastIndexOf(".") + 1);
 	}
 
 	/**
@@ -432,6 +459,8 @@ public class Metier
                     else this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
 
 					arborescence.addNode(f.getName(), tp);
+					if (this.cut)
+						arborescence.removeNode(fileToTreePath(f));
 				}
         }
         catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors dde la récupération des fichiers dans le clipboard"); }
@@ -445,22 +474,51 @@ public class Metier
      */
     public void properties(File fileToGetProperties)
 	{
-		String properties = "";
+		//String properties = "";
 		System.out.println("Nom                   : " + fileToGetProperties.getName());
 		System.out.println("Chemin                : " + fileToGetProperties.getAbsolutePath());
 		System.out.println("Dossier               : " + fileToGetProperties.isDirectory());
 		System.out.println("Fichier               : " + fileToGetProperties.isFile());
-		System.out.println("Taille                : " + fileToGetProperties.length());
-		System.out.println("Dernière modification : " + fileToGetProperties.lastModified());
-		System.out.println("Lecture               : " + fileToGetProperties.canRead());
-		System.out.println("Ecriture              : " + fileToGetProperties.canWrite());
-		System.out.println("Exécution             : " + fileToGetProperties.canExecute());
-		System.out.println("Caché                 : " + fileToGetProperties.isHidden());
-		System.out.println("Lien physique         : " + fileToGetProperties.isAbsolute());
-		System.out.println("getUsableSpace        : " + fileToGetProperties.getUsableSpace());
-		System.out.println("getTotalSpace         : " + fileToGetProperties.getTotalSpace());
-		System.out.println("getFreeSpace          : " + fileToGetProperties.getFreeSpace());
-		System.out.println("getParent             : " + fileToGetProperties.getParent());
+		//System.out.println("Taille                : " + fileToGetProperties.length());
+		//System.out.println("Dernière modification : " + fileToGetProperties.lastModified());
+		//System.out.println("Lecture               : " + fileToGetProperties.canRead());
+		//System.out.println("Ecriture              : " + fileToGetProperties.canWrite());
+		//System.out.println("Exécution             : " + fileToGetProperties.canExecute());
+		//System.out.println("Caché                 : " + fileToGetProperties.isHidden());
+		//System.out.println("Lien physique         : " + fileToGetProperties.isAbsolute());
+		//System.out.println("getUsableSpace        : " + fileToGetProperties.getUsableSpace());
+		//System.out.println("getTotalSpace         : " + fileToGetProperties.getTotalSpace());
+		//System.out.println("getFreeSpace          : " + fileToGetProperties.getFreeSpace());
+		//System.out.println("getParent             : " + fileToGetProperties.getParent());
+
+		//String zipName = "G:\\Mon Drive\\Projet_perso\\Test_Sync\\panelGauche\\fichierZip.zip";
+		//String filenameInZip = "fichierInZip.txt";
+		//try(FileSystem zip = FileSystems.newFileSystem(Paths.get(zipName)))
+		//{
+		//	java.nio.file.Path fileInZip = zip.getPath(filenameInZip);
+		//	
+		//	// et là on utilise fileInZip, un Path qui pointe vers un fichier dans le zip,
+		//	// comme on utiliserait un Path qui pointe vers un fichier normal :
+		//	try(Stream<String> lines = Files.lines(fileInZip, StandardCharsets.UTF_8))
+		//	{
+		//		lines.forEach(System.out::println);
+		//	} catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier ZIP"); }
+		//
+		//}catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de création du fichier ZIP"); }
+
+
+		// virifier le type du fichier
+		if (this.getFileExtension(fileToGetProperties).equals("zip"))
+		{
+			try
+			{
+				ZipFile zipFile = new ZipFile(fileToGetProperties, StandardCharsets.UTF_8);
+				zipFile.stream().forEach(System.out::println);
+
+				zipFile.close();
+			} catch (IOException e) { e.printStackTrace(); System.out.println("Erreur lors de la création du fichier ZIP");}
+		}
+
 
 
 		//new FrameProperties(this.ctrl, this.ctrl.getFramePrincipale(), properties);
