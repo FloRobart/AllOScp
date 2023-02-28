@@ -32,3 +32,18 @@ Files.createDirectories(Path);              --> créer un nouveau dossier ainsi 
 Files.createFile(Path);                     --> créer un nouveau fichier
 Files.delete(Path);                         --> supprimer un fichier
 Files.readAllBytes(Path);                   --> lire le contenue d'un fichier byte par byte (vas permettre de comparer les fichiers)
+
+Files.walk(Path);                           --> parcourir un dossier et ses sous dossier
+Files.walk(Path, int);                      --> parcourir un dossier et ses sous dossier jusqu'à un certain niveau
+Files.walk(Path, int, FileVisitOption);     --> parcourir un dossier et ses sous dossier jusqu'à un certain niveau avec des options (FileVisitOption.FOLLOW_LINKS pour suivre les liens symbolique)
+
+Files.walkFileTree(Path, FileVisitor);      --> parcourir un dossier et ses sous dossier avec un FileVisitor
+Files.walkFileTree(Path, Set<FileVisitOption>, int, FileVisitor); --> parcourir un dossier et ses sous dossier avec un FileVisitor et des options (FileVisitOption.FOLLOW_LINKS pour suivre les liens symbolique)
+
+/*========================================================================================*/
+java.util.zip.*;                            --> permet d'analyser les fichiers zip
+java.util.jar.*;                            --> permet d'analyser les fichiers jar
+java.io.fileDescriptor;                     --> ???
+
+/*========================================================================================*/
+java.util.ConcurrentHashMap<K,​V>;          --> permet de créer une map thread safe
