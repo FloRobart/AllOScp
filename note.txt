@@ -43,6 +43,8 @@ Files.walkFileTree(Path, Set<FileVisitOption>, int, FileVisitor); --> parcourir 
 /*========================================================================================*/
 java.util.zip.*;                            --> permet d'analyser les fichiers zip
 java.util.jar.*;                            --> permet d'analyser les fichiers jar
+java.nio.FileSystem;                        --> ??? util pour les zips
+java.nio.FileSystems;                       --> que des methodes static qui renvoie des FileSystem
 java.io.fileDescriptor;                     --> ???
 
 /*========================================================================================*/
