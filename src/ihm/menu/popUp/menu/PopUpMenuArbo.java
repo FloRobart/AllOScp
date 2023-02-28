@@ -145,12 +145,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         /* Copier */
         else if (source == this.copy)
         {
-            List<File> lstFiles = new ArrayList<File>();
-            lstFiles.add(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
-
             this.ctrl.copyElement(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()), false);
-
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(lstFiles), null);
         }
         /* Copier le chemin */
         else if (source == this.copyPath)
@@ -175,7 +170,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         /* Propriété */
         else if (source == this.properties)
         {
-            System.out.println("Propriétés");
+            this.ctrl.properties(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
         }
     }
 

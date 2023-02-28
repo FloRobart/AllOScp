@@ -20,6 +20,7 @@ import org.jdom2.input.SAXBuilder;
 import controleur.Controleur;
 import ihm.explorer.Explorer;
 import ihm.explorer.FolderListener;
+import ihm.menu.FrameProperties;
 import path.Path;
 
 import java.awt.Color;
@@ -444,7 +445,25 @@ public class Metier
      */
     public void properties(File fileToGetProperties)
 	{
-		// TODO : afficher les propriétés du fichier ou du dossier
+		String properties = "";
+		System.out.println("Nom                   : " + fileToGetProperties.getName());
+		System.out.println("Chemin                : " + fileToGetProperties.getAbsolutePath());
+		System.out.println("Dossier               : " + fileToGetProperties.isDirectory());
+		System.out.println("Fichier               : " + fileToGetProperties.isFile());
+		System.out.println("Taille                : " + fileToGetProperties.length());
+		System.out.println("Dernière modification : " + fileToGetProperties.lastModified());
+		System.out.println("Lecture               : " + fileToGetProperties.canRead());
+		System.out.println("Ecriture              : " + fileToGetProperties.canWrite());
+		System.out.println("Exécution             : " + fileToGetProperties.canExecute());
+		System.out.println("Caché                 : " + fileToGetProperties.isHidden());
+		System.out.println("Lien physique         : " + fileToGetProperties.isAbsolute());
+		System.out.println("getUsableSpace        : " + fileToGetProperties.getUsableSpace());
+		System.out.println("getTotalSpace         : " + fileToGetProperties.getTotalSpace());
+		System.out.println("getFreeSpace          : " + fileToGetProperties.getFreeSpace());
+		System.out.println("getParent             : " + fileToGetProperties.getParent());
+
+
+		//new FrameProperties(this.ctrl, this.ctrl.getFramePrincipale(), properties);
 	}
 
 	/**
