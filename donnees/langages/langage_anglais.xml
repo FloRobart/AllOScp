@@ -39,6 +39,9 @@
     <popUpMenu>
         <changeDrive>Change drive</changeDrive>
         <open>Open</open>
+        <openWith>Open with</openWith>
+        <edit>Edit</edit>
+        <rename>Rename</rename>
         <newFile>New file</newFile>
         <newFileName>New_file.txt</newFileName>
         <newFolder>New folder</newFolder>
@@ -48,8 +51,8 @@
         <copyPath>Copy path</copyPath>
         <cut>Cut</cut>
         <paste>Paste</paste>
-        <rename>Rename</rename>
         <properties>Properties</properties>
+        <refresh>Refresh</refresh>
 
         <newTab>New tab</newTab>
         <closeTab>Close tab</closeTab>

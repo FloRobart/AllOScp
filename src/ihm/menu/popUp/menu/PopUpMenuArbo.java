@@ -15,6 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.tree.TreePath;
+import java.awt.Component;
 
 import controleur.Controleur;
 import ihm.explorer.Explorer;
@@ -29,6 +30,8 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
     private JMenuItem changeDrive;
     private JMenuItem open;
+    private JMenuItem openWith;
+    private JMenuItem edit;
     private JMenuItem rename;
     private JMenuItem newFile;
     private JMenuItem newFolder;
@@ -38,6 +41,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
     private JMenuItem cut;
     private JMenuItem paste;
     private JMenuItem properties;
+    private JMenuItem refresh;
 
 
     public PopUpMenuArbo(Explorer arbo, Controleur ctrl)
@@ -49,6 +53,8 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         /* Création des composants */
         this.changeDrive = new JMenuItem();
         this.open        = new JMenuItem();
+        this.openWith    = new JMenuItem();
+        this.edit        = new JMenuItem();
         this.rename      = new JMenuItem();
         this.newFile     = new JMenuItem();
         this.newFolder   = new JMenuItem();
@@ -58,11 +64,13 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         this.cut         = new JMenuItem();
         this.paste       = new JMenuItem();
         this.properties  = new JMenuItem();
+        this.refresh     = new JMenuItem();
 
 
         /* Ajout des accélérators */
-        this.changeDrive.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
+        //this.changeDrive.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         this.open       .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
+        this.openWith   .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
         this.rename     .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
         //this.newFile    .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         //this.newFolder  .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
@@ -71,28 +79,33 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         this.cut        .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
         this.paste      .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
         this.properties .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
+        this.refresh    .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
 
 
 
         /* Ajouts des composants */
-        this.add(this.changeDrive);
-        this.add(this.open       );
+        this.add(this.open     );
+        this.add(this.openWith );
+        this.add(this.edit     );
         this.add(this.rename   );
         this.addSeparator();
         this.add(this.newFile  );
         this.add(this.newFolder);
         this.addSeparator();
-        this.add(this.delete   );
         this.add(this.copy     );
         this.add(this.copyPath );
-        this.add(this.cut      );
         this.add(this.paste    );
+        this.add(this.cut      );
+        this.add(this.delete   );
         this.addSeparator();
         this.add(this.properties);
+        this.add(this.refresh   );
 
         /* Activations des composants */
         this.changeDrive.addActionListener(this);
         this.open       .addActionListener(this);
+        this.openWith   .addActionListener(this);
+        this.edit       .addActionListener(this);
         this.rename     .addActionListener(this);
         this.newFile    .addActionListener(this);
         this.newFolder  .addActionListener(this);
@@ -102,6 +115,20 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         this.cut        .addActionListener(this);
         this.paste      .addActionListener(this);
         this.properties .addActionListener(this);
+        this.refresh    .addActionListener(this);
+    }
+
+    @Override
+    public void show(Component c, int x, int y)
+    {
+        super.show(c, x, y);
+
+        if (this.arborescence.getPathForLocation(x, y).getParentPath() == null)
+            this.add(this.changeDrive, 0);
+        else
+            this.remove(this.changeDrive);
+
+        this.edit.setEnabled(!(this.ctrl.treePathToFile(this.arborescence.getPathForLocation(x, y)).isDirectory() || this.ctrl.getFileExtension(this.ctrl.treePathToFile(this.arborescence.getPathForLocation(x, y))).equals("zip")));
     }
 
     @Override
@@ -113,11 +140,23 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         if (source == this.changeDrive)
         {
             System.out.println("Changer de lecteur");
+            this.ctrl.changeDrive(this.arborescence);
         }
         /* Ouvrir */
         else if (source == this.open)
         {
-            this.ctrl.open(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            this.ctrl.openFile(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+        }
+        /* Ouvrir avec */
+        else if (source == this.openWith)
+        {
+            System.out.println("Ouvrir avec");
+            this.ctrl.openFileWith(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+        }
+        /* Editer */
+        else if (source == this.edit)
+        {
+            this.ctrl.editFile(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
         }
         /* Renommer */
         else if (source == this.rename)
@@ -160,17 +199,18 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         /* Coller */
         else if (source == this.paste)
         {
-            File folderDestination = this.ctrl.treePathToFile(this.arborescence.getSelectionPath());
-            if (!folderDestination.isDirectory())
-                folderDestination = folderDestination.getParentFile();
-
-            this.ctrl.pasteElement(this.arborescence, folderDestination);
+            this.ctrl.pasteElement(this.arborescence, this.determinateFolderDestination());
             this.arborescence.expandPath(this.arborescence.getSelectionPath());
         }
         /* Propriété */
         else if (source == this.properties)
         {
             this.ctrl.properties(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+        }
+        /* Rafraichir */
+        else if (source == this.refresh)
+        {
+            this.ctrl.refresh(this.arborescence, this.arborescence.getSelectionPath());
         }
     }
 
@@ -219,6 +259,12 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         this.open.setBackground(backGeneralColor);
         this.open.setForeground(foreGeneralColor);
 
+        this.openWith.setBackground(backGeneralColor);
+        this.openWith.setForeground(foreGeneralColor);
+
+        this.edit.setBackground(backGeneralColor);
+        this.edit.setForeground(foreGeneralColor);
+
         this.rename.setBackground(backGeneralColor);
         this.rename.setForeground(foreGeneralColor);
 
@@ -245,6 +291,9 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
         this.properties.setBackground(backGeneralColor);
         this.properties.setForeground(foreGeneralColor);
+
+        this.refresh.setBackground(backGeneralColor);
+        this.refresh.setForeground(foreGeneralColor);
     }
 
     /**
@@ -257,6 +306,8 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
         this.changeDrive.setText(PopUpMenuLangage.get("changeDrive"));
         this.open       .setText(PopUpMenuLangage.get("open"));
+        this.openWith   .setText(PopUpMenuLangage.get("openWith"));
+        this.edit       .setText(PopUpMenuLangage.get("edit"));
         this.rename     .setText(PopUpMenuLangage.get("rename"));
         this.newFile    .setText(PopUpMenuLangage.get("newFile"));
         this.newFolder  .setText(PopUpMenuLangage.get("newFolder"));
@@ -266,5 +317,6 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         this.cut        .setText(PopUpMenuLangage.get("cut"));
         this.paste      .setText(PopUpMenuLangage.get("paste"));
         this.properties .setText(PopUpMenuLangage.get("properties"));
+        this.refresh    .setText(PopUpMenuLangage.get("refresh"));
     }
 }

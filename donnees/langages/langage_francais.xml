@@ -39,6 +39,8 @@
     <popUpMenu>
         <changeDrive>Changer de lecteur</changeDrive>
         <open>Ouvrir</open>
+        <openWith>Ouvrir avec</openWith>
+        <edit>Editer</edit>
         <rename>Renommer</rename>
         <newFile>Nouveau fichier</newFile>
         <newFileName>Nouveau_fichier.txt</newFileName>
@@ -50,6 +52,7 @@
         <cut>Couper</cut>
         <paste>Coller</paste>
         <properties>Propriétés</properties>
+        <refresh>Rafraîchir</refresh>
 
         <newTab>Nouvel onglet</newTab>
         <closeTab>Fermer l'onglet</closeTab>

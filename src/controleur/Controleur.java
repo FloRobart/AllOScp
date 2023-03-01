@@ -323,12 +323,28 @@ public class Controleur
     public boolean changeDrive(Explorer arborescence) { return this.metier.changeDrive(arborescence); }
 
     /**
-     * Permet d'ouvrire le fichier (ou le dossier) passé en paramètre
+     * Permet d'ouvrire le fichier (ou le dossier) passé en paramètre avec l'application par défaut du système
      * @param arborescence : arborescence dans le quel ouvrir le dossier
      * @param fileToOpen : fichier à ouvrir
      * @return boolean : true si l'ouverture à réussi, sinon false
      */
-    public boolean open(File fileToOpen) { return this.metier.open(fileToOpen); }
+    public boolean openFile(File fileToOpen) { return this.metier.openFile(fileToOpen); }
+
+    /**
+     * Permet d'ouvrire le fichier (ou le dossier) passé en paramètre avec l'application qu'on veux
+     * @param arborescence : arborescence dans le quel ouvrir le dossier
+     * @param fileToOpen : fichier à ouvrir
+     * @return boolean : true si l'ouverture à réussi, sinon false
+     */
+    public boolean openFileWith(File fileToOpen) { return this.metier.openFileWith(fileToOpen); }
+
+    /**
+     * Permet de modifier le fichier passé en paramètre
+     * @param arborescence : arborescence dans le quel ouvrir le dossier
+     * @param fileToEdit : fichier à modifier
+     * @return boolean : true si l'ouverture en écriture à réussi, sinon false
+     */
+    public boolean editFile(File fileToEdit) { return this.metier.editFile(fileToEdit); }
 
     /**
      * Permet de renommer un fichier ou un dossier
@@ -401,6 +417,13 @@ public class Controleur
      * @param fileToGetProperties : fichier ou dossier dont on veut afficher les propriétés
      */
     public void properties(File fileToGetProperties) { this.metier.properties(fileToGetProperties); }
+
+    /**
+     * Permet de mettre à jour l'arborescence à partir du noeud passé en paramètre
+     * @param arborescence : arborescence à rafraichir
+     * @param tp : chemin du dossier à rafraichir
+     */
+    public void refresh(Explorer arborescence, TreePath tp) { this.metier.refresh(arborescence, tp); }
 
 
 

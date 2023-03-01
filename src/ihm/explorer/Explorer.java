@@ -7,6 +7,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -37,8 +38,9 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     private Controleur ctrl;
     private PopUpMenuArbo popUpMenuArbo;
 
+    private TreePath ancienTpSelectioned;
 
-    
+
     public Explorer(TreeModel tm, Controleur ctrl)
     {
         super(tm);
@@ -104,26 +106,40 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
 
     /**
-     * Rempli toute l'arborescence
-     * @param node le noeud au quel rajouter les noeuds fils
-     * @param filePath le chemin absolut du fichier
+     * Rempli toute l'arborescence (en profondeur)
+     * @param root Racine de l'arborescence quand cette méthode est appelée par l'utilisateur
+     * @param rootFilePath le chemin absolut du fichier racine. Ce chemin correspond toujours au noeud racine
      */
-    public synchronized void addAllNodes(DefaultMutableTreeNode node, String filePath)  
+    public synchronized void addAllNodes(DefaultMutableTreeNode root, String rootFilePath)  
     {
-        File file = new File(filePath);
+        File file = new File(rootFilePath);
         if (file.exists() && file.isDirectory())
         {
             List<File> lstFile = new ArrayList<File>();
             for (File f : file.listFiles())
                 lstFile.add(f);
 
+            List<File> lstFichier = new ArrayList<File>();
             Collections.sort(lstFile, (File o1, File o2) -> o1.getName().compareTo(o2.getName()));
             for (File f : lstFile)
             {
-                final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(f.getName());
-                node.add(TEMP_DMTN);
+                if (f.isDirectory())
+                {
+                    final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(f.getName());
+                    root.add(TEMP_DMTN);
 
-                this.addAllNodes(TEMP_DMTN, filePath + File.separator + f.getName());
+                    this.addAllNodes(TEMP_DMTN, rootFilePath + File.separator + f.getName());
+                }
+                else
+                    lstFichier.add(f);
+            }
+
+            for (File f : lstFichier)
+            {
+                final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(f.getName());
+                root.add(TEMP_DMTN);
+
+                this.addAllNodes(TEMP_DMTN, rootFilePath + File.separator + f.getName());
             }
         }
     }
@@ -133,7 +149,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du dossier à ajouter
      */
-    public synchronized void addNodeTemp(DefaultMutableTreeNode node, String filePath)
+    public synchronized void addNode(DefaultMutableTreeNode node, String filePath)
     {
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
@@ -143,11 +159,15 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                 lstFile.add(f);
 
             Collections.sort(lstFile, (File o1, File o2) -> o1.getName().compareTo(o2.getName()));
+            /* Ajout des dossiers */
             for (File f : lstFile)
-            {
-                System.out.print(f.getName() + ", ");
-                node.add(new DefaultMutableTreeNode(f.getName()));
-            }
+                if (f.isDirectory())
+                    node.add(new DefaultMutableTreeNode(f.getName()));
+
+            /* Ajout des fichiers */
+            for (File f : lstFile)
+                if (!f.isDirectory())
+                    node.add(new DefaultMutableTreeNode(f.getName()));
         }
     }
 
@@ -156,29 +176,26 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param nodeChildName : nom du noeud à ajouter
      * @param nodeParent : noeud parent du noeud à ajouter
      */
-    public synchronized void addNode(String nodeChildName, TreePath nodeParent)
+    public synchronized void insertNode(String nodeChildName, TreePath nodeParent)
     {
-        // TODO : remplacer ((MutableTreeNode) (nodeParent.getLastPathComponent())).getChildCount() par la place du noeud à ajouter (par ordre alphabetique).
-        List<DefaultMutableTreeNode> lstChildNodes = this.getDefaultMutableTreeNodeChildren((MutableTreeNode) (nodeParent.getLastPathComponent()));
+        /* Permet de récuperer l'index au quel placer le nouveau pour qu'il sois ranger dans l'ordre alphabétique */
+        List<DefaultMutableTreeNode> lstChildNodes = this.getChildrenNodes((MutableTreeNode) (nodeParent.getLastPathComponent()));
         lstChildNodes.add(new DefaultMutableTreeNode(nodeChildName));
         Collections.sort(lstChildNodes, (DefaultMutableTreeNode o1, DefaultMutableTreeNode o2) -> o1.toString().compareTo(o2.toString()));
         int index = 0;
-        for (DefaultMutableTreeNode dmtn : lstChildNodes)
-        {
-            if (dmtn.toString().equals(nodeChildName))
-                break;
-            index++;
-        }
+        for (index = 0; index < lstChildNodes.size(); index++)
+            if (lstChildNodes.get(index).toString().equals(nodeChildName)) break;
 
+        /* Ajoute le noeud à l'arborescence */
         ((DefaultTreeModel) this.getModel()).insertNodeInto(new DefaultMutableTreeNode(nodeChildName), (MutableTreeNode) (nodeParent.getLastPathComponent()), index);
     }
 
     /**
      * Permet d'obtenir la liste des fils d'un noeud parent de type DefaultMutableTreeNode
-     * @param node : noeud parent
+     * @param node : noeud pour lequel on veux obtenir les fils
      * @return la liste des noeuds fils de type DefaultMutableTreeNode
      */
-    private List<DefaultMutableTreeNode> getDefaultMutableTreeNodeChildren(TreeNode node)
+    private List<DefaultMutableTreeNode> getChildrenNodes(TreeNode node)
     {
         if (node == null) throw new NullPointerException("node == null");
 
@@ -195,12 +212,11 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
     /**
      * Permet de supprimer un noeud de l'arborescence
-     * @param node : noeud à supprimer
-     * @param filePath : chemin absolut du fichier ou du dossier à supprimer
+     * @param nodeToRemove : noeud à supprimer
      */
-    public synchronized void removeNode(TreePath node)
+    public synchronized void removeNode(TreeNode nodeToRemove)
     {
-        ((DefaultTreeModel) this.getModel()).removeNodeFromParent((MutableTreeNode) (node.getLastPathComponent()));
+        ((DefaultTreeModel) this.getModel()).removeNodeFromParent((MutableTreeNode) (nodeToRemove));
     }
 
 
@@ -215,63 +231,47 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             if (me.getButton() == MouseEvent.BUTTON3)
             {
                 this.setSelectionPath(tp);
-
                 this.popUpMenuArbo.show(this, me.getX(), me.getY());
             }
             else if (me.getButton() == MouseEvent.BUTTON1)
             {
                 this.setSelectionPath(tp);
-
                 if (me.getClickCount() == 2)
                 {
-                    String pathFileSelected = "";
-                    for (Object o : tp.getPath())
-                        pathFileSelected += o.toString() + File.separator;
-
-                    pathFileSelected = pathFileSelected.substring(0, pathFileSelected.length()-1);
-
-                    File fileSelected = new File(pathFileSelected);
-                    if (fileSelected.exists())
+                    File fileSelected = this.ctrl.treePathToFile(tp);
+                    if (!fileSelected.exists()) { System.out.println("Erreur, le fichier '" + fileSelected.getAbsolutePath() + "' n'existe pas"); }
+                    if (fileSelected.isDirectory())
                     {
-                        if (fileSelected.isDirectory())
+                        if (((TreeNode)(tp.getLastPathComponent())).isLeaf())
                         {
-                            if (((TreeNode)(tp.getLastPathComponent())).isLeaf())
+                            if (fileSelected.list().length != 0)
                             {
-                                if (fileSelected.list().length != 0)
-                                {
-                                    this.addNodeTemp((DefaultMutableTreeNode) tp.getLastPathComponent(), pathFileSelected); /* Génére les noeuds fils sur un seul étage */
+                                for (File f : fileSelected.listFiles())
+                                    this.insertNode(f.getName(), tp); /* Génére les noeuds fils sur un seul étage */
 
-                                    this.expandPath(tp); /* Ouverture du noeud séléctionnée */
-
-                                    //this.ctrl.addFolderListener(pathFileSelected); /* Ajout du listener sur le dossier sélectionner */
-                                }
-                            }
-                            else
-                            {
-                                if (this.isExpanded(tp))
-                                {
-                                    this.expandPath(tp);
-                                    //if (fileSelected.isDirectory())
-                                        //this.ctrl.addFolderListener(pathFileSelected);
-                                }
-                                else
-                                {
-                                    this.collapsePath(tp);
-                                    //if (fileSelected.isDirectory())
-                                        //this.ctrl.removeFolderListener(pathFileSelected);
-                                }
+                                this.expandPath(tp); /* Ouverture du noeud séléctionnée */
                             }
                         }
                         else
                         {
-                            File file = new File(pathFileSelected);
-                            if (file.exists())
+                            if (this.isExpanded(tp))
                             {
-                                try { Desktop.getDesktop().open(file); }
-                                catch (IOException ex) { Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, "Erreur lors de l'ouverture du fichier '" + pathFileSelected + "'", ex); ex.printStackTrace(); System.out.println("Erreur lors de l'ouverture du fichier '" + pathFileSelected + "'"); }
+                                for (File f : fileSelected.listFiles())
+                                    this.insertNode(f.getName(), tp); /* Génére les noeuds fils sur un seul étage */
+
+                                this.expandPath(tp); /* Ouverture du noeud séléctionnée */
+                            }
+                            else
+                            {
+                                // supprime les noeuds fils du noeud séléctionné
+                                TreeNode selectionnedNode = (TreeNode)(tp.getLastPathComponent());
+                                while(selectionnedNode.getChildCount() != 0)
+                                    this.removeNode(selectionnedNode.getChildAt(0));
                             }
                         }
                     }
+                    else
+                        this.ctrl.editFile(fileSelected);
                 }
             }
         }
@@ -293,7 +293,14 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     @Override
     public void mouseDragged (MouseEvent me) {}
     @Override
-    public void mouseMoved   (MouseEvent me) {}
+    public void mouseMoved   (MouseEvent me)
+    {
+        TreePath tp = this.getPathForLocation(me.getX(),me.getY());
+        if(tp != null && !tp.equals(this.ancienTpSelectioned))
+            this.setSelectionPath(tp);
+
+        this.ancienTpSelectioned = tp;
+    }
 
 
     /**

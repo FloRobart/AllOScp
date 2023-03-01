@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.Toolkit;
@@ -271,7 +272,6 @@ public class Metier
 		this.cut = false;
 		// TODO : changer le driver
 
-
 		return false;
 	}
 
@@ -281,12 +281,48 @@ public class Metier
      * @param fileToOpen : fichier à ouvrir
      * @return boolean : true si l'ouverture à réussi, sinon false
      */
-    public boolean open(File fileToOpen)
+    public boolean openFile(File fileToOpen)
 	{
 		this.cut = false;
 
 		try { Desktop.getDesktop().open(fileToOpen); }
         catch (IOException ex) { Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, "Erreur lors de l'ouverture du fichier '" + fileToOpen.getAbsolutePath() + "'", ex); ex.printStackTrace(); System.out.println("Erreur lors de l'ouverture du fichier '" + fileToOpen.getAbsolutePath() + "'"); return false; }
+
+		return true;
+	}
+
+	/**
+     * Permet d'ouvrire le fichier (ou le dossier) passé en paramètre avec l'application qu'on veux
+     * @param arborescence : arborescence dans le quel ouvrir le dossier
+     * @param fileToOpen : fichier à ouvrir
+     * @return boolean : true si l'ouverture à réussi, sinon false
+     */
+    public boolean openFileWith(File fileToOpen)
+	{
+		this.cut = false;
+		// TODO : ouvrir le fichier avec l'application choisie par l'utilisateur
+
+		return false;
+	}
+
+	/**
+     * Permet de modifier le fichier passé en paramètre
+     * @param arborescence : arborescence dans le quel ouvrir le dossier
+     * @param fileToEdit : fichier à modifier
+     * @return boolean : true si l'ouverture en écriture à réussi, sinon false
+     */
+    public boolean editFile(File fileToEdit)
+	{
+		this.cut = false;
+
+		try { Desktop.getDesktop().edit(fileToEdit); }
+        catch (IOException ex)
+		{
+			if (this.getFileExtension(fileToEdit).equals("zip"))
+				return this.openFile(fileToEdit); 
+
+			return false;
+		}
 
 		return true;
 	}
@@ -302,7 +338,6 @@ public class Metier
 		this.cut = false;
 
 		// TODO : renommer le fichier ou le dossier
-
 		//arborescence.startEditingAtPath(arborescence.getSelectionPath());
 
 		return false;
@@ -336,7 +371,7 @@ public class Metier
 			throw new IllegalArgumentException("Le type doit être 0 pour un fichier ou 1 pour un dossier");
 
 		if (fileNameCreated != null)
-			arborescence.addNode(fileNameCreated, tpParent);
+			arborescence.insertNode(fileNameCreated, tpParent);
 		else
 			return false;
 
@@ -352,7 +387,7 @@ public class Metier
     public void deleteElement(Explorer arborescence, File fileToDelete)
 	{
 		this.deleteFile(fileToDelete);
-		arborescence.removeNode(arborescence.getSelectionPath());
+		arborescence.removeNode((MutableTreeNode) (arborescence.getSelectionPath().getLastPathComponent()));
 	}
 
     /**
@@ -395,14 +430,14 @@ public class Metier
      * Permet de couper un fichier ou un dossier (ainsi que tout les dossiers et fichiers qu'il contient).
      * Couper un fichier ou un dossier revient à le copier puis à le supprimer.
      * @param arborescence : arborescence dans le quel se trouve le fichier ou le dossier à couper
-     * @param filToCut : fichier ou dossier à couper
+     * @param fileToCut : fichier ou dossier à couper
      * @return boolean : true si le coupage à réussi, sinon false
      */
-    public void cutElement(Explorer arborescence, File filToCut)
+    public void cutElement(Explorer arborescence, File fileToCut)
 	{
 		this.cut = true;
 		this.tpToCut = arborescence.getSelectionPath();
-		this.copyElement(filToCut, true);
+		this.copyElement(fileToCut, true);
 	}
 
     /**
@@ -428,10 +463,10 @@ public class Metier
 					if (f.isDirectory()) this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()), 0);
                     else this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
 
-					arborescence.addNode(f.getName(), tp);
+					arborescence.insertNode(f.getName(), tp);
 					if (this.cut)
 					{
-						arborescence.removeNode(this.tpToCut);
+						arborescence.removeNode((MutableTreeNode) (this.tpToCut.getLastPathComponent()));
 						this.deleteFile(f);
 					}
 				}
@@ -495,6 +530,27 @@ public class Metier
 
 
 		//new FrameProperties(this.ctrl, this.ctrl.getFramePrincipale(), properties);
+	}
+
+	/**
+     * Permet de mettre à jour l'arborescence à partir du noeud passé en paramètre
+     * @param arborescence : arborescence à rafraichir
+     * @param tp : chemin du dossier à rafraichir
+     */
+	public void refresh(Explorer arborescence, TreePath tp)
+	{
+		File fileSelected = this.treePathToFile(tp);
+		TreeNode selectionnedNode = (TreeNode)(tp.getLastPathComponent());
+		while(selectionnedNode.getChildCount() != 0)
+			arborescence.removeNode(selectionnedNode.getChildAt(0));
+
+		if (fileSelected.list().length != 0)
+		{
+			for (File f : fileSelected.listFiles())
+				arborescence.insertNode(f.getName(), tp); /* Génére les noeuds fils sur un seul étage */
+
+			arborescence.expandPath(tp); /* Ouverture du noeud séléctionnée */
+		}
 	}
 
 	/**

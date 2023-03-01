@@ -48,7 +48,7 @@ public class PanelArborescence extends JPanel
         /* Arborescence */
         DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getAbsolutePath());
         this.arborescence = new Explorer(new DefaultTreeModel(treeRoot), this.ctrl);
-        this.arborescence.addAllNodes(treeRoot, this.rootFile.getAbsolutePath());
+        this.arborescence.addNode(treeRoot, this.rootFile.getAbsolutePath());
         this.arborescence.ouvrirArborescence();
 
         //this.ctrl.addFolderListener(this.rootFile.getAbsolutePath());
@@ -109,7 +109,7 @@ public class PanelArborescence extends JPanel
      */
     public synchronized void addNode(String nodeChildName, TreePath nodeParent)
     {
-        this.arborescence.addNode(nodeChildName, nodeParent);
+        this.arborescence.insertNode(nodeChildName, nodeParent);
     }
 
     /**
