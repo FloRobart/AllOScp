@@ -16,12 +16,18 @@ import path.Path;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.zip.ZipFile;
 
 
 public class MyCellRenderer extends DefaultTreeCellRenderer
 {
     private static final Icon FOLDER_ICON = new ImageIcon(Path.PATH_FOLDER_ICON);
+    private static final Icon EMPTY_FOLDER_ICON = new ImageIcon(Path.PATH_EMPTY_FOLDER_ICON);
     private static final Icon FILE_ICON   = new ImageIcon(Path.PATH_FILE_ICON);
+    private static final Icon ZIP_FILE    = new ImageIcon(Path.PATH_ZIP_FILE);
+    private static final Icon EMPTY_ZIP_FILE = new ImageIcon(Path.PATH_EMPTY_ZIP_FILE);
 
     private String themeUsed;
 
@@ -87,10 +93,28 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
 
         filePath = filePath.substring(0, filePath.length() - 1);
 
-        if (new File(filePath).isDirectory())
-            this.setIcon(MyCellRenderer.FOLDER_ICON);
+        File file = new File(filePath);
+        if (file.isDirectory())
+            if (file.list().length == 0)
+                this.setIcon(MyCellRenderer.EMPTY_FOLDER_ICON);
+            else
+                this.setIcon(MyCellRenderer.FOLDER_ICON);
         else
-            this.setIcon(MyCellRenderer.FILE_ICON);
+            if (file.getName().endsWith(".zip"))
+            {
+                try
+                {
+                    ZipFile zipFile = new ZipFile(file, StandardCharsets.UTF_8);
+                    if (zipFile.stream().count() == 0)
+                        this.setIcon(MyCellRenderer.EMPTY_ZIP_FILE);
+                    else
+                        this.setIcon(MyCellRenderer.ZIP_FILE);
+
+                    zipFile.close();
+                } catch (IOException e) { e.printStackTrace(); System.out.println("Erreur lors de la création du fichier ZIP");}
+            }
+            else
+                this.setIcon(MyCellRenderer.FILE_ICON);
 
         
         return this;

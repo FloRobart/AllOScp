@@ -242,13 +242,6 @@ public class Controleur
 	public File treePathToFile(TreePath tp) { return this.metier.treePathToFile(tp); }
 
     /**
-	 * Permet de convertir un File en Treepath
-	 * @param f : File à convertir
-	 * @return TreePath : Treepath correspondant au file passé en paramètre
-	 */
-	public TreePath fileToTreePath(File f) { return this.metier.fileToTreePath(f); }
-
-    /**
      * Ajoute les noeuds fils à un noeud existant
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du dossier à ajouter
@@ -273,6 +266,16 @@ public class Controleur
      * @return Explorer : arborescence
      */
     public Explorer getArborescence(String panel) { return this.ihm.getArborescence(panel); }
+
+    /**
+	 * Permet de récupérer l'extension d'un fichier
+	 * @param fileToGetExt : fichier dont on veut récupérer l'extension
+	 * @return String : extension du fichier passé en paramètre (sans le point)
+	 */
+	public String getFileExtension(File fileToGetExt)
+	{
+		return this.metier.getFileExtension(fileToGetExt);
+	}
 
     /**
 	 * Permet de définir la suppression d'un fichier ou d'un dossier après l'avoir copier

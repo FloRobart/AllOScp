@@ -8,5 +8,8 @@
     <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>
 
     <pathFolderIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFolderIcon>
+    <pathEmptyFolderIcon>./bin/donnees/images/iconExplorer/dossierVide.png</pathEmptyFolderIcon>
     <pathFileIcon>./bin/donnees/images/iconExplorer/fichier_blanc.png</pathFileIcon>
+    <pathZipFile>./bin/donnees/images/iconExplorer/zip.png</pathZipFile>
+    <pathEmptyZipFile>./bin/donnees/images/iconExplorer/zipVide.png</pathEmptyZipFile>
 </path>

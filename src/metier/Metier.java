@@ -52,6 +52,7 @@ public class Metier
 	/* Métier local */
 	private HashMap<String, FolderListener> hmFolderListener;
 	private HashMap<String, Thread>       hmThread;
+	private TreePath tpToCut;
 	private boolean cut;
 
 	/* Thèmes */
@@ -70,6 +71,7 @@ public class Metier
 		/* Métier local */
 		this.hmFolderListener = new HashMap<String, FolderListener>();
 		this.hmThread	    = new HashMap<String, Thread>();
+		this.tpToCut = null;
 		this.cut = false;
 
 		/* Thèmes */
@@ -102,40 +104,6 @@ public class Metier
 			filePath += o.toString() + File.separator;
 
 		return new File(filePath.substring(0, filePath.length() - 1));
-	}
-
-	/**
-	 * Permet de convertir un File en Treepath
-	 * @param f : File à convertir
-	 * @return TreePath : Treepath correspondant au file passé en paramètre
-	 */
-	public TreePath fileToTreePath(File f)
-	{
-		String[] tabPath = f.getAbsolutePath().split(File.separator + File.separator);
-
-		String root = tabPath[0];
-		for (int i = 1; i < 5; i++)
-		{
-			root += File.separator + tabPath[i];
-		}
-
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(f.getAbsolutePath().split(File.separator + File.separator)[0]);
-		for (String s : f.getAbsolutePath().split(File.separator + File.separator))
-		{
-			System.out.println(s);
-			root.add(new DefaultMutableTreeNode(s));
-		}
-		System.out.println();
-
-		TreeNode[] tabPath = root.getPath();
-		for (TreeNode treeNode : tabPath)
-		{
-			System.out.print(treeNode.toString() + ", ");
-		}
-		System.out.println();
-
-
-		return new TreePath(root);
 	}
 
 	/**
@@ -432,6 +400,7 @@ public class Metier
     public void cutElement(Explorer arborescence, File filToCut)
 	{
 		this.cut = true;
+		this.tpToCut = arborescence.getSelectionPath();
 		this.copyElement(filToCut, true);
 	}
 
@@ -460,7 +429,10 @@ public class Metier
 
 					arborescence.addNode(f.getName(), tp);
 					if (this.cut)
-						arborescence.removeNode(fileToTreePath(f));
+					{
+						arborescence.removeNode(this.tpToCut);
+						this.deleteFile(f);
+					}
 				}
         }
         catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors dde la récupération des fichiers dans le clipboard"); }
@@ -623,8 +595,6 @@ public class Metier
         try
         {
             Files.copy(fileToPaste.toPath(), fileDestination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			if (this.cut)
-				this.deleteFile(fileToPaste);
         }
 		catch (IOException e) { e.printStackTrace(); System.out.println("Erreur lors du collage du fichier"); }
     }

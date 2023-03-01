@@ -26,7 +26,10 @@ public interface Path
 
     /* Icon de l'explorateur */
     public static final String PATH_FOLDER_ICON = Path.initPaths("pathFolderIcon");
+    public static final String PATH_EMPTY_FOLDER_ICON = Path.initPaths("pathEmptyFolderIcon");
     public static final String PATH_FILE_ICON   = Path.initPaths("pathFileIcon"  );
+    public static final String PATH_ZIP_FILE    = Path.initPaths("pathZipFile" );
+    public static final String PATH_EMPTY_ZIP_FILE = Path.initPaths("pathEmptyZipFile" );
 
 
 
@@ -127,15 +130,18 @@ public interface Path
         try
         {
             /* Ecriture du fichier */
-            String sRet =   "<path>"                                                                               + "\n"   +
-                            "    <pathThemes>./bin/donnees/themes</pathThemes>"                                    + "\n"   +
-                            "    <pathThemeX>./bin/donnees/themes/theme_</pathThemeX>"                             + "\n"   +
-                            "    <pathThemeSave>./bin/donnees/themes/theme_sauvegarde.xml</pathThemeSave>"         + "\n\n" +
-                            "    <pathLangages>./bin/donnees/langages/</pathLangages>"                             + "\n"   +
-                            "    <pathLangageX>./bin/donnees/langages/langage_</pathLangageX>"                     + "\n"   +
-                            "    <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>" + "\n"   +
-                            "    <pathFolderIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFolderIcon>"   + "\n"   +
-                            "    <pathFileIcon>./bin/donnees/images/iconExplorer/fichier_blanc.png</pathFileIcon>" + "\n"   +
+            String sRet =   "<path>"                                                                                           + "\n"   +
+                            "    <pathThemes>./bin/donnees/themes</pathThemes>"                                                + "\n"   +
+                            "    <pathThemeX>./bin/donnees/themes/theme_</pathThemeX>"                                         + "\n"   +
+                            "    <pathThemeSave>./bin/donnees/themes/theme_sauvegarde.xml</pathThemeSave>"                     + "\n\n" +
+                            "    <pathLangages>./bin/donnees/langages/</pathLangages>"                                         + "\n"   +
+                            "    <pathLangageX>./bin/donnees/langages/langage_</pathLangageX>"                                 + "\n"   +
+                            "    <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>"             + "\n"   +
+                            "    <pathFolderIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFolderIcon>"               + "\n"   +
+                            "    <pathEmptyFolderIcon>./bin/donnees/images/iconExplorer/dossierVide.png</pathEmptyFolderIcon>" + "\n"   +
+                            "    <pathFileIcon>./bin/donnees/images/iconExplorer/fichier_blanc.png</pathFileIcon>"             + "\n"   +
+                            "    <pathZipFile>./bin/donnees/images/iconExplorer/zip.png</pathZipFile>"                         + "\n"   +
+                            "    <pathEmptyZipFile>./bin/donnees/images/iconExplorer/zipVide.png</pathEmptyZipFile>"           + "\n"   +
                             "</path>";
 
             PrintWriter pw = new PrintWriter(file_AllPath);
