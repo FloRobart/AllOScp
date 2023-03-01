@@ -6,11 +6,16 @@ import java.awt.event.MouseMotionListener;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.swing.DropMode;
 import javax.swing.JTree;
@@ -108,7 +113,12 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
         {
+            List<File> lstFile = new ArrayList<File>();
             for (File f : file.listFiles())
+                lstFile.add(f);
+
+            Collections.sort(lstFile, (File o1, File o2) -> o1.getName().compareTo(o2.getName()));
+            for (File f : lstFile)
             {
                 final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(f.getName());
                 node.add(TEMP_DMTN);
@@ -127,13 +137,60 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     {
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
+        {
+            List<File> lstFile = new ArrayList<File>();
             for (File f : file.listFiles())
+                lstFile.add(f);
+
+            Collections.sort(lstFile, (File o1, File o2) -> o1.getName().compareTo(o2.getName()));
+            for (File f : lstFile)
+            {
+                System.out.print(f.getName() + ", ");
                 node.add(new DefaultMutableTreeNode(f.getName()));
+            }
+        }
     }
 
+    /**
+     * Permet d'ajouter un noeud à l'arborescence
+     * @param nodeChildName : nom du noeud à ajouter
+     * @param nodeParent : noeud parent du noeud à ajouter
+     */
     public synchronized void addNode(String nodeChildName, TreePath nodeParent)
     {
-        ((DefaultTreeModel) this.getModel()).insertNodeInto(new DefaultMutableTreeNode(nodeChildName), (MutableTreeNode) (nodeParent.getLastPathComponent()), ((MutableTreeNode) (nodeParent.getLastPathComponent())).getChildCount());
+        // TODO : remplacer ((MutableTreeNode) (nodeParent.getLastPathComponent())).getChildCount() par la place du noeud à ajouter (par ordre alphabetique).
+        List<DefaultMutableTreeNode> lstChildNodes = this.getDefaultMutableTreeNodeChildren((MutableTreeNode) (nodeParent.getLastPathComponent()));
+        lstChildNodes.add(new DefaultMutableTreeNode(nodeChildName));
+        Collections.sort(lstChildNodes, (DefaultMutableTreeNode o1, DefaultMutableTreeNode o2) -> o1.toString().compareTo(o2.toString()));
+        int index = 0;
+        for (DefaultMutableTreeNode dmtn : lstChildNodes)
+        {
+            if (dmtn.toString().equals(nodeChildName))
+                break;
+            index++;
+        }
+
+        ((DefaultTreeModel) this.getModel()).insertNodeInto(new DefaultMutableTreeNode(nodeChildName), (MutableTreeNode) (nodeParent.getLastPathComponent()), index);
+    }
+
+    /**
+     * Permet d'obtenir la liste des fils d'un noeud parent de type DefaultMutableTreeNode
+     * @param node : noeud parent
+     * @return la liste des noeuds fils de type DefaultMutableTreeNode
+     */
+    private List<DefaultMutableTreeNode> getDefaultMutableTreeNodeChildren(TreeNode node)
+    {
+        if (node == null) throw new NullPointerException("node == null");
+
+        List<DefaultMutableTreeNode> children = new ArrayList<DefaultMutableTreeNode>(node.getChildCount());
+        for (Enumeration<?> enumeration = node.children(); enumeration.hasMoreElements();)
+        {
+            Object nextElement = enumeration.nextElement();
+            if (nextElement instanceof DefaultMutableTreeNode)
+                children.add((DefaultMutableTreeNode) nextElement);
+        }
+
+        return children;
     }
 
     /**

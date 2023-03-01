@@ -27,6 +27,7 @@ import path.Path;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -578,7 +579,7 @@ public class Metier
                     if (f.isDirectory())
                         this.pasteFolderRec(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()), i);
                     else
-                        this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
+						this.pasteFile(f, new File(folderDestination.getAbsolutePath() + File.separator + f.getName()));
             else
 				this.pasteFolderRec(folderToPaste, new File(folderDestination.getAbsolutePath() + "_(" + (++i) + ")"), i);
         }

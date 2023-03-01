@@ -15,6 +15,7 @@ import javax.swing.JTree;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 import controleur.Controleur;
 import ihm.explorer.Explorer;
@@ -295,15 +296,14 @@ public class FramePrincipale extends JFrame
         return true;
     }
 
-
     /**
-     * Ajoute les noeuds fils à un noeud existant
-     * @param node le noeud au quel rajouter les noeuds fils
-     * @param filePath le chemin absolut du dossier à ajouter
+     * Permet d'ajouter un noeud à l'arborescence
+     * @param nodeChildName : nom du noeud à ajouter
+     * @param nodeParent : noeud parent du noeud à ajouter
      */
-    public void addNode(DefaultMutableTreeNode node, String filePath)
+    public synchronized void addNode(String nodeChildName, TreePath nodeParent)
     {
-        this.lstPanelGlobal.get(this.onglets.getSelectedIndex()).addNode(node, filePath);
+        this.lstPanelGlobal.get(this.onglets.getSelectedIndex()).addNode(nodeChildName, nodeParent);
     }
 
     /**

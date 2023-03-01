@@ -60,13 +60,13 @@ public class PanelGlobal extends JPanel
 
 
     /**
-     * Ajoute les noeuds fils à un noeud existant
-     * @param node le noeud au quel rajouter les noeuds fils
-     * @param filePath le chemin absolut du dossier à ajouter
+     * Permet d'ajouter un noeud à l'arborescence
+     * @param nodeChildName : nom du noeud à ajouter
+     * @param nodeParent : noeud parent du noeud à ajouter
      */
-    public void addNode(DefaultMutableTreeNode node, String filePath)
+    public synchronized void addNode(String nodeChildName, TreePath nodeParent)
     {
-        this.getPanelArborescence(filePath).addNode(node, filePath);
+        this.getPanelArborescence(this.ctrl.treePathToFile(nodeParent).getAbsolutePath()).addNode(nodeChildName, nodeParent);
     }
 
     /**

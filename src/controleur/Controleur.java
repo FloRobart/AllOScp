@@ -242,13 +242,13 @@ public class Controleur
 	public File treePathToFile(TreePath tp) { return this.metier.treePathToFile(tp); }
 
     /**
-     * Ajoute les noeuds fils à un noeud existant
-     * @param node le noeud au quel rajouter les noeuds fils
-     * @param filePath le chemin absolut du dossier à ajouter
+     * Permet d'ajouter un noeud à l'arborescence
+     * @param nodeChildName : nom du noeud à ajouter
+     * @param nodeParent : noeud parent du noeud à ajouter
      */
-    public void addNode(DefaultMutableTreeNode node, String filePath)
+    public synchronized void addNode(String nodeChildName, TreePath nodeParent)
     {
-        this.ihm.addNode(node, filePath);
+        this.ihm.addNode(nodeChildName, nodeParent);
     }
 
     /**

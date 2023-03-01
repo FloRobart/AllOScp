@@ -6,6 +6,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import java.awt.BorderLayout;
 
@@ -102,13 +103,13 @@ public class PanelArborescence extends JPanel
     }
 
     /**
-     * Ajoute les noeuds fils à un noeud existant
-     * @param node le noeud au quel rajouter les noeuds fils
-     * @param filePath le chemin absolut du dossier à ajouter
+     * Permet d'ajouter un noeud à l'arborescence
+     * @param nodeChildName : nom du noeud à ajouter
+     * @param nodeParent : noeud parent du noeud à ajouter
      */
-    public void addNode(DefaultMutableTreeNode node, String filePath)
+    public synchronized void addNode(String nodeChildName, TreePath nodeParent)
     {
-        this.arborescence.addNodeTemp(node, filePath);
+        this.arborescence.addNode(nodeChildName, nodeParent);
     }
 
     /**

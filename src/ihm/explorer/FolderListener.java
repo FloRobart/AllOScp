@@ -61,7 +61,7 @@ public class FolderListener implements Runnable
                     if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())) /* Création d'un élément */
                     {
                         System.out.println(String.format("%-20s", fileName) + " CREER     dans " + this.folderPath.toString());
-                        this.ctrl.addNode(new DefaultMutableTreeNode(fileName), this.folderPath.toString() + File.separator + fileName);
+                        //this.ctrl.addNode(fileName, this.folderPath.toString() + File.separator + fileName);
                     }
                     else if (StandardWatchEventKinds.ENTRY_DELETE.equals(event.kind())) /* Suppression d'un élément */
                     {
