@@ -42,7 +42,7 @@ public class Metier
 
 	/* Métier local */
 	private HashMap<String, FolderListener> hmFolderListener;
-	private HashMap<String, Thread>       hmThread;
+	private HashMap<String, Thread>         hmThread;
 	private TreePath tpToCut;
 	private boolean cut;
 
@@ -666,7 +666,7 @@ public class Metier
      * @param folderToCopy : le dossier à copier
      * @return la liste des fichiers copiés
      */
-    private List<File> copyFilesInFolder(File folderToCopy)
+    public List<File> copyFilesInFolder(File folderToCopy)
     {
         List<File> lstFiles = new ArrayList<File>();
 

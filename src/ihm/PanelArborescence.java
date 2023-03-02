@@ -1,18 +1,14 @@
 package ihm;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-
 import java.awt.BorderLayout;
-
 import java.awt.Color;
 import java.io.File;
-import java.util.Enumeration;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 import controleur.Controleur;
 import ihm.explorer.Explorer;

@@ -1,25 +1,21 @@
 package ihm.menu.popUp.menu;
 
 import java.awt.Color;
-import java.awt.Toolkit;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.tree.TreePath;
-import java.awt.Component;
 
 import controleur.Controleur;
 import ihm.explorer.Explorer;
-import metier.FileTransferable;
 
 
 public class PopUpMenuArbo extends JPopupMenu implements ActionListener
@@ -68,6 +64,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 
 
         /* Ajout des accélérators */
+        // TODO : regler le probleme des raccourcis clavier
         //this.changeDrive.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         this.open       .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         this.openWith   .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));

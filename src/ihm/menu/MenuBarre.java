@@ -67,7 +67,7 @@ public class MenuBarre extends JMenuBar implements ActionListener
 		/*----------*/
 		/* Fichiers */
 		/*----------*/
-
+		// TODO : Ajouter les composants pour les fichiers (potentiellemnt les mêmes qui pour le clique droit pour faire fonctionner les raccourcis clavier)
 
 
 		/*---------*/

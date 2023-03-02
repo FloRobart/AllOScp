@@ -9,6 +9,8 @@ faire attention au survole de la sourie sur l'arbo, ça change le fichier choisi
 //this.getCellEditor().getCellEditorValue();
 
 
+faire ne sorte de pouvoir copier tout les fichier d'un dossier (methode copyFilesInFolder() dans la metier)
+
 
 
 

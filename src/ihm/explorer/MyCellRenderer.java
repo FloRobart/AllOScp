@@ -19,11 +19,11 @@ import java.util.zip.ZipFile;
 
 public class MyCellRenderer extends DefaultTreeCellRenderer
 {
-    private static final Icon FOLDER_ICON       = new ImageIcon(Path.PATH_FOLDER_ICON);
-    private static final Icon EMPTY_FOLDER_ICON = new ImageIcon(Path.PATH_EMPTY_FOLDER_ICON);
-    private static final Icon FILE_ICON         = new ImageIcon(Path.PATH_FILE_ICON);
-    private static final Icon ZIP_FILE          = new ImageIcon(Path.PATH_ZIP_FILE);
-    private static final Icon EMPTY_ZIP_FILE    = new ImageIcon(Path.PATH_EMPTY_ZIP_FILE);
+    private static final Icon FOLDER_ICON       = MyCellRenderer.initIcon(Path.PATH_FOLDER_ICON);
+    private static final Icon EMPTY_FOLDER_ICON = MyCellRenderer.initIcon(Path.PATH_EMPTY_FOLDER_ICON);
+    private static final Icon FILE_ICON         = MyCellRenderer.initIcon(Path.PATH_FILE_ICON);
+    private static final Icon ZIP_FILE          = MyCellRenderer.initIcon(Path.PATH_ZIP_FILE);
+    private static final Icon EMPTY_ZIP_FILE    = MyCellRenderer.initIcon(Path.PATH_EMPTY_ZIP_FILE);
 
     private Controleur ctrl;
 
