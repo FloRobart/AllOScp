@@ -18,7 +18,6 @@ import org.jdom2.input.SAXBuilder;
 
 import controleur.Controleur;
 import ihm.explorer.Explorer;
-import ihm.explorer.FolderListener;
 import path.Path;
 
 import java.awt.Color;
@@ -41,8 +40,6 @@ public class Metier
     private Controleur ctrl;
 
 	/* Métier local */
-	private HashMap<String, FolderListener> hmFolderListener;
-	private HashMap<String, Thread>         hmThread;
 	private TreePath tpToCut;
 	private boolean cut;
 
@@ -60,8 +57,6 @@ public class Metier
         this.ctrl = ctrl;
 
 		/* Métier local */
-		this.hmFolderListener = new HashMap<String, FolderListener>();
-		this.hmThread	    = new HashMap<String, Thread>();
 		this.tpToCut = null;
 		this.cut = false;
 
@@ -209,59 +204,20 @@ public class Metier
 	/*----------------*/
 	/**
      * Permet de supprimer les écouteurs d'évènements d'un dossier
-     * @param filePath : chemin absolut du dossier à écouter
+     * @param fileToListen : chemin absolut du dossier à écouter
      */
-	public synchronized void addFolderListener(String filePath)
+	public synchronized void addFolderListener(File fileToListen)
 	{
-		if (new File(filePath).isDirectory())
-		{
-			if (this.hmFolderListener.containsKey(filePath))
-				this.removeFolderListener(filePath);
-
-			this.hmFolderListener.put(filePath, new FolderListener(filePath, this.ctrl));
-			this.hmThread.put(filePath, new Thread(this.hmFolderListener.get(filePath)));
-			this.hmThread.get(filePath).start();
-
-			System.out.println("listener ajouté pour le dossier : '" + filePath + "'");
-		}
-		else
-			System.out.println("le chemin '" + filePath + "' n'est pas un dossier");
-
-		// affiché la hashmap
-		System.out.println();
-		for (String key : this.hmFolderListener.keySet())
-			System.out.println("key : " + key + " - value : " + this.hmFolderListener.get(key));
 		
-		System.out.println();
 	}
 
 	/**
      * Permet de supprimer les écouteurs d'évènements d'un dossier
-     * @param filePath : chemin absolut du dossier à écouter
+     * @param fileToListen : chemin absolut du dossier à écouter
      */
-    public synchronized void removeFolderListener(String filePath)
+    public synchronized void removeFolderListener(File fileToListen)
 	{
-		if (filePath.equals("")) return;
-
-		for (String key : this.hmFolderListener.keySet())
-		{
-			if (key.startsWith(filePath))
-			{
-				this.hmThread.get(key).interrupt();
-				this.hmFolderListener.remove(key);
-				this.hmThread.remove(key);
-				System.out.println("listener supprimé pour le dossier : '" + key + "'");
-			}
-			else
-				System.out.println("pas de listener pour le dossier : '" + key + "'");
-		}
-
-		// affiché la hashmap
-		System.out.println();
-		for (String key : this.hmFolderListener.keySet())
-			System.out.println("key : " + key + " - value : " + this.hmFolderListener.get(key));
 		
-		System.out.println();
 	}
 
 	/*--------------------*/

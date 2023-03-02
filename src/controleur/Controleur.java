@@ -308,15 +308,15 @@ public class Controleur
 	/*----------------*/
     /**
      * Permet de lire les évènements d'un dossier
-     * @param filePath : chemin absolut du dossier à écouter
+     * @param fileToListen : chemin absolut du dossier à écouter
      */
-    public void addFolderListener(String filePath) { this.metier.addFolderListener(filePath); }
+    public void addFolderListener(File fileToListen) { this.metier.addFolderListener(fileToListen); }
 
     /**
      * Permet de supprimer les écouteurs d'évènements d'un dossier
      * @param filePath : chemin absolut du dossier à écouter
      */
-    public void removeFolderListener(String filePath) { this.metier.removeFolderListener(filePath); }
+    public void removeFolderListener(File fileToListen) { this.metier.removeFolderListener(fileToListen); }
 
 
     /*--------------------*/

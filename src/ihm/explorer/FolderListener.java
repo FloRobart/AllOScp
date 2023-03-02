@@ -67,9 +67,6 @@ public class FolderListener implements Runnable
                     {
                         System.out.println(String.format("%-20s", fileName) + " SUPPRIMER dans " + this.folderPath.toString());
                         this.ctrl.removeNode(new DefaultMutableTreeNode(fileName), this.folderPath.toString() + File.separator + fileName);
-
-
-                        //this.ctrl.removeFolderListener(this.folderPath.toString() + File.separator + fileName);
                     }
                     else if (StandardWatchEventKinds.ENTRY_MODIFY.equals(event.kind())) /* Modification d'un élément */
                     {
