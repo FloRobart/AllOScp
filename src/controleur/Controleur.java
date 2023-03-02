@@ -13,7 +13,6 @@ import java.io.File;
 
 import ihm.FramePrincipale;
 import ihm.explorer.Explorer;
-import ihm.explorer.FolderListener;
 import metier.Metier;
 
 

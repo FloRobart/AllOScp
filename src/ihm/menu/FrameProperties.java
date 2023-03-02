@@ -3,7 +3,6 @@ package ihm.menu;
 import java.util.HashMap;
 
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +23,7 @@ public class FrameProperties extends JFrame
         this.setLocationRelativeTo(framePrincipale);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        // TODO : finir le Panel properties
         this.add(new PanelProperties(ctrl));
 
         this.setVisible(true);

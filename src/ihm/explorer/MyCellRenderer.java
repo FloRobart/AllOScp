@@ -11,6 +11,7 @@ import path.Path;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,11 +20,11 @@ import java.util.zip.ZipFile;
 
 public class MyCellRenderer extends DefaultTreeCellRenderer
 {
-    private static final Icon FOLDER_ICON       = MyCellRenderer.initIcon(Path.PATH_FOLDER_ICON);
-    private static final Icon EMPTY_FOLDER_ICON = MyCellRenderer.initIcon(Path.PATH_EMPTY_FOLDER_ICON);
-    private static final Icon FILE_ICON         = MyCellRenderer.initIcon(Path.PATH_FILE_ICON);
-    private static final Icon ZIP_FILE          = MyCellRenderer.initIcon(Path.PATH_ZIP_FILE);
-    private static final Icon EMPTY_ZIP_FILE    = MyCellRenderer.initIcon(Path.PATH_EMPTY_ZIP_FILE);
+    private static final Icon FOLDER_ICON       = MyCellRenderer.initIcon(Path.PATH_FOLDER_ICON, 1);
+    private static final Icon EMPTY_FOLDER_ICON = MyCellRenderer.initIcon(Path.PATH_EMPTY_FOLDER_ICON, 1);
+    private static final Icon FILE_ICON         = MyCellRenderer.initIcon(Path.PATH_FILE_ICON, 0.5);
+    private static final Icon ZIP_FILE          = MyCellRenderer.initIcon(Path.PATH_ZIP_FILE, 2);
+    private static final Icon EMPTY_ZIP_FILE    = MyCellRenderer.initIcon(Path.PATH_EMPTY_ZIP_FILE, 2);
 
     private Controleur ctrl;
 
@@ -43,12 +44,13 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
     /**
      * Permet d'initialiser l'icon avec une résolution de 512x512 à la bonne taille pour l'affichage
      * @param pathIcon : chemin de l'icon à initialiser
+     * @param zoomFactor le facteur de zoom à utiliser pour redimensionner les icônes
      * @return Icon : icon initialisé avec la bonne taille
      */
-    private static Icon initIcon(String pathIcon)
+    private static Icon initIcon(String pathIcon, double zoomFactor)
     {
-        // TODO : initialiser l'icon avec une résolution de 512x512 à la bonne taille pour l'affichage
-        return new ImageIcon(pathIcon);
+        Image image = new ImageIcon(pathIcon).getImage();
+        return new ImageIcon(image.getScaledInstance((int)(image.getWidth(null) * zoomFactor), (int)(image.getHeight(null) * zoomFactor), Image.SCALE_SMOOTH));
     }
 
     @Override

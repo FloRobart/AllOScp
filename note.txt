@@ -12,6 +12,10 @@ faire attention au survole de la sourie sur l'arbo, ça change le fichier choisi
 faire ne sorte de pouvoir copier tout les fichier d'un dossier (methode copyFilesInFolder() dans la metier)
 
 
+faire un system de zoom pour grossir ou retressir les icones et les textes
+peut etre faire un fichier defaultValue.xml pour les paramètre par défaut de l'appli (thème, langue, taille)
+
+
 
 
 /* Fonctionnalitées dans le panelFonctionGlobal */
