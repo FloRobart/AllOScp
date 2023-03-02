@@ -3,20 +3,12 @@ package ihm.explorer;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.Desktop;
+import java.awt.Color;
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import javax.swing.DropMode;
 import javax.swing.JTree;
@@ -32,23 +24,26 @@ import controleur.Controleur;
 import ihm.menu.popUp.menu.PopUpMenuArbo;
 
 
-
 public class Explorer extends JTree implements MouseListener, MouseMotionListener
 {
     private Controleur ctrl;
     private PopUpMenuArbo popUpMenuArbo;
 
+    private boolean isSelectioned;
+
     private TreePath ancienTpSelectioned;
 
 
-    public Explorer(TreeModel tm, Controleur ctrl)
+    public Explorer(TreeModel tm, Controleur ctrl, MyCellRenderer mycellRenderer)
     {
         super(tm);
 
         this.ctrl = ctrl;
         this.popUpMenuArbo = new PopUpMenuArbo(this, this.ctrl);
 
-        this.setEditable(true);
+        this.isSelectioned = false;
+
+        this.setEditable(false);
         this.setDragEnabled(true);
         this.setDropMode(DropMode.ON_OR_INSERT);
         this.setTransferHandler(new TreeTransferHandler());
@@ -228,6 +223,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
         if(tp != null)
         {
+            this.isSelectioned = true;
             if (me.getButton() == MouseEvent.BUTTON3)
             {
                 this.setSelectionPath(tp);
@@ -238,6 +234,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                 this.setSelectionPath(tp);
                 if (me.getClickCount() == 2)
                 {
+                    this.isSelectioned = false;
                     File fileSelected = this.ctrl.treePathToFile(tp);
                     if (!fileSelected.exists()) { System.out.println("Erreur, le fichier '" + fileSelected.getAbsolutePath() + "' n'existe pas"); }
                     if (fileSelected.isDirectory())
@@ -254,20 +251,15 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                         }
                         else
                         {
-                            if (this.isExpanded(tp))
-                            {
-                                for (File f : fileSelected.listFiles())
-                                    this.insertNode(f.getName(), tp); /* Génére les noeuds fils sur un seul étage */
-
-                                this.expandPath(tp); /* Ouverture du noeud séléctionnée */
-                            }
-                            else
+                            if (!this.isExpanded(tp))
                             {
                                 // supprime les noeuds fils du noeud séléctionné
                                 TreeNode selectionnedNode = (TreeNode)(tp.getLastPathComponent());
                                 while(selectionnedNode.getChildCount() != 0)
                                     this.removeNode(selectionnedNode.getChildAt(0));
                             }
+                            else
+                                this.expandPath(tp); /* Ouverture du noeud séléctionnée */
                         }
                     }
                     else
@@ -278,8 +270,19 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         else
         {
             this.clearSelection();
+            this.isSelectioned = false;
             this.ctrl.setCut(false);
         }
+    }
+
+    @Override
+    public void mouseMoved   (MouseEvent me)
+    {
+        TreePath tp = this.getPathForLocation(me.getX(),me.getY());
+        if(!this.isSelectioned && tp != null && !tp.equals(this.ancienTpSelectioned) && !tp.equals(this.getSelectionPath()))
+            this.setSelectionPath(tp);
+
+        this.ancienTpSelectioned = tp;
     }
 
     @Override
@@ -292,15 +295,6 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     public void mouseReleased(MouseEvent me) {}
     @Override
     public void mouseDragged (MouseEvent me) {}
-    @Override
-    public void mouseMoved   (MouseEvent me)
-    {
-        TreePath tp = this.getPathForLocation(me.getX(),me.getY());
-        if(tp != null && !tp.equals(this.ancienTpSelectioned))
-            this.setSelectionPath(tp);
-
-        this.ancienTpSelectioned = tp;
-    }
 
 
     /**

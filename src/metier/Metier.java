@@ -2,16 +2,13 @@ package metier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
@@ -22,15 +19,11 @@ import org.jdom2.input.SAXBuilder;
 import controleur.Controleur;
 import ihm.explorer.Explorer;
 import ihm.explorer.FolderListener;
-import ihm.menu.FrameProperties;
 import path.Path;
 
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.awt.Desktop;
 import java.io.File;
@@ -39,11 +32,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 
@@ -109,6 +98,20 @@ public class Metier
 	}
 
 	/**
+     * Permet de convertir un tableau de TreeNode en File
+     * @param tn : tableau de TreeNode à convertir
+     * @return fichier correspondant au tableau de TreeNode passé en paramètre
+     */
+    public File treeNodeToFile(TreeNode[] tn)
+	{
+		String filePath = "";
+		for (TreeNode t : tn)
+			filePath += t.toString() + File.separator;
+
+		return new File(filePath.substring(0, filePath.length() - 1));
+	}
+
+	/**
 	 * Permet de récupérer l'extension d'un fichier
 	 * @param fileToGetExt : fichier dont on veut récupérer l'extension
 	 * @return String : extension du fichier passé en paramètre (sans le point)
@@ -169,6 +172,8 @@ public class Metier
 		}
 
 		sRet += ("element non comparable\n");
+
+		System.out.println(sRet);
 		return false;
 	}
 

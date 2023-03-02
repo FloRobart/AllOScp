@@ -5,10 +5,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeNode;
-
-import org.jdom2.Element;
-import org.jdom2.input.SAXBuilder;
 
 import controleur.Controleur;
 import path.Path;
@@ -23,13 +19,13 @@ import java.util.zip.ZipFile;
 
 public class MyCellRenderer extends DefaultTreeCellRenderer
 {
-    private static final Icon FOLDER_ICON = new ImageIcon(Path.PATH_FOLDER_ICON);
+    private static final Icon FOLDER_ICON       = new ImageIcon(Path.PATH_FOLDER_ICON);
     private static final Icon EMPTY_FOLDER_ICON = new ImageIcon(Path.PATH_EMPTY_FOLDER_ICON);
-    private static final Icon FILE_ICON   = new ImageIcon(Path.PATH_FILE_ICON);
-    private static final Icon ZIP_FILE    = new ImageIcon(Path.PATH_ZIP_FILE);
-    private static final Icon EMPTY_ZIP_FILE = new ImageIcon(Path.PATH_EMPTY_ZIP_FILE);
+    private static final Icon FILE_ICON         = new ImageIcon(Path.PATH_FILE_ICON);
+    private static final Icon ZIP_FILE          = new ImageIcon(Path.PATH_ZIP_FILE);
+    private static final Icon EMPTY_ZIP_FILE    = new ImageIcon(Path.PATH_EMPTY_ZIP_FILE);
 
-    private String themeUsed;
+    private Controleur ctrl;
 
     private Color backgroundSelection    = null;
     private Color backgroundNonSelection = null;
@@ -41,59 +37,38 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
     public MyCellRenderer(Controleur ctrl)
     {
         super();
+        this.ctrl = ctrl;
+    }
 
-        this.chargerThemes();
+    /**
+     * Permet d'initialiser l'icon avec une résolution de 512x512 à la bonne taille pour l'affichage
+     * @param pathIcon : chemin de l'icon à initialiser
+     * @return Icon : icon initialisé avec la bonne taille
+     */
+    private static Icon initIcon(String pathIcon)
+    {
+        // TODO : initialiser l'icon avec une résolution de 512x512 à la bonne taille pour l'affichage
+        return new ImageIcon(pathIcon);
     }
 
     @Override
-    public Color getBackgroundSelectionColor()
-    {
-        if (this.backgroundSelection == null)
-            this.chargerThemes();
-        
-        return this.backgroundSelection;
-    }
+    public Color getBackgroundSelectionColor() { return this.backgroundSelection; }
 
     @Override
-    public Color getBackgroundNonSelectionColor()
-    {
-        if (this.backgroundNonSelection == null)
-            this.chargerThemes();
-        
-        return this.backgroundNonSelection;
-    }
+    public Color getBackgroundNonSelectionColor() { return this.backgroundNonSelection; }
 
     @Override
-    public Color getBackground()
-    {
-        if (this.backgroundNonSelection == null)
-            this.chargerThemes();
-        
-        return this.backgroundNonSelection;
-    }
+    public Color getBackground() { return this.backgroundNonSelection; }
 
     @Override
-    public Color getForeground()
-    {
-        if (this.foreground == null)
-            this.chargerThemes();
-        
-        return this.foreground;
-    }
-
+    public Color getForeground() { return this.foreground; }
 
     @Override
-    public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus)
+    public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean selectioned, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus)
     {
-        super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+        super.getTreeCellRendererComponent(tree, value, selectioned, expanded, leaf, row, hasFocus);
 
-        String filePath = "";
-        for(TreeNode t : ((DefaultMutableTreeNode) value).getPath())
-            filePath += t.toString() + File.separator;
-
-        filePath = filePath.substring(0, filePath.length() - 1);
-
-        File file = new File(filePath);
+        File file = this.ctrl.treeNodeToFile(((DefaultMutableTreeNode) value).getPath());
         if (file.isDirectory())
             if (file.list().length == 0)
                 this.setIcon(MyCellRenderer.EMPTY_FOLDER_ICON);
@@ -116,59 +91,8 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
             else
                 this.setIcon(MyCellRenderer.FILE_ICON);
 
-        
         return this;
     }
-
-
-
-    /**
-     * Récupère le thème utilisé dans le fichier xml de sauvegarde
-     * @return String : thème à utilisé
-     */
-    public void getThemeUsed()
-    {
-        SAXBuilder sxb = new SAXBuilder();
-        try
-        {
-            this.themeUsed = sxb.build(Path.PATH_THEME_SAVE).getRootElement().getText();
-        }
-        catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML du themes utilisé"); }
-    }
-
-
-    /**
-	 * Charge les couleurs du thème choisi par l'utilisateur dans la HashMap
-	 * @param theme : thème à charger
-	 * @return HashMap contenant les couleurs du thème
-	 */
-	public void chargerThemes()
-	{
-        this.getThemeUsed();
-
-		SAXBuilder sxb = new SAXBuilder();
-		try
-		{
-			Element racine = sxb.build(Path.PATH_THEME_X + this.themeUsed + ".xml").getRootElement();
-
-			/*----------------------------------------------*/
-			/* Récupération des couleurs de chaque éléments */
-			/*----------------------------------------------*/
-            Element cg = racine.getChild("titlesBackground");
-            this.backgroundSelection = new Color( Integer.parseInt(cg.getAttributeValue("red")), Integer.parseInt(cg.getAttributeValue("green")), Integer.parseInt(cg.getAttributeValue("blue")), Integer.parseInt(cg.getAttributeValue("alpha")));
-            
-            cg = racine.getChild("background");
-            this.backgroundNonSelection = new Color( Integer.parseInt(cg.getAttributeValue("red")), Integer.parseInt(cg.getAttributeValue("green")), Integer.parseInt(cg.getAttributeValue("blue")), Integer.parseInt(cg.getAttributeValue("alpha")));
-            
-            cg = racine.getChild("foreground");
-            this.foreground = new Color( Integer.parseInt(cg.getAttributeValue("red")), Integer.parseInt(cg.getAttributeValue("green")), Integer.parseInt(cg.getAttributeValue("blue")), Integer.parseInt(cg.getAttributeValue("alpha")));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("Erreur lors de la lecture du fichier XML des informations du theme");
-		}
-	}
 
 
     /**
@@ -176,6 +100,8 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
      */
     public void appliquerTheme()
     {
-        this.chargerThemes();
+        this.backgroundNonSelection = this.ctrl.getTheme().get("background");
+        this.backgroundSelection    = this.ctrl.getTheme().get("titlesBackground");
+        this.foreground             = this.ctrl.getTheme().get("foreground");
     }
 }

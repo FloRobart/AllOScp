@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import java.awt.Color;
@@ -237,9 +238,16 @@ public class Controleur
     /**
 	 * Permet de convertir un TreePath en File
 	 * @param tp : TreePath à convertir
-	 * @return File : fichier correspondant au TreePath passé en paramètre
+	 * @return fichier correspondant au TreePath passé en paramètre
 	 */
 	public File treePathToFile(TreePath tp) { return this.metier.treePathToFile(tp); }
+
+    /**
+     * Permet de convertir un tableau de TreeNode en File
+     * @param tn : tableau de TreeNode à convertir
+     * @return fichier correspondant au tableau de TreeNode passé en paramètre
+     */
+    public File treeNodeToFile(TreeNode[] tn) { return this.metier.treeNodeToFile(tn); }
 
     /**
      * Permet d'ajouter un noeud à l'arborescence

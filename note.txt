@@ -5,6 +5,9 @@ faire en sorte de générer qu'un seul étage de l'arborescence à la fois pour 
 
 faire attention au survole de la sourie sur l'arbo, ça change le fichier choisie au moment du clique droit.
 
+// pour le rennomage
+//this.getCellEditor().getCellEditorValue();
+
 
 
 
