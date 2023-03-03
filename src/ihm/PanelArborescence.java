@@ -42,12 +42,10 @@ public class PanelArborescence extends JPanel
         this.setSize(200, 400);
 
         /* Arborescence */
-        this.mycellRenderer = new MyCellRenderer(this.ctrl);
         DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getAbsolutePath());
-        this.arborescence = new Explorer(new DefaultTreeModel(treeRoot), this.ctrl, this.mycellRenderer);
+        this.arborescence = new Explorer(new DefaultTreeModel(treeRoot), this.ctrl);
         this.arborescence.addNode(treeRoot, this.rootFile.getAbsolutePath());
         this.arborescence.ouvrirArborescence();
-        this.arborescence.setCellRenderer(this.mycellRenderer);
 
 
         /*-----------------------*/
@@ -139,7 +137,6 @@ public class PanelArborescence extends JPanel
         this.arborescence.setBackground(backGeneralColor);
         this.arborescence.setForeground(foreGeneralColor);
         this.arborescence.appliquerTheme();
-        this.mycellRenderer.appliquerTheme();
     }
 
 

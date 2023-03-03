@@ -290,6 +290,12 @@ public class Controleur
 	 */
 	public void setCut(boolean b) { this.metier.setCut(b); }
 
+    /**
+     * Permet d'obtenir la liste des fils d'un noeud parent de type DefaultMutableTreeNode
+     * @param nodeToGetChildren : noeud pour lequel on veux obtenir les fils
+     * @return la liste des noeuds fils de type DefaultMutableTreeNode
+     */
+    public List<DefaultMutableTreeNode> getChildrenNodes(TreeNode nodeToGetChildren) { return this.metier.getChildrenNodes(nodeToGetChildren); }
 
     /*-------------------------------*/
 	/* Méthode panel fonction global */

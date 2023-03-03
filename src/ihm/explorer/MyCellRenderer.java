@@ -22,15 +22,15 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
 {
     private static final Icon FOLDER_ICON       = MyCellRenderer.initIcon(Path.PATH_FOLDER_ICON, 1);
     private static final Icon EMPTY_FOLDER_ICON = MyCellRenderer.initIcon(Path.PATH_EMPTY_FOLDER_ICON, 1);
-    private static final Icon FILE_ICON         = MyCellRenderer.initIcon(Path.PATH_FILE_ICON, 0.5);
-    private static final Icon ZIP_FILE          = MyCellRenderer.initIcon(Path.PATH_ZIP_FILE, 2);
-    private static final Icon EMPTY_ZIP_FILE    = MyCellRenderer.initIcon(Path.PATH_EMPTY_ZIP_FILE, 2);
+    private static final Icon FILE_ICON         = MyCellRenderer.initIcon(Path.PATH_FILE_ICON, 1);
+    private static final Icon ZIP_FILE          = MyCellRenderer.initIcon(Path.PATH_ZIP_FILE, 1);
+    private static final Icon EMPTY_ZIP_FILE    = MyCellRenderer.initIcon(Path.PATH_EMPTY_ZIP_FILE, 1);
 
     private Controleur ctrl;
 
-    private Color backgroundSelection    = null;
-    private Color backgroundNonSelection = null;
-    private Color foreground             = null;
+    private Color backgroundSelection   ;
+    private Color backgroundNonSelection;
+    private Color foreground            ;
 
 
     public MyCellRenderer() { super(); }

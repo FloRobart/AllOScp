@@ -1,10 +1,12 @@
 package metier;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -124,6 +126,26 @@ public class Metier
 	{
 		this.cut = b;
 	}
+
+	/**
+     * Permet d'obtenir la liste des fils d'un noeud parent de type DefaultMutableTreeNode
+     * @param nodeToGetChildren : noeud pour lequel on veux obtenir les fils
+     * @return la liste des noeuds fils de type DefaultMutableTreeNode
+     */
+    public List<DefaultMutableTreeNode> getChildrenNodes(TreeNode nodeToGetChildren)
+    {
+        if (nodeToGetChildren == null) throw new NullPointerException("node == null");
+
+        List<DefaultMutableTreeNode> children = new ArrayList<DefaultMutableTreeNode>(nodeToGetChildren.getChildCount());
+        for (Enumeration<?> enumeration = nodeToGetChildren.children(); enumeration.hasMoreElements();)
+        {
+            Object nextElement = enumeration.nextElement();
+            if (nextElement instanceof DefaultMutableTreeNode)
+                children.add((DefaultMutableTreeNode) nextElement);
+        }
+
+        return children;
+    }
 
 
 	/*-------------------------------*/
