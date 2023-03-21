@@ -860,12 +860,6 @@ public class Metier
     /**
      * Permert de récupérer toute les couleurs de thème charger en mémoire.
      * @return HashMap - liste des couleurs du thème.
-     * 
-     * object possible dans la hashmap : 
-     * 
-     * list.get(0) = couleur de fond.
-     * list.get(1) = couleur du texte.
-     * list.get(2) = couleur de hint / placeHolder (n'existe pas toujours).
      */
     public HashMap<String, Color> getTheme() { return this.hmColorTheme;}
 
