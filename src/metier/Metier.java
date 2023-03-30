@@ -156,7 +156,7 @@ public class Metier
 	 * @param fileGauche : fichier ou dossier provenant du panel gauche
 	 * @param fileDroite : fichier ou dossier provenant du panel droit
 	 */
-	public boolean comparer(File fileGauche, File fileDroite)
+	public String comparer(File fileGauche, File fileDroite)
 	{
 		String sRet = "";
 		if (fileGauche.isDirectory() && fileDroite.isDirectory())
@@ -167,31 +167,29 @@ public class Metier
 			if (lstFileGauche.length == lstFileDroite.length)
 			{
 				for (int i = 0; i < lstFileGauche.length; i++)
-					this.comparer(lstFileGauche[i], lstFileDroite[i]);
+					for (int j = i; j < lstFileGauche.length; j++)
+						sRet += this.comparer(lstFileGauche[i], lstFileDroite[j]) + "\n";
 			}
 			else
 			{
-				sRet += "Les dossiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents\n";
+				//sRet += "Les dossiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents\n";
+				int nbFichierMin = Math.min(lstFileGauche.length, lstFileDroite.length);
 			}
-
-			return false;
 		}
-
-
-		if (fileGauche.isFile() && fileDroite.isFile())
+		else if (fileGauche.isFile() && fileDroite.isFile())
 		{
 			if (this.comparerFichier(fileGauche, fileDroite))
 				sRet += ("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont identiques\n");
 			else
 				sRet += ("Les fichiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents\n");
-
-			return false;
+		}
+		else
+		{
+			sRet += ("Un dossier ne peut pas être comparer avec un fichier\n");
 		}
 
-		sRet += ("element non comparable\n");
-
 		System.out.println(sRet);
-		return false;
+		return sRet;
 	}
 
 	/**

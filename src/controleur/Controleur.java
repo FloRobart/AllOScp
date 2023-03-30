@@ -306,7 +306,7 @@ public class Controleur
      * @param fileDroite : fichier provenant de l'arborescence de droite
      * @return boolean : true si les deux élément sont identiques, sinon false
      */
-    public boolean comparer(File fileGauche, File fileDroite) { return this.metier.comparer(fileGauche, fileDroite); }
+    public String comparer(File fileGauche, File fileDroite) { return this.metier.comparer(fileGauche, fileDroite); }
 
 
     /*----------------*/

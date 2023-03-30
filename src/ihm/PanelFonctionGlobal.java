@@ -118,7 +118,7 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
             TreePath[] tpSelectionGauche = this.ctrl.getArborescence("gauche").getSelectionPaths();
             TreePath[] tpSelectionDroite = this.ctrl.getArborescence("droite").getSelectionPaths();
 
-            if (tpSelectionGauche != null && tpSelectionDroite != null && tpSelectionGauche.length == tpSelectionDroite.length)
+            if (tpSelectionGauche != null && tpSelectionDroite != null /*&& tpSelectionGauche.length == tpSelectionDroite.length*/) // pas sur que se sois utile
             {
                 for (int i = 0; i < tpSelectionDroite.length; i++)
                 {
