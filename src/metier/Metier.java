@@ -164,17 +164,9 @@ public class Metier
 			File[] lstFileGauche = fileGauche.listFiles();
 			File[] lstFileDroite = fileDroite.listFiles();
 
-			if (lstFileGauche.length == lstFileDroite.length)
-			{
-				for (int i = 0; i < lstFileGauche.length; i++)
-					for (int j = i; j < lstFileGauche.length; j++)
-						sRet += this.comparer(lstFileGauche[i], lstFileDroite[j]) + "\n";
-			}
-			else
-			{
-				//sRet += "Les dossiers '" + fileGauche.getName() + "' et '" + fileDroite.getName() + "' sont différents\n";
-				int nbFichierMin = Math.min(lstFileGauche.length, lstFileDroite.length);
-			}
+			for (int i = 0; i < lstFileGauche.length; i++)
+				for (int j = 0; j < lstFileDroite.length; j++)
+					sRet += this.comparer(lstFileGauche[i], lstFileDroite[j]) + "\n";
 		}
 		else if (fileGauche.isFile() && fileDroite.isFile())
 		{
@@ -188,7 +180,7 @@ public class Metier
 			sRet += ("Un dossier ne peut pas être comparer avec un fichier\n");
 		}
 
-		System.out.println(sRet);
+		System.out.print(sRet);
 		return sRet;
 	}
 
