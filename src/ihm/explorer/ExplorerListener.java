@@ -1,12 +1,8 @@
 package ihm.explorer;
 
-import java.util.List;
-
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
-
 import controleur.Controleur;
 
 

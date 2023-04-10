@@ -12,7 +12,6 @@ import javax.swing.tree.TreePath;
 
 import controleur.Controleur;
 import ihm.explorer.Explorer;
-import ihm.explorer.MyCellRenderer;
 
 
 public class PanelArborescence extends JPanel
@@ -23,7 +22,6 @@ public class PanelArborescence extends JPanel
     private JScrollPane scrollPane;
 
     private Explorer    arborescence;
-    private MyCellRenderer mycellRenderer;
 
 
     public PanelArborescence(Controleur ctrl, File rootFile)
