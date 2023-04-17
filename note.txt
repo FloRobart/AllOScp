@@ -61,3 +61,22 @@ java.io.fileDescriptor;                     --> ???
 
 /*========================================================================================*/
 java.util.ConcurrentHashMap<K,​V>;          --> permet de créer une map thread safe
+
+/* Comparaison de fichiers/dossiers */
+/*========================================================================================*/
+/* Dossier */
+Les dossiers sont identiques si les fichiers qu'ils contiennent sont identiques.
+Si les dossiers contiennent des sous dossiers, les sous dossiers sont comparés de la même manière.
+Si deux dossiers sont identiques, on note juste que les deux dossiers sont identiques.
+Si deux dossiers sont différents, on note les fichiers qui sont différents.
+
+/* Fichier */
+Les fichiers sont identiques si leur contenue est identique.
+Pour comparer les fichiers, on essaie de lire les fichiers ligne par ligne et on compare les lignes, si la lecture du fichier n'est pas possible on compare les fichiers byte par byte.
+afficher un résultat simple (identique, différent, erreur) pour chaque fichier puis faire une option détail pour afficher les différences (les lignes différentes).
+
+/* Comparaison */
+Fichier | Fichier --> compare le contenue des fichiers
+Fichier | Dossier --> compare le contenue des fichiers
+(Dossier | Dossier) && même nombre de fichier --> compare les contenue des fichiers + ??? (si les fichiers sont dans le même ordre)
+(Dossier | Dossier) && différent nombre de fichier --> ????
