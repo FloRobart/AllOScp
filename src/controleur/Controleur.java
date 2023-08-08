@@ -20,7 +20,7 @@ import metier.Metier;
  * Classe Controleur
  * Permet de gérer les interactions entre l'ihm et le metier
  * @author Floris Robart
- * @version 1.0
+ * @version 0.0.0
  */
 public class Controleur
 {
