@@ -1,20 +1,5 @@
-faire des optionPane et des colorChooser personnaliser pour permettre de leur appliquer le thème et le language.
-faire un système de taille pour l'appli entière.
-ajouter le thème et le langage "système" qui prendra les infos du système.
-
-faire en sorte de générer qu'un seul étage de l'arborescence à la fois pour optimiser.
-
-faire attention au survole de la sourie sur l'arbo, ça change le fichier choisie au moment du clique droit.
-
 // pour le rennomage
 //this.getCellEditor().getCellEditorValue();
-
-
-faire ne sorte de pouvoir copier tout les fichier d'un dossier (methode copyFilesInFolder() dans la metier)
-
-
-faire un system de zoom pour grossir ou retressir les icones et les textes
-peut etre faire un fichier defaultValue.xml pour les paramètre par défaut de l'appli (thème, langue, taille)
 
 
 il y a un bug avec la modification de fichier sous linux
