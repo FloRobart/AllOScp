@@ -17,6 +17,7 @@ faire un system de zoom pour grossir ou retressir les icones et les textes
 peut etre faire un fichier defaultValue.xml pour les paramètre par défaut de l'appli (thème, langue, taille)
 
 
+il y a un bug avec la modification de fichier sous linux
 
 
 /* Fonctionnalitées dans le panelFonctionGlobal */
