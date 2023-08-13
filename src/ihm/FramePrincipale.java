@@ -332,8 +332,7 @@ public class FramePrincipale extends JFrame implements WindowListener
     @Override
     public void windowClosing(WindowEvent e)
     {
-        this.ctrl.saveFrameInfo(this.getSize(), null);
-        this.ctrl.saveFrameInfo(null, this.getLocation());
+        this.ctrl.saveFrameInfo(this.getSize(), this.getLocation());
     }
 
     @Override

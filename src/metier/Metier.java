@@ -666,53 +666,58 @@ public class Metier
 		String x = "";
 		String y = "";
 
-		if (dim == null)
+		do
 		{
-			if (p == null)
-				return;
-			else
+			if (dim == null)
 			{
-				baliseX = "frameX>";
-				baliseY = "frameY>";
-				x = "" + p.x;
-				y = "" + p.y;
-			}
-		}
-		else
-		{
-			baliseX = "frameWidth>";
-			baliseY = "frameHeight>";
-			x = "" + dim.width;
-			y = "" + dim.height;
-		}
-
-		try
-		{
-			File file = new File(Path.PATH_DEFAULT_VALUES);
-			String line = "";
-			String sRet = "";
-
-			Scanner sc = new Scanner(file, "UTF8");
-			while (sc.hasNextLine())
-			{
-				line = sc.nextLine();
-				if (line.contains("<" + baliseX))
-					sRet += "\t\t<" + baliseX + x  + "</" + baliseX + "\n";
+				if (p == null)
+					return;
 				else
 				{
-					if (line.contains("<" + baliseY ))
-						sRet += "\t\t<" + baliseY + y + "</" + baliseY + "\n";
-					else
-						sRet += line + "\n";
+					baliseX = "frameX>";
+					baliseY = "frameY>";
+					x = "" + p.x;
+					y = "" + p.y;
+					p = null;
 				}
 			}
-			sc.close();
+			else
+			{
+				baliseX = "frameWidth>";
+				baliseY = "frameHeight>";
+				x = "" + dim.width;
+				y = "" + dim.height;
+				dim = null;
+			}
 
-			PrintWriter pw = new PrintWriter(file, "UTF8");
-			pw.print(sRet);
-			pw.close();
-		}
-		catch (Exception ex) { ex.printStackTrace(); }
+			try
+			{
+				File file = new File(Path.PATH_DEFAULT_VALUES);
+				String line = "";
+				String sRet = "";
+
+				Scanner sc = new Scanner(file, "UTF8");
+				while (sc.hasNextLine())
+				{
+					line = sc.nextLine();
+					if (line.contains("<" + baliseX))
+						sRet += "\t\t<" + baliseX + x  + "</" + baliseX + "\n";
+					else
+					{
+						if (line.contains("<" + baliseY ))
+							sRet += "\t\t<" + baliseY + y + "</" + baliseY + "\n";
+						else
+							sRet += line + "\n";
+					}
+				}
+				sc.close();
+
+				PrintWriter pw = new PrintWriter(file, "UTF8");
+				pw.print(sRet);
+				pw.close();
+			}
+			catch (Exception ex) { ex.printStackTrace(); }
+		} while (dim != null || p != null);
 	}
 
 	/*------------*/
