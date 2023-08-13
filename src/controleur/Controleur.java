@@ -9,6 +9,8 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.io.File;
 
 import ihm.FramePrincipale;
@@ -438,6 +440,28 @@ public class Controleur
      */
     public void refresh(Explorer arborescence, TreePath tp) { this.metier.refresh(arborescence, tp); }
 
+
+
+    /*=====*/
+    /* IHM */
+    /*=====*/
+    /**
+	 * Permet de sauvegarder la taille de la frame pour la réouverture de l'application
+     * @param dim : la taille de la frame
+	 */
+	public void saveFrameInfo(Dimension dim, Point p) { this.metier.saveFrameInfo(dim, p); }
+
+    /**
+     * Permet de récupérer la taille de la frame
+     * @return Dimension : la taille de la frame
+     */
+    public Dimension getFrameSize() { return this.metier.getFrameSize(); }
+
+    /**
+     * Permet de récupérer la position de la frame
+     * @return Point : la position de la frame
+     */
+    public Point getFrameLocation() { return this.metier.getFrameLocation(); }
 
 
     /*========*/

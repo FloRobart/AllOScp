@@ -6,6 +6,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.File;
 import java.awt.BorderLayout;
 
@@ -22,6 +23,9 @@ public class PanelGlobal extends JPanel
     private PanelArborescence   panelDroite;
     private JSplitPane          panelSpliter;
 
+    private int weight;
+    private int height;
+
 
     public PanelGlobal(Controleur ctrl, int widthParent, int indexOnglet)
     {
@@ -32,12 +36,14 @@ public class PanelGlobal extends JPanel
         /*--------------------------*/
         /* Ce Panel */
         this.setLayout(new BorderLayout());
+        this.weight = this.getWidth();
+        this.height = this.getHeight();
 
         /* Autres Panels */
         this.panelFonctionGlobal = new PanelFonctionGlobal(this.ctrl, indexOnglet);
-        this.panelGauche         = new PanelArborescence  (this.ctrl, new File(""));
+        this.panelGauche         = new PanelArborescence  (this.ctrl, new File("../Test_SCP/panelGauche"));
 
-        this.panelDroite         = new PanelArborescence  (this.ctrl, new File(""));
+        this.panelDroite         = new PanelArborescence  (this.ctrl, new File("../Test_SCP/panelDroite"));
         this.panelSpliter        = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.panelGauche, this.panelDroite);
         this.panelSpliter.setOneTouchExpandable(true);
 		this.panelSpliter.setContinuousLayout(true);
@@ -169,5 +175,15 @@ public class PanelGlobal extends JPanel
         this.panelFonctionGlobal.appliquerLangage();
         this.panelGauche.appliquerLangage();
         this.panelDroite.appliquerLangage();
+    }
+
+    @Override
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        this.panelSpliter.setDividerLocation(this.getWidth()/2);
+
+        if (this.getWidth() != this.weight || this.getHeight() != this.height)
+            this.panelSpliter.setDividerLocation(this.getWidth()/2);
     }
 }

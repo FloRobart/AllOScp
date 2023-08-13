@@ -27,6 +27,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipFile;
 import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -646,6 +648,127 @@ public class Metier
 
         return lstFiles;
     }
+
+
+
+	/*=====*/
+	/* IHM */
+	/*=====*/
+	/**
+	 * Permet de sauvegarder la taille ou la localisation de la frame pour la réouverture de l'application.
+	 * Seul l'un des deux paramètres doit être différent de null.
+	 * @param dim : la taille de la frame
+	 */
+	public void saveFrameInfo(Dimension dim, Point p)
+	{
+		String baliseX = "";
+		String baliseY = "";
+		String x = "";
+		String y = "";
+
+		if (dim == null)
+		{
+			if (p == null)
+				return;
+			else
+			{
+				baliseX = "frameX>";
+				baliseY = "frameY>";
+				x = "" + p.x;
+				y = "" + p.y;
+			}
+		}
+		else
+		{
+			baliseX = "frameWidth>";
+			baliseY = "frameHeight>";
+			x = "" + dim.width;
+			y = "" + dim.height;
+		}
+
+		try
+		{
+			File file = new File(Path.PATH_DEFAULT_VALUES);
+			String line = "";
+			String sRet = "";
+
+			Scanner sc = new Scanner(file, "UTF8");
+			while (sc.hasNextLine())
+			{
+				line = sc.nextLine();
+				if (line.contains("<" + baliseX))
+					sRet += "\t\t<" + baliseX + x  + "</" + baliseX + "\n";
+				else
+				{
+					if (line.contains("<" + baliseY ))
+						sRet += "\t\t<" + baliseY + y + "</" + baliseY + "\n";
+					else
+						sRet += line + "\n";
+				}
+			}
+			sc.close();
+
+			PrintWriter pw = new PrintWriter(file, "UTF8");
+			pw.print(sRet);
+			pw.close();
+		}
+		catch (Exception ex) { ex.printStackTrace(); }
+	}
+
+	/*------------*/
+	/* Frame size */
+	/*------------*/
+	/**
+	 * Permet de récupérer la taille de la frame pour la réouverture de l'application
+	 * @return Dimension : la taille de la frame
+	 */
+	public Dimension getFrameSize()
+	{
+		try
+		{
+			SAXBuilder sxb = new SAXBuilder();
+			Element frameSize = sxb.build(new File(Path.PATH_DEFAULT_VALUES)).getRootElement().getChild("frameSize");
+			return new Dimension(Integer.parseInt(frameSize.getChild("frameWidth").getText()), Integer.parseInt(frameSize.getChild("frameHeight").getText()));
+		}
+		catch (Exception ex) { ex.printStackTrace(); }
+
+		return new Dimension(800, 600);
+	}
+
+	/*----------------*/
+	/* Frame location */
+	/*----------------*/
+	/**
+	 * Permet de récupérer la position de la frame pour la réouverture de l'application
+	 * @return Point : la position de la frame
+	 */
+	public Point getFrameLocation()
+	{
+		try
+		{
+			SAXBuilder sxb = new SAXBuilder();
+			Element frameSize = sxb.build(new File(Path.PATH_DEFAULT_VALUES)).getRootElement().getChild("frameLocation");
+			return new Point(Integer.parseInt(frameSize.getChild("frameX").getText()), Integer.parseInt(frameSize.getChild("frameY").getText()));
+		}
+		catch (Exception ex) { ex.printStackTrace(); }
+
+		return new Point(0, 0);
+	}
+
+	/*---------*/
+	/* onglets */
+	/*---------*/
+	/**
+	 * Permet de sauvegarder un onglet
+	 */
+	public void saveOnglet(String name, String pathGauche, String pathDroite)
+	{
+		try
+		{
+			// TODO : sauvegarder l'onglet dans le fichier de valeur par défaut (pour la réouverture de l'application)
+		}
+		catch (Exception ex) { ex.printStackTrace(); }
+	}
 
 
 

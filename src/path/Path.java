@@ -24,12 +24,15 @@ public interface Path
 	public static final String PATH_LANGAGE_X    = Path.initPaths("pathLangageX"   );
 	public static final String PATH_LANGAGE_SAVE = Path.initPaths("pathLangageSave");
 
+    /* Valeurs par défaut */
+    public static final String PATH_DEFAULT_VALUES = Path.initPaths("pathDefaultValues");
+
     /* Icon de l'explorateur */
-    public static final String PATH_FOLDER_ICON = Path.initPaths("pathFolderIcon");
+    public static final String PATH_FOLDER_ICON       = Path.initPaths("pathFolderIcon"     );
     public static final String PATH_EMPTY_FOLDER_ICON = Path.initPaths("pathEmptyFolderIcon");
-    public static final String PATH_FILE_ICON   = Path.initPaths("pathFileIcon"  );
-    public static final String PATH_ZIP_FILE    = Path.initPaths("pathZipFile" );
-    public static final String PATH_EMPTY_ZIP_FILE = Path.initPaths("pathEmptyZipFile" );
+    public static final String PATH_FILE_ICON         = Path.initPaths("pathFileIcon"       );
+    public static final String PATH_ZIP_FILE          = Path.initPaths("pathZipFile"        );
+    public static final String PATH_EMPTY_ZIP_FILE    = Path.initPaths("pathEmptyZipFile"   );
 
 
 
@@ -136,7 +139,8 @@ public interface Path
                             "    <pathThemeSave>./bin/donnees/themes/theme_sauvegarde.xml</pathThemeSave>"                     + "\n\n" +
                             "    <pathLangages>./bin/donnees/langages/</pathLangages>"                                         + "\n"   +
                             "    <pathLangageX>./bin/donnees/langages/langage_</pathLangageX>"                                 + "\n"   +
-                            "    <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>"             + "\n"   +
+                            "    <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>"             + "\n\n" +
+                            "    <pathDefaultValues>./bin/donnees/defaultValues/defaultValues.xml</pathDefaultValues>"         + "\n\n" +
                             "    <pathFolderIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFolderIcon>"               + "\n"   +
                             "    <pathEmptyFolderIcon>./bin/donnees/images/iconExplorer/dossierVide.png</pathEmptyFolderIcon>" + "\n"   +
                             "    <pathFileIcon>./bin/donnees/images/iconExplorer/fichier_blanc.png</pathFileIcon>"             + "\n"   +

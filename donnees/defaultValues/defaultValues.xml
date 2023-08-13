@@ -1,0 +1,24 @@
+<defaultValues>
+    <frameSize>
+        <frameWidth>800</frameWidth>
+        <frameHeight>600</frameHeight>
+    </frameSize>
+
+    <frameLocation>
+        <frameX>0</frameX>
+        <frameY>0</frameY>
+    </frameLocation>
+
+    <onglets>
+        <onglet>
+            <name>onglet1</name>
+            <folderGauche>/OS/Mon_drive/</folderGauche>
+            <folderDroite>/OS/Mon_drive/</folderDroite>
+        </onglet>
+        <onglet>
+            <name>onglet1</name>
+            <pathGauche>/OS/Mon_drive/</pathGauche>
+            <pathDroite>/OS/Mon_drive/</pathDroite>
+        </onglet>
+    </onglets>
+</defaultValues>

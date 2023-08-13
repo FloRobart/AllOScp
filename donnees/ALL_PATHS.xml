@@ -7,6 +7,8 @@
     <pathLangageX>./bin/donnees/langages/langage_</pathLangageX>
     <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>
 
+    <pathDefaultValues>./bin/donnees/defaultValues/defaultValues.xml</pathDefaultValues>
+
     <pathFolderIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFolderIcon>
     <pathEmptyFolderIcon>./bin/donnees/images/iconExplorer/dossierVide.png</pathEmptyFolderIcon>
     <pathFileIcon>./bin/donnees/images/iconExplorer/fichier_blanc.png</pathFileIcon>

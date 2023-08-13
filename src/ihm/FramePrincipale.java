@@ -2,6 +2,8 @@ package ihm;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ import ihm.menu.popUp.listener.PopClickListenerOnglets;
 import path.Path;
 
 
-public class FramePrincipale extends JFrame
+public class FramePrincipale extends JFrame implements WindowListener
 {
     private Controleur ctrl;
 
@@ -51,7 +53,8 @@ public class FramePrincipale extends JFrame
         /*--------------------------*/
         /* Frame */
         this.setTitle("Frame principale");
-        this.setSize(800, 600);
+        this.setSize(ctrl.getFrameSize());
+        this.setLocation(ctrl.getFrameLocation());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.popClickListener = new PopClickListenerOnglets(ctrl);
@@ -91,6 +94,7 @@ public class FramePrincipale extends JFrame
         this.appliquerTheme();
         this.appliquerLangage();
         this.setVisible(true);
+        this.addWindowListener(this);
 
         /* Onglets */
         this.onglets.setForegroundAt(0, Color.BLACK);
@@ -323,4 +327,20 @@ public class FramePrincipale extends JFrame
     {
         return this.lstPanelGlobal.get(this.onglets.getSelectedIndex()).getArborescence(panel);
     }
+
+
+    @Override
+    public void windowClosing(WindowEvent e)
+    {
+        this.ctrl.saveFrameInfo(this.getSize(), null);
+        this.ctrl.saveFrameInfo(null, this.getLocation());
+    }
+
+    @Override
+    public void windowClosed     (WindowEvent e) {}
+    public void windowActivated  (WindowEvent e) {}
+    public void windowDeactivated(WindowEvent e) {}
+    public void windowDeiconified(WindowEvent e) {}
+    public void windowIconified  (WindowEvent e) {}
+    public void windowOpened     (WindowEvent e) {}
 }
