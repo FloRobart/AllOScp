@@ -3,6 +3,7 @@
 ## Version
 
 - Version : 0.0.0
+- Minimum Java Version : JDK 17 LTS
 
 ## Description
 
