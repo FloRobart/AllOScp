@@ -250,7 +250,20 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                         }
                     }
                     else
-                        this.ctrl.editFile(fileSelected);
+                    {
+                        try
+                        {
+                            this.ctrl.editFile(fileSelected);
+                        }
+                        catch (Exception e)
+                        {
+                            try
+                            {
+                                this.ctrl.openFile(fileSelected);
+                            }
+                            catch (Exception ex) { ex.printStackTrace(); }
+                        }
+                    }
                 }
             }
         }
