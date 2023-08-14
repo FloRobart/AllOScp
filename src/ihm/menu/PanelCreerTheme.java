@@ -72,13 +72,13 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         /* Création du fichier du thème personnalisé */
         int nbThemePerso = this.ctrl.getNbThemesPerso() + 1;
 
-        this.fileTheme = new File(Path.PATH_THEMES + "theme_perso_" + nbThemePerso + ".xml");
+        this.fileTheme = new File(Path.PATH_THEME_X + "perso_" + nbThemePerso + ".xml");
         try { this.fileTheme.createNewFile(); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la création du fichier " + "theme_perso_" + nbThemePerso + ".xml"); }
 
 
         /* Copie du thème utilisé dans le thème en cours de personnalisation */
-        File fileThemeUsed  = new File(Path.PATH_THEMES + "theme_"       + this.ctrl.getThemeUsed() + ".xml"); // origine
-        File fileThemePerso = new File(Path.PATH_THEMES + "theme_perso_" + nbThemePerso             + ".xml"); // destination
+        File fileThemeUsed  = new File(Path.PATH_THEME_X + this.ctrl.getThemeUsed() + ".xml"); // origine
+        File fileThemePerso = new File(Path.PATH_THEME_X + "perso_" + nbThemePerso  + ".xml"); // destination
         
         try { Files.copy(fileThemeUsed.toPath(), fileThemePerso.toPath(), StandardCopyOption.REPLACE_EXISTING); } catch (IOException e) { e.printStackTrace(); System.out.println("ERREUR lors de la copie du fichier " + "theme_" + this.ctrl.getThemeUsed() + ".xml"); }
 
@@ -201,8 +201,7 @@ public class PanelCreerTheme extends JPanel implements ActionListener
         /* Annulé */
         if (e.getSource() == this.btnAnnuler)
         {
-            this.fileTheme.delete();
-            this.ctrl.changerTheme(this.nomAncienTheme);
+            this.cancelThemeCreation();
             this.ctrl.disposeFrameCreerTheme();
         }
 
@@ -223,6 +222,15 @@ public class PanelCreerTheme extends JPanel implements ActionListener
                 }
             }
         }
+    }
+
+    /**
+     * Permet d'annuler la création du thème
+     */
+    public void cancelThemeCreation()
+    {
+        this.fileTheme.delete();
+        this.ctrl.changerTheme(this.nomAncienTheme);
     }
 
 

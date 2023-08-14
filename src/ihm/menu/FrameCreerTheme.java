@@ -1,13 +1,15 @@
 package ihm.menu;
 
 import java.awt.Color;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
 import controleur.Controleur;
 
 
-public class FrameCreerTheme extends JFrame
+public class FrameCreerTheme extends JFrame implements WindowListener
 {
     private Controleur ctrl;
 
@@ -53,7 +55,6 @@ public class FrameCreerTheme extends JFrame
         this.panelCreerTheme.appliquerTheme();
     }
 
-
     /**
      * Applique la langue
      */
@@ -63,4 +64,18 @@ public class FrameCreerTheme extends JFrame
 
         this.panelCreerTheme.appliquerLangage();
     }
+
+    @Override
+    public void windowClosing(WindowEvent e)
+    {
+        this.panelCreerTheme.cancelThemeCreation();
+    }
+
+    @Override
+    public void windowClosed     (WindowEvent e) {}
+    public void windowActivated  (WindowEvent e) {}
+    public void windowDeactivated(WindowEvent e) {}
+    public void windowDeiconified(WindowEvent e) {}
+    public void windowIconified  (WindowEvent e) {}
+    public void windowOpened     (WindowEvent e) {}
 }

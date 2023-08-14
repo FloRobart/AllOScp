@@ -14,7 +14,7 @@ import controleur.Controleur;
 import ihm.explorer.Explorer;
 
 
-public class PanelGlobal extends JPanel
+public class PanelTab extends JPanel
 {
     private Controleur          ctrl;
 
@@ -27,7 +27,7 @@ public class PanelGlobal extends JPanel
     private int height;
 
 
-    public PanelGlobal(Controleur ctrl, int widthParent, int indexOnglet)
+    public PanelTab(Controleur ctrl, int widthParent, int indexOnglet, File fileGauche, File fileDroite)
     {
         this.ctrl = ctrl;
 
@@ -40,10 +40,10 @@ public class PanelGlobal extends JPanel
         this.height = this.getHeight();
 
         /* Autres Panels */
-        this.panelFonctionGlobal = new PanelFonctionGlobal(this.ctrl, indexOnglet);
-        this.panelGauche         = new PanelArborescence  (this.ctrl, new File("../Test_SCP/panelGauche"));
+        this.panelFonctionGlobal = new PanelFonctionGlobal(this.ctrl);
+        this.panelGauche         = new PanelArborescence  (this.ctrl, fileGauche);
 
-        this.panelDroite         = new PanelArborescence  (this.ctrl, new File("../Test_SCP/panelDroite"));
+        this.panelDroite         = new PanelArborescence  (this.ctrl, fileDroite);
         this.panelSpliter        = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.panelGauche, this.panelDroite);
         this.panelSpliter.setOneTouchExpandable(true);
 		this.panelSpliter.setContinuousLayout(true);
@@ -141,8 +141,23 @@ public class PanelGlobal extends JPanel
         else if(panel.equals("droite"))
             return this.panelDroite.getArborescence();
 
-        throw new IllegalArgumentException("Ligne 70, PanelGlobal\nErreur dans le nom du panel (seulement gauche ou droite autorisé)");
+        throw new IllegalArgumentException("Ligne 144, PanelGlobal\nErreur dans le nom du panel (seulement gauche ou droite autorisé)");
     }
+
+    /**
+     * Permet de récupérer le chemin du dossier racine
+     * @return String : chemin absolut du dossier racine
+     */
+    public String getRoot(String panel)
+    {
+        if(panel.equals("gauche"))
+            return this.panelGauche.getRoot();
+        else if(panel.equals("droite"))
+            return this.panelDroite.getRoot();
+
+        throw new IllegalArgumentException("Ligne 158, PanelGlobal\nErreur dans le nom du panel (seulement gauche ou droite autorisé)");
+    }
+
 
 
     /**

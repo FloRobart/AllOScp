@@ -33,7 +33,7 @@ public class FramePrincipale extends JFrame implements WindowListener
 
     private JTabbedPane onglets;
 
-    private List<PanelGlobal> lstPanelGlobal;
+    private List<PanelTab> lstPanelTab;
     private JPanel panelFond;
 
     private PopClickListenerOnglets popClickListener;
@@ -65,9 +65,12 @@ public class FramePrincipale extends JFrame implements WindowListener
         this.onglets.setFocusTraversalKeysEnabled(false);
 
         /* Panels */
-        this.lstPanelGlobal = new ArrayList<PanelGlobal>();
-        this.lstPanelGlobal.add(new PanelGlobal(this.ctrl, this.getWidth(), 0));
+        this.lstPanelTab = new ArrayList<PanelTab>();
         this.panelFond = new JPanel(new BorderLayout());
+        for (int i = 0; i < ctrl.getTabsCount(); i++)
+        {
+            this.lstPanelTab.add(new PanelTab(ctrl, this.getWidth(), i, new File(ctrl.getTabInfo(i, "leftFolder")), new File(ctrl.getTabInfo(i, "rightFolder"))));
+        }
 
         /* MenuBar */
         this.menuBarre = new MenuBarre(this.ctrl);
@@ -80,7 +83,11 @@ public class FramePrincipale extends JFrame implements WindowListener
         this.add(this.panelFond);
 
         /* Panels */
-        this.onglets.addTab("Onglet 1", this.lstPanelGlobal.get(0));
+        for (int i = 0; i < this.lstPanelTab.size(); i++)
+        {
+            this.onglets.addTab(this.ctrl.getTabInfo(i, "name"), this.lstPanelTab.get(i));
+        }
+
         this.panelFond.add(this.onglets, BorderLayout.CENTER);
 
         /* MenuBar */
@@ -98,19 +105,22 @@ public class FramePrincipale extends JFrame implements WindowListener
 
         /* Onglets */
         this.onglets.setForegroundAt(0, Color.BLACK);
-        this.onglets.addChangeListener(new ChangeListener()
+        for (int i = 0; i < this.onglets.getTabCount(); i++)
         {
-            @Override
-            public void stateChanged(ChangeEvent e)
+            this.onglets.addChangeListener(new ChangeListener()
             {
-                onglets.setForegroundAt(onglets.getSelectedIndex(), Color.BLACK);
-                for (int i = 0; i < lstPanelGlobal.size(); i++)
-                    if (i != onglets.getSelectedIndex())
-                        onglets.setForegroundAt(i, ctrl.getTheme().get("foreground"));
-            }
-        });
+                @Override
+                public void stateChanged(ChangeEvent e)
+                {
+                    onglets.setForegroundAt(onglets.getSelectedIndex(), Color.BLACK);
+                    for (int i = 0; i < lstPanelTab.size(); i++)
+                        if (i != onglets.getSelectedIndex())
+                            onglets.setForegroundAt(i, ctrl.getTheme().get("foreground"));
+                }
+            });
 
-        this.onglets.addMouseListener(this.popClickListener);
+            this.onglets.addMouseListener(this.popClickListener);
+        }
     }
 
 
@@ -119,8 +129,8 @@ public class FramePrincipale extends JFrame implements WindowListener
      */
     public void ajouterOnglet()
     {
-        PanelGlobal pg = new PanelGlobal(this.ctrl, this.getWidth(), this.lstPanelGlobal.size());
-        this.lstPanelGlobal.add(pg);
+        PanelTab pg = new PanelTab(this.ctrl, this.getWidth(), this.lstPanelTab.size(), new File("../Test_SCP/panelGauche"), new File("../Test_SCP/panelDroite"));
+        this.lstPanelTab.add(pg);
         this.onglets.addTab("Onglet " + (this.onglets.getTabCount()+1), pg);
 
         // Séléctionne le nouvel onglet
@@ -136,10 +146,10 @@ public class FramePrincipale extends JFrame implements WindowListener
      */
     public void supprimerOnglet()
     {
-        if (this.lstPanelGlobal.size() > 1)
+        if (this.lstPanelTab.size() > 1)
         {
             int index = this.onglets.getSelectedIndex();
-            this.lstPanelGlobal.remove(index);
+            this.lstPanelTab.remove(index);
             this.onglets.remove(index);
         }
         else
@@ -246,13 +256,13 @@ public class FramePrincipale extends JFrame implements WindowListener
         this.onglets.setForeground(foreGeneralColor);
 
         this.onglets.setForegroundAt(this.onglets.getSelectedIndex(), Color.BLACK);
-        for (int i = 0; i < this.lstPanelGlobal.size(); i++)
+        for (int i = 0; i < this.lstPanelTab.size(); i++)
             if (i != this.onglets.getSelectedIndex())
                 this.onglets.setForegroundAt(i, foreGeneralColor);
 
         /* Panels */
         this.panelFond.setBackground(backGeneralColor);
-        for (PanelGlobal pg : this.lstPanelGlobal)
+        for (PanelTab pg : this.lstPanelTab)
             pg.appliquerTheme();
     }
 
@@ -265,11 +275,11 @@ public class FramePrincipale extends JFrame implements WindowListener
         this.popClickListener.appliquerLangage();
         this.menuBarre.appliquerLangage();
 
-        for (int i = 0; i < lstPanelGlobal.size(); i++)
+        for (int i = 0; i < lstPanelTab.size(); i++)
             if (!this.VerifOngletRenommer(this.onglets.getTitleAt(i), i))
                 this.onglets.setTitleAt(i, this.ctrl.getLangage().get("onglets").get("defaultTitre") + (i+1));
 
-        for (PanelGlobal pg : this.lstPanelGlobal)
+        for (PanelTab pg : this.lstPanelTab)
             pg.appliquerLangage();
     }
 
@@ -306,7 +316,7 @@ public class FramePrincipale extends JFrame implements WindowListener
      */
     public synchronized void addNode(String nodeChildName, TreePath nodeParent)
     {
-        this.lstPanelGlobal.get(this.onglets.getSelectedIndex()).addNode(nodeChildName, nodeParent);
+        this.lstPanelTab.get(this.onglets.getSelectedIndex()).addNode(nodeChildName, nodeParent);
     }
 
     /**
@@ -316,7 +326,7 @@ public class FramePrincipale extends JFrame implements WindowListener
      */
     public void removeNode(DefaultMutableTreeNode node, String filePath)
     {
-        this.lstPanelGlobal.get(this.onglets.getSelectedIndex()).removeNode(node, filePath);
+        this.lstPanelTab.get(this.onglets.getSelectedIndex()).removeNode(node, filePath);
     }
 
     /**
@@ -325,7 +335,7 @@ public class FramePrincipale extends JFrame implements WindowListener
      */
     public Explorer getArborescence(String panel)
     {
-        return this.lstPanelGlobal.get(this.onglets.getSelectedIndex()).getArborescence(panel);
+        return this.lstPanelTab.get(this.onglets.getSelectedIndex()).getArborescence(panel);
     }
 
 
@@ -333,6 +343,18 @@ public class FramePrincipale extends JFrame implements WindowListener
     public void windowClosing(WindowEvent e)
     {
         this.ctrl.saveFrameInfo(this.getSize(), this.getLocation());
+
+        List<String> lstTabName = new ArrayList<String>();
+        List<String> lstLeftFolders = new ArrayList<String>();
+        List<String> lstRightFolders = new ArrayList<String>();
+        for (int i = 0; i < this.onglets.getTabCount(); i++)
+        {
+            lstTabName.add(this.onglets.getTitleAt(i));
+            lstLeftFolders.add(this.lstPanelTab.get(i).getRoot("gauche"));
+            lstRightFolders.add(this.lstPanelTab.get(i).getRoot("droite"));
+        }
+
+        this.ctrl.saveTabs(lstTabName, lstLeftFolders, lstRightFolders);
     }
 
     @Override

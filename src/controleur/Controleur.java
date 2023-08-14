@@ -451,17 +451,48 @@ public class Controleur
 	 */
 	public void saveFrameInfo(Dimension dim, Point p) { this.metier.saveFrameInfo(dim, p); }
 
+    /*------------*/
+	/* Frame size */
+	/*------------*/
     /**
      * Permet de récupérer la taille de la frame
      * @return Dimension : la taille de la frame
      */
     public Dimension getFrameSize() { return this.metier.getFrameSize(); }
 
+    /*----------------*/
+	/* Frame location */
+	/*----------------*/
     /**
      * Permet de récupérer la position de la frame
      * @return Point : la position de la frame
      */
     public Point getFrameLocation() { return this.metier.getFrameLocation(); }
+
+    /*---------*/
+	/* onglets */
+	/*---------*/
+    /**
+	 * Permet de sauvegarder les onglets
+	 * @param names : liste des noms des onglets
+	 * @param leftFolders : liste des chemins des dossiers racines des panels gauche
+	 * @param rightFolders : liste des chemins des dossiers racines des panels droit
+	 */
+	public void saveTabs(List<String> names, List<String> leftFolders, List<String> rightFolders) { this.metier.saveTabs(names, leftFolders, rightFolders); }
+
+	/**
+	 * Permet de récupérer le chemin du dossier racine
+	 * @param tabNumber : numéro de l'onglet
+     * @param info : information à récupérer, "name", "leftFolder" ou "rightFolder"
+	 * @return String : le chemin du dossier racine
+	 */
+	public String getTabInfo(int tabNumber, String info) { return this.metier.getTabInfo(tabNumber, info); }
+
+    /**
+	 * Permet de récupérer le nombre d'onglets à initialiser
+	 * @return int : le nombre d'onglets
+	 */
+	public int getTabsCount() { return this.metier.getTabsCount(); }
 
 
     /*========*/

@@ -30,7 +30,7 @@ public class PanelFonctionGlobal extends JPanel implements ActionListener
     private JButton btnSyncAllInBackTask;
 
 
-    public PanelFonctionGlobal(Controleur ctrl, int indexOnglet)
+    public PanelFonctionGlobal(Controleur ctrl)
     {
         this.ctrl = ctrl;
         this.arborescenceOuverte = false;

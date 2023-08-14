@@ -764,15 +764,78 @@ public class Metier
 	/* onglets */
 	/*---------*/
 	/**
-	 * Permet de sauvegarder un onglet
+	 * Permet de sauvegarder les onglets
+	 * @param names : liste des noms des onglets
+	 * @param leftFolders : liste des chemins des dossiers racines des panels gauche
+	 * @param rightFolders : liste des chemins des dossiers racines des panels droit
 	 */
-	public void saveOnglet(String name, String pathGauche, String pathDroite)
+	public void saveTabs(List<String> names, List<String> leftFolders, List<String> rightFolders)
 	{
 		try
 		{
-			// TODO : sauvegarder l'onglet dans le fichier de valeur par défaut (pour la réouverture de l'application)
+			File file = new File(Path.PATH_DEFAULT_VALUES);
+			String line = "";
+			String sRet = "";
+
+			Scanner sc = new Scanner(file, "UTF8");
+			while (sc.hasNextLine())
+			{
+				line = sc.nextLine();
+				sRet += line + "\n";
+				if (line.contains("<tabs>"))
+				{
+					for (int i = 0; i < names.size(); i++)
+					{
+						sRet += "\t\t<tab name=\"" + names.get(i) + "\" leftFolder=\"" + leftFolders.get(i) + "\" rightFolder=\"" + rightFolders.get(i) + "\" />\n";
+					}
+
+					sRet += "\t</tabs>\n</defaultValues>";
+					break;
+				}
+			}
+			sc.close();
+
+			PrintWriter pw = new PrintWriter(file, "UTF8");
+			pw.print(sRet);
+			pw.close();
 		}
 		catch (Exception ex) { ex.printStackTrace(); }
+	}
+
+	/**
+	 * Permet de récupérer le chemin du dossier racine
+	 * @param tabNumber : numéro de l'onglet
+     * @param info : information à récupérer, "name", "leftFolders" ou "rightFolders"
+	 * @return String : le chemin du dossier racine
+	 */
+	public String getTabInfo(int tabNumber, String info)
+	{
+		SAXBuilder sxb = new SAXBuilder();
+		try
+		{
+			Element tabs = sxb.build(new File(Path.PATH_DEFAULT_VALUES)).getRootElement().getChild("tabs");
+			return tabs.getChildren().get(tabNumber).getAttributeValue(info);
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return this.getLangage().get("onglets").get("defaultTitre") + (tabNumber+1);
+	}
+
+	/**
+	 * Permet de récupérer le nombre d'onglets à initialiser
+	 * @return int : le nombre d'onglets
+	 */
+	public int getTabsCount()
+	{
+		SAXBuilder sxb = new SAXBuilder();
+		try
+		{
+			Element tabs = sxb.build(new File(Path.PATH_DEFAULT_VALUES)).getRootElement().getChild("tabs");
+			return tabs.getChildren().size();
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return 1;
 	}
 
 
