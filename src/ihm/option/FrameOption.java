@@ -113,12 +113,12 @@ public class FrameOption implements ActionListener
 
     private void FrameQuestion(String message, String titre)
     {
-        
+        // TODO : faire la Frame Question
     }
 
     private void FrameInput(String message, String titre)
     {
-        
+        // TODO : faire la Frame Input
     }
 
     public static void showResultatComparaison(String message, String titre)

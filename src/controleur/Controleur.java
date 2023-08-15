@@ -293,6 +293,24 @@ public class Controleur
 	public void setCut(boolean b) { this.metier.setCut(b); }
 
     /**
+	 * Permet de savoir quel TreePath est selectionné
+	 * @param selectionPath : TreePath selectionné
+	 */
+	public void setSelectionPath(TreePath selectionPath) { this.metier.setSelectionPath(selectionPath); }
+
+	/**
+	 * Permet de savoir quel TreePath est selectionné
+	 * @return TreePath : TreePath selectionné
+	 */
+	public TreePath getSelectionPath() { return this.metier.getSelectionPath(); }
+
+    /**
+	 * Permet de savoir quel TreePath est selectionné
+	 * @return TreePath : TreePath selectionné
+	 */
+	public TreePath getOldSelectionPath() { return this.metier.getOldSelectionPath(); }
+
+    /**
      * Permet d'obtenir la liste des fils d'un noeud parent de type DefaultMutableTreeNode
      * @param nodeToGetChildren : noeud pour lequel on veux obtenir les fils
      * @return la liste des noeuds fils de type DefaultMutableTreeNode
@@ -363,11 +381,11 @@ public class Controleur
 
     /**
      * Permet de renommer un fichier ou un dossier
-     * @param arborescence : arborescence dans le quel renommer le fichier ou le dossier
      * @param fileToRename : fichier ou dossier à renommer
+	 * @param newName : nouveau nom du fichier ou du dossier
      * @return boolean : true si le renommage à réussi, sinon false
      */
-    public boolean rename(Explorer arborescence, File fileToRename) { return this.metier.rename(arborescence, fileToRename); }
+    public boolean renameFile(File fileToRename, String newName) { return this.metier.renameFile(fileToRename, newName); }
 
     /**
      * Permet de créer un nouvelle élements (fichier ou dossier) ET d'ajouter l'élement à l'arborescence

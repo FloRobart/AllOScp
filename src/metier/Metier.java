@@ -46,6 +46,8 @@ public class Metier
 	/* Métier local */
 	private TreePath tpToCut;
 	private boolean cut;
+	private TreePath selectionPath;
+	private TreePath oldSelectionPath;
 
 	/* Thèmes */
 	private int                     nbThemePerso;
@@ -63,6 +65,8 @@ public class Metier
 		/* Métier local */
 		this.tpToCut = null;
 		this.cut = false;
+		this.selectionPath = null;
+		this.oldSelectionPath = null;
 
 		/* Thèmes */
 		this.nbThemePerso      = this.initNbThemePerso();
@@ -128,6 +132,36 @@ public class Metier
 	{
 		this.cut = b;
 	}
+
+	/**
+	 * Permet de savoir quel TreePath est selectionné
+	 * @param selectionPath : TreePath selectionné
+	 */
+	public void setSelectionPath(TreePath selectionPath)
+	{
+		if (this.selectionPath != selectionPath)
+			this.oldSelectionPath = this.selectionPath;
+
+		if (this.oldSelectionPath == null)
+			this.oldSelectionPath = selectionPath;
+
+		this.selectionPath = selectionPath;
+
+		//System.out.println("Metier Old selection path : " + this.oldSelectionPath);
+		//System.out.println("Metier New selection path : " + this.selectionPath);
+	}
+
+	/**
+	 * Permet de savoir quel TreePath est selectionné
+	 * @return TreePath : TreePath selectionné
+	 */
+	public TreePath getSelectionPath() { return this.selectionPath; }
+
+	/**
+	 * Permet de savoir quel TreePath est selectionné
+	 * @return TreePath : TreePath selectionné
+	 */
+	public TreePath getOldSelectionPath() { return this.oldSelectionPath; }
 
 	/**
      * Permet d'obtenir la liste des fils d'un noeud parent de type DefaultMutableTreeNode
@@ -304,18 +338,27 @@ public class Metier
 
     /**
      * Permet de renommer un fichier ou un dossier
-     * @param arborescence : arborescence dans le quel renommer le fichier ou le dossier
      * @param fileToRename : fichier ou dossier à renommer
+	 * @param newName : nouveau nom du fichier ou du dossier
      * @return boolean : true si le renommage à réussi, sinon false
      */
-    public boolean rename(Explorer arborescence, File fileToRename)
+    public boolean renameFile(File fileToRename, String newName)
 	{
 		this.cut = false;
 
-		// TODO : renommer le fichier ou le dossier
-		//arborescence.startEditingAtPath(arborescence.getSelectionPath());
-
-		return false;
+		System.out.println("Metier fileToRename : " + fileToRename.getAbsolutePath() + " -> " + newName);
+		System.out.println("Metier newName : " + newName);
+		System.out.println("Metier fileNewName  : " + new File(fileToRename.getParent() + File.separator + newName).getAbsolutePath());
+		if (fileToRename.renameTo(new File(fileToRename.getParent() + File.separator + newName)))
+		{
+			System.out.println("Renommage réussi");
+			return true;
+		}
+		else
+		{
+			System.out.println("Renommage échoué");
+			return false;
+		}
 	}
 
 	/**

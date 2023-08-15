@@ -158,8 +158,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         /* Renommer */
         else if (source == this.rename)
         {
-            System.out.println("Renommer");
-            this.ctrl.rename(this.arborescence, this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            // TODO : faire en sorte de renommer le noeud selectionner (la classe ExplorerListener fera toute seul le renommage du fichier)
         }
         /* Nouveau fichier */
         else if (source == this.newFile)

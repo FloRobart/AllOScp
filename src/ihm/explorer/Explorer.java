@@ -212,12 +212,14 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             if (me.getButton() == MouseEvent.BUTTON3)
             {
                 this.setSelectionPath(tp);
+                this.ctrl.setSelectionPath(tp);
                 this.explorerListener.setOldSelectionedNode((DefaultMutableTreeNode)tp.getLastPathComponent());
                 this.popUpMenuArbo.show(this, me.getX(), me.getY());
             }
             else if (me.getButton() == MouseEvent.BUTTON1)
             {
                 this.setSelectionPath(tp);
+                this.ctrl.setSelectionPath(tp);
                 this.explorerListener.setOldSelectionedNode((DefaultMutableTreeNode)tp.getLastPathComponent());
                 if (me.getClickCount() == 2)
                 {
@@ -270,6 +272,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         else
         {
             this.clearSelection();
+            this.ctrl.setSelectionPath(null);
             this.isSelectioned = false;
             this.ctrl.setCut(false);
         }
@@ -281,8 +284,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         TreePath tp = this.getPathForLocation(me.getX(),me.getY());
         if(!this.isSelectioned && tp != null && !tp.equals(this.ancienTpSelectioned) && !tp.equals(this.getSelectionPath()))
         {
-            this.setSelectionPath(tp);
-            this.explorerListener.setOldSelectionedNode((DefaultMutableTreeNode)tp.getLastPathComponent());
+            /* Change color of selectionned treepath */
         }
 
         this.ancienTpSelectioned = tp;

@@ -72,11 +72,14 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
 
         File file = this.ctrl.treeNodeToFile(((DefaultMutableTreeNode) value).getPath());
         if (file.isDirectory())
+        {
             if (file.list().length == 0)
                 this.setIcon(MyCellRenderer.EMPTY_FOLDER_ICON);
             else
                 this.setIcon(MyCellRenderer.FOLDER_ICON);
+        }
         else
+        {
             if (file.getName().endsWith(".zip"))
             {
                 try
@@ -92,6 +95,7 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
             }
             else
                 this.setIcon(MyCellRenderer.FILE_ICON);
+        }
 
         return this;
     }
