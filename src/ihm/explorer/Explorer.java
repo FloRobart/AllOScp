@@ -1,5 +1,6 @@
 package ihm.explorer;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -11,7 +12,7 @@ import java.util.List;
 
 import javax.swing.DropMode;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
@@ -21,13 +22,15 @@ import javax.swing.tree.DefaultTreeModel;
 
 import controleur.Controleur;
 import ihm.menu.popUp.menu.PopUpMenuArbo;
+import path.Path;
+import ihm.explorer.MyTreeCellRenderer;
 
 
 public class Explorer extends JTree implements MouseListener, MouseMotionListener
 {
     private Controleur ctrl;
     private PopUpMenuArbo popUpMenuArbo;
-    private MyCellRenderer mycellRenderer;
+    private MyTreeCellRenderer mycellRenderer;
     private ExplorerListener explorerListener;
 
     private boolean isSelectioned;
@@ -40,7 +43,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
         this.ctrl = ctrl;
         this.popUpMenuArbo = new PopUpMenuArbo(this, this.ctrl);
-        this.mycellRenderer = new MyCellRenderer(this.ctrl);
+        this.mycellRenderer = new MyTreeCellRenderer(this.ctrl);
         this.explorerListener = new ExplorerListener(this.ctrl, this);
 
         this.isSelectioned = false;
@@ -68,16 +71,16 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      */
     public void ouvrirArborescence()
     {
-        Enumeration<TreeNode> enumTreeNode = ((DefaultMutableTreeNode) this.getModel().getRoot()).breadthFirstEnumeration();
+        Enumeration<TreeNode> enumTreeNode = ((MyMutableTreeNode) this.getModel().getRoot()).breadthFirstEnumeration();
         while(enumTreeNode.hasMoreElements())
         {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumTreeNode.nextElement();
+            MyMutableTreeNode node = (MyMutableTreeNode) enumTreeNode.nextElement();
 
-            if (node.isLeaf())
-                continue;
-
-            int row = this.getRowForPath(new TreePath(node.getPath()));
-            this.expandRow(row);
+            if (!node.isLeaf())
+            {
+                int row = this.getRowForPath(new TreePath(node.getPath()));
+                this.expandRow(row);
+            }
         }
     }
 
@@ -88,10 +91,10 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     {
         List<Integer> lstRow = new ArrayList<Integer>();
 
-        Enumeration<TreeNode> enumTreeNode = ((DefaultMutableTreeNode) this.getModel().getRoot()).breadthFirstEnumeration();
+        Enumeration<TreeNode> enumTreeNode = ((MyMutableTreeNode) this.getModel().getRoot()).breadthFirstEnumeration();
         while(enumTreeNode.hasMoreElements())
         {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumTreeNode.nextElement();
+            MyMutableTreeNode node = (MyMutableTreeNode) enumTreeNode.nextElement();
     
             if (node.isLeaf())
                 continue;
@@ -110,7 +113,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param root Racine de l'arborescence quand cette méthode est appelée par l'utilisateur
      * @param rootFilePath le chemin absolut du fichier racine. Ce chemin correspond toujours au noeud racine
      */
-    public synchronized void addAllNodes(DefaultMutableTreeNode root, String rootFilePath)  
+    public synchronized void addAllNodes(MyMutableTreeNode root, String rootFilePath)  
     {
         File file = new File(rootFilePath);
         if (file.exists() && file.isDirectory())
@@ -125,7 +128,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             {
                 if (f.isDirectory())
                 {
-                    final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(f.getName());
+                    final MyMutableTreeNode TEMP_DMTN = new MyMutableTreeNode(f.getName());
                     root.add(TEMP_DMTN);
 
                     this.addAllNodes(TEMP_DMTN, rootFilePath + File.separator + f.getName());
@@ -136,7 +139,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
             for (File f : lstFichier)
             {
-                final DefaultMutableTreeNode TEMP_DMTN = new DefaultMutableTreeNode(f.getName());
+                final MyMutableTreeNode TEMP_DMTN = new MyMutableTreeNode(f.getName());
                 root.add(TEMP_DMTN);
 
                 this.addAllNodes(TEMP_DMTN, rootFilePath + File.separator + f.getName());
@@ -149,7 +152,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
      * @param node le noeud au quel rajouter les noeuds fils
      * @param filePath le chemin absolut du dossier à ajouter
      */
-    public synchronized void addNode(DefaultMutableTreeNode node, String filePath)
+    public synchronized void addNode(MyMutableTreeNode node, String filePath)
     {
         File file = new File(filePath);
         if (file.exists() && file.isDirectory())
@@ -162,12 +165,12 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             /* Ajout des dossiers */
             for (File f : lstFile)
                 if (f.isDirectory())
-                    node.add(new DefaultMutableTreeNode(f.getName()));
+                    node.add(new MyMutableTreeNode(f.getName()));
 
             /* Ajout des fichiers */
             for (File f : lstFile)
                 if (!f.isDirectory())
-                    node.add(new DefaultMutableTreeNode(f.getName()));
+                    node.add(new MyMutableTreeNode(f.getName()));
         }
     }
 
@@ -179,15 +182,15 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     public synchronized void insertNode(String nodeChildName, TreePath nodeParent)
     {
         /* Permet de récuperer l'index au quel placer le nouveau pour qu'il sois ranger dans l'ordre alphabétique */
-        List<DefaultMutableTreeNode> lstChildNodes = this.ctrl.getChildrenNodes((MutableTreeNode) (nodeParent.getLastPathComponent()));
-        lstChildNodes.add(new DefaultMutableTreeNode(nodeChildName));
-        Collections.sort(lstChildNodes, (DefaultMutableTreeNode o1, DefaultMutableTreeNode o2) -> o1.toString().compareTo(o2.toString()));
+        List<MyMutableTreeNode> lstChildNodes = this.ctrl.getChildrenNodes((MutableTreeNode) (nodeParent.getLastPathComponent()));
+        lstChildNodes.add(new MyMutableTreeNode(nodeChildName));
+        Collections.sort(lstChildNodes, (MyMutableTreeNode o1, MyMutableTreeNode o2) -> o1.toString().compareTo(o2.toString()));
         int index = 0;
         for (index = 0; index < lstChildNodes.size(); index++)
             if (lstChildNodes.get(index).toString().equals(nodeChildName)) break;
 
         /* Ajoute le noeud à l'arborescence */
-        ((DefaultTreeModel) this.getModel()).insertNodeInto(new DefaultMutableTreeNode(nodeChildName), (MutableTreeNode) (nodeParent.getLastPathComponent()), index);
+        ((DefaultTreeModel) this.getModel()).insertNodeInto(new MyMutableTreeNode(nodeChildName), (MutableTreeNode) (nodeParent.getLastPathComponent()), index);
     }
 
     /**
@@ -213,14 +216,14 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
             {
                 this.setSelectionPath(tp);
                 this.ctrl.setSelectionPath(tp);
-                this.explorerListener.setOldSelectionedNode((DefaultMutableTreeNode)tp.getLastPathComponent());
+                this.explorerListener.setOldSelectionedNode((MyMutableTreeNode)tp.getLastPathComponent());
                 this.popUpMenuArbo.show(this, me.getX(), me.getY());
             }
             else if (me.getButton() == MouseEvent.BUTTON1)
             {
                 this.setSelectionPath(tp);
                 this.ctrl.setSelectionPath(tp);
-                this.explorerListener.setOldSelectionedNode((DefaultMutableTreeNode)tp.getLastPathComponent());
+                this.explorerListener.setOldSelectionedNode((MyMutableTreeNode)tp.getLastPathComponent());
                 if (me.getClickCount() == 2)
                 {
                     this.isSelectioned = false;
@@ -278,16 +281,18 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         }
     }
 
+
     @Override
     public void mouseMoved   (MouseEvent me)
     {
         TreePath tp = this.getPathForLocation(me.getX(),me.getY());
-        if(!this.isSelectioned && tp != null && !tp.equals(this.ancienTpSelectioned) && !tp.equals(this.getSelectionPath()))
+        if (tp != null && !tp.equals(this.ancienTpSelectioned) && !this.isSelectioned)
         {
-            /* Change color of selectionned treepath */
+            //((MyMutableTreeNode) tp.getLastPathComponent())
+            //((MyTreeCellRenderer) this.getCellRenderer()).setBackgroundNonSelectionColor(Color.RED);
+            //this.ancienTpSelectioned = tp;
+            //this.repaint();
         }
-
-        this.ancienTpSelectioned = tp;
     }
 
     @Override
