@@ -1,8 +1,4 @@
-// pour le rennomage
-//this.getCellEditor().getCellEditorValue();
-
-
-il y a un bug avec la modification de fichier sous linux
+Si il y a un bug avec le module GTK il faut l'installé avec la commande suivante : 'sudo apt-get install libcanberra-gtk-module'
 
 
 /* Fonctionnalitées dans le panelFonctionGlobal */
