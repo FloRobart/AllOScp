@@ -3,7 +3,7 @@ package ihm.explorer;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import controleur.Controleur;
@@ -18,13 +18,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipFile;
 
 
-public class MyCellRenderer extends DefaultTreeCellRenderer
+public class MyTreeCellRenderer extends DefaultTreeCellRenderer
 {
-    private static final Icon FOLDER_ICON       = MyCellRenderer.initIcon(Path.PATH_FOLDER_ICON, 1);
-    private static final Icon EMPTY_FOLDER_ICON = MyCellRenderer.initIcon(Path.PATH_EMPTY_FOLDER_ICON, 1);
-    private static final Icon FILE_ICON         = MyCellRenderer.initIcon(Path.PATH_FILE_ICON, 1);
-    private static final Icon ZIP_FILE          = MyCellRenderer.initIcon(Path.PATH_ZIP_FILE, 1);
-    private static final Icon EMPTY_ZIP_FILE    = MyCellRenderer.initIcon(Path.PATH_EMPTY_ZIP_FILE, 1);
+    private static final Icon FOLDER_ICON       = MyTreeCellRenderer.initIcon(Path.PATH_FOLDER_ICON, 1);
+    private static final Icon EMPTY_FOLDER_ICON = MyTreeCellRenderer.initIcon(Path.PATH_EMPTY_FOLDER_ICON, 1);
+    private static final Icon FILE_ICON         = MyTreeCellRenderer.initIcon(Path.PATH_FILE_ICON, 1);
+    private static final Icon ZIP_FILE          = MyTreeCellRenderer.initIcon(Path.PATH_ZIP_FILE, 1);
+    private static final Icon EMPTY_ZIP_FILE    = MyTreeCellRenderer.initIcon(Path.PATH_EMPTY_ZIP_FILE, 1);
 
     private Controleur ctrl;
 
@@ -33,9 +33,12 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
     private Color foreground            ;
 
 
-    public MyCellRenderer() { super(); }
+    public MyTreeCellRenderer()
+    {
+        super();
+    }
 
-    public MyCellRenderer(Controleur ctrl)
+    public MyTreeCellRenderer(Controleur ctrl)
     {
         super();
         this.ctrl = ctrl;
@@ -60,23 +63,30 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
     public Color getBackgroundNonSelectionColor() { return this.backgroundNonSelection; }
 
     @Override
-    public Color getBackground() { return this.backgroundNonSelection; }
+    public Color getTextSelectionColor() { return this.foreground; }
 
     @Override
-    public Color getForeground() { return this.foreground; }
+    public Color getTextNonSelectionColor() { return this.foreground; }
+
+
+    public void setBackgroundSelectionColor   (Color color) { this.backgroundSelection    = color; }
+    public void setBackgroundNonSelectionColor(Color color) { this.backgroundNonSelection = color; }
+    public void setTextSelectionColor         (Color color) { this.foreground = color; }
+    public void setTextNonSelectionColor      (Color color) { this.foreground = color; }
+    
 
     @Override
     public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean selectioned, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus)
     {
         super.getTreeCellRendererComponent(tree, value, selectioned, expanded, leaf, row, hasFocus);
 
-        File file = this.ctrl.treeNodeToFile(((DefaultMutableTreeNode) value).getPath());
+        File file = this.ctrl.treeNodeToFile(((MyMutableTreeNode) value).getPath());
         if (file.isDirectory())
         {
             if (file.list().length == 0)
-                this.setIcon(MyCellRenderer.EMPTY_FOLDER_ICON);
+                this.setIcon(MyTreeCellRenderer.EMPTY_FOLDER_ICON);
             else
-                this.setIcon(MyCellRenderer.FOLDER_ICON);
+                this.setIcon(MyTreeCellRenderer.FOLDER_ICON);
         }
         else
         {
@@ -86,15 +96,15 @@ public class MyCellRenderer extends DefaultTreeCellRenderer
                 {
                     ZipFile zipFile = new ZipFile(file, StandardCharsets.UTF_8);
                     if (zipFile.stream().count() == 0)
-                        this.setIcon(MyCellRenderer.EMPTY_ZIP_FILE);
+                        this.setIcon(MyTreeCellRenderer.EMPTY_ZIP_FILE);
                     else
-                        this.setIcon(MyCellRenderer.ZIP_FILE);
+                        this.setIcon(MyTreeCellRenderer.ZIP_FILE);
 
                     zipFile.close();
                 } catch (IOException e) { e.printStackTrace(); System.out.println("Erreur lors de la création du fichier ZIP");}
             }
             else
-                this.setIcon(MyCellRenderer.FILE_ICON);
+                this.setIcon(MyTreeCellRenderer.FILE_ICON);
         }
 
         return this;

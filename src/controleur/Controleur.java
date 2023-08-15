@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -265,7 +265,7 @@ public class Controleur
      * @param node : noeud à supprimer
      * @param filePath : chemin absolut du fichier ou du dossier à supprimer
      */
-    public void removeNode(DefaultMutableTreeNode node, String filePath)
+    public void removeNode(MyMutableTreeNode node, String filePath)
     {
         this.ihm.removeNode(node, filePath);
     }
@@ -311,11 +311,11 @@ public class Controleur
 	public TreePath getOldSelectionPath() { return this.metier.getOldSelectionPath(); }
 
     /**
-     * Permet d'obtenir la liste des fils d'un noeud parent de type DefaultMutableTreeNode
+     * Permet d'obtenir la liste des fils d'un noeud parent de type MyMutableTreeNode
      * @param nodeToGetChildren : noeud pour lequel on veux obtenir les fils
-     * @return la liste des noeuds fils de type DefaultMutableTreeNode
+     * @return la liste des noeuds fils de type MyMutableTreeNode
      */
-    public List<DefaultMutableTreeNode> getChildrenNodes(TreeNode nodeToGetChildren) { return this.metier.getChildrenNodes(nodeToGetChildren); }
+    public List<MyMutableTreeNode> getChildrenNodes(TreeNode nodeToGetChildren) { return this.metier.getChildrenNodes(nodeToGetChildren); }
 
     /*-------------------------------*/
 	/* Méthode panel fonction global */

@@ -2,7 +2,7 @@ package ihm;
 
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import java.awt.Color;
@@ -80,7 +80,7 @@ public class PanelTab extends JPanel
      * @param node : noeud à supprimer
      * @param filePath : chemin absolut du fichier ou du dossier à supprimer
      */
-    public void removeNode(DefaultMutableTreeNode node, String filePath)
+    public void removeNode(MyMutableTreeNode node, String filePath)
     {
         this.getPanelArborescence(filePath).removeNode(node);
     }

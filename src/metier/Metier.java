@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -164,20 +164,20 @@ public class Metier
 	public TreePath getOldSelectionPath() { return this.oldSelectionPath; }
 
 	/**
-     * Permet d'obtenir la liste des fils d'un noeud parent de type DefaultMutableTreeNode
+     * Permet d'obtenir la liste des fils d'un noeud parent de type MyMutableTreeNode
      * @param nodeToGetChildren : noeud pour lequel on veux obtenir les fils
-     * @return la liste des noeuds fils de type DefaultMutableTreeNode
+     * @return la liste des noeuds fils de type MyMutableTreeNode
      */
-    public List<DefaultMutableTreeNode> getChildrenNodes(TreeNode nodeToGetChildren)
+    public List<MyMutableTreeNode> getChildrenNodes(TreeNode nodeToGetChildren)
     {
         if (nodeToGetChildren == null) throw new NullPointerException("node == null");
 
-        List<DefaultMutableTreeNode> children = new ArrayList<DefaultMutableTreeNode>(nodeToGetChildren.getChildCount());
+        List<MyMutableTreeNode> children = new ArrayList<MyMutableTreeNode>(nodeToGetChildren.getChildCount());
         for (Enumeration<?> enumeration = nodeToGetChildren.children(); enumeration.hasMoreElements();)
         {
             Object nextElement = enumeration.nextElement();
-            if (nextElement instanceof DefaultMutableTreeNode)
-                children.add((DefaultMutableTreeNode) nextElement);
+            if (nextElement instanceof MyMutableTreeNode)
+                children.add((MyMutableTreeNode) nextElement);
         }
 
         return children;

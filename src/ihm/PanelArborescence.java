@@ -6,7 +6,7 @@ import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
@@ -40,7 +40,7 @@ public class PanelArborescence extends JPanel
         this.setSize(200, 400);
 
         /* Arborescence */
-        DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(this.rootFile.getAbsolutePath());
+        MyMutableTreeNode treeRoot = new MyMutableTreeNode(this.rootFile.getAbsolutePath());
         this.arborescence = new Explorer(new DefaultTreeModel(treeRoot), this.ctrl);
         this.arborescence.addNode(treeRoot, this.rootFile.getAbsolutePath());
         this.arborescence.ouvrirArborescence();
@@ -104,7 +104,7 @@ public class PanelArborescence extends JPanel
      * @param node : noeud à supprimer
      * @param filePath : chemin absolut du fichier ou du dossier à supprimer
      */
-    public void removeNode(DefaultMutableTreeNode node)
+    public void removeNode(MyMutableTreeNode node)
     {
         //this.arborescence.removeNode(node);
     }

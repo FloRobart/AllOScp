@@ -12,7 +12,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -22,13 +22,13 @@ public class TreeTransferHandler extends TransferHandler
 {
     DataFlavor nodesFlavor;
     DataFlavor[] flavors = new DataFlavor[1];
-    DefaultMutableTreeNode[] nodesToRemove;
+    MyMutableTreeNode[] nodesToRemove;
 
     public TreeTransferHandler()
     {
         try
         {
-            this.nodesFlavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=\"" + javax.swing.tree.DefaultMutableTreeNode[].class.getName() + "\"");
+            this.nodesFlavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=\"" + ihm.explorer.MyMutableTreeNode[].class.getName() + "\"");
             this.flavors[0] = this.nodesFlavor;
         } catch(ClassNotFoundException e) { System.out.println("Class not found : " + e.getMessage() + "\nErreur lors de la création du TreeTransferHandler"); }
     }
@@ -52,9 +52,9 @@ public class TreeTransferHandler extends TransferHandler
             if(selRows[i] == dropRow)
                 return false;
 
-            DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) tree.getPathForRow(selRows[i]).getLastPathComponent();
+            MyMutableTreeNode treeNode = (MyMutableTreeNode) tree.getPathForRow(selRows[i]).getLastPathComponent();
             for (TreeNode offspring : Collections.list(treeNode.depthFirstEnumeration()))
-                if (tree.getRowForPath(new TreePath(((DefaultMutableTreeNode)offspring).getPath())) == dropRow)
+                if (tree.getRowForPath(new TreePath(((MyMutableTreeNode)offspring).getPath())) == dropRow)
                     return false;
         }
 
@@ -75,17 +75,17 @@ public class TreeTransferHandler extends TransferHandler
             return null;
 
         /* Créez un tableau de nœuds de copies pour le transfert et un autre pour les nœuds qui seront supprimés dans exportDone après un dépôt réussi. */
-        List<DefaultMutableTreeNode> copies   = new ArrayList<DefaultMutableTreeNode>();
-        List<DefaultMutableTreeNode> toRemove = new ArrayList<DefaultMutableTreeNode>();
-        DefaultMutableTreeNode firstNode = (DefaultMutableTreeNode) paths[0].getLastPathComponent();
+        List<MyMutableTreeNode> copies   = new ArrayList<MyMutableTreeNode>();
+        List<MyMutableTreeNode> toRemove = new ArrayList<MyMutableTreeNode>();
+        MyMutableTreeNode firstNode = (MyMutableTreeNode) paths[0].getLastPathComponent();
         HashSet<TreeNode> doneItems = new LinkedHashSet<TreeNode>(paths.length);
-        DefaultMutableTreeNode copy = this.copy(firstNode, doneItems, tree);
+        MyMutableTreeNode copy = this.copy(firstNode, doneItems, tree);
 
         copies.add(copy);
         toRemove.add(firstNode);
         for (int i = 1; i < paths.length; i++)
         {
-            DefaultMutableTreeNode next = (DefaultMutableTreeNode) paths[i].getLastPathComponent();
+            MyMutableTreeNode next = (MyMutableTreeNode) paths[i].getLastPathComponent();
             if (doneItems.contains(next))
                 continue;
 
@@ -110,8 +110,8 @@ public class TreeTransferHandler extends TransferHandler
             doneItems.add(next);
         }
 
-        DefaultMutableTreeNode[] nodes = copies.toArray(new DefaultMutableTreeNode[copies.size()]);
-        nodesToRemove = toRemove.toArray(new DefaultMutableTreeNode[toRemove.size()]);
+        MyMutableTreeNode[] nodes = copies.toArray(new MyMutableTreeNode[copies.size()]);
+        nodesToRemove = toRemove.toArray(new MyMutableTreeNode[toRemove.size()]);
 
         return new NodesTransferable(nodes);
     }
@@ -124,13 +124,13 @@ public class TreeTransferHandler extends TransferHandler
      * @param tree : L'arborescence source
      * @return Le noeud copié
      */
-    private DefaultMutableTreeNode copy(DefaultMutableTreeNode node, HashSet<TreeNode> doneItems, JTree tree)
+    private MyMutableTreeNode copy(MyMutableTreeNode node, HashSet<TreeNode> doneItems, JTree tree)
     {
-        DefaultMutableTreeNode copy = new DefaultMutableTreeNode(node);
+        MyMutableTreeNode copy = new MyMutableTreeNode(node);
         doneItems.add(node);
 
         for (int i=0; i<node.getChildCount(); i++)
-            copy.add(copy((DefaultMutableTreeNode)((TreeNode)node).getChildAt(i), doneItems, tree));
+            copy.add(copy((MyMutableTreeNode)((TreeNode)node).getChildAt(i), doneItems, tree));
 
         int row = tree.getRowForPath(new TreePath(copy.getPath()));
         tree.expandRow(row);
@@ -177,10 +177,10 @@ public class TreeTransferHandler extends TransferHandler
             return false;
 
         // Extraire les données de transfert.
-        DefaultMutableTreeNode[] nodes = null;
+        MyMutableTreeNode[] nodes = null;
         try
         {
-            nodes = (DefaultMutableTreeNode[]) support.getTransferable().getTransferData(nodesFlavor);
+            nodes = (MyMutableTreeNode[]) support.getTransferable().getTransferData(nodesFlavor);
         }
         catch(UnsupportedFlavorException ufe) { System.out.println("UnsupportedFlavor : " + ufe.getMessage()); System.out.println("Erreur dans la méthode importData (L186)"); }
         catch(java.io.IOException        ioe) { System.out.println("I/O error : "         + ioe.getMessage()); System.out.println("Erreur dans la méthode importData (L187)"); }
@@ -189,7 +189,7 @@ public class TreeTransferHandler extends TransferHandler
         JTree.DropLocation dl = (JTree.DropLocation) support.getDropLocation();
         int childIndex = dl.getChildIndex();
         TreePath dest = dl.getPath();
-        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) dest.getLastPathComponent();
+        MyMutableTreeNode parent = (MyMutableTreeNode) dest.getLastPathComponent();
         JTree tree = (JTree)support.getComponent();
         DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
 
@@ -222,9 +222,9 @@ public class TreeTransferHandler extends TransferHandler
      */
     public class NodesTransferable implements Transferable
     {
-        DefaultMutableTreeNode[] nodes;
+        MyMutableTreeNode[] nodes;
 
-        public NodesTransferable(DefaultMutableTreeNode[] nodes)
+        public NodesTransferable(MyMutableTreeNode[] nodes)
         {
             this.nodes = nodes;
         }

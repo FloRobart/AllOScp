@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import controleur.Controleur;
 
 
@@ -27,7 +27,7 @@ public class ExplorerListener implements TreeModelListener
      * Cela permet d'avoir l'ancien nom d'un noeud avant qu'il soit renommer
      * @param oldSelectionedNode
      */
-    public void setOldSelectionedNode(DefaultMutableTreeNode oldSelectionedNode)
+    public void setOldSelectionedNode(MyMutableTreeNode oldSelectionedNode)
     {
         this.oldSelectionedNode = oldSelectionedNode.toString();
     }

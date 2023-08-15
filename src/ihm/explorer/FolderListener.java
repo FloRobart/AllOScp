@@ -11,7 +11,7 @@ import java.nio.file.WatchService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 
 import controleur.Controleur;
 
@@ -66,7 +66,7 @@ public class FolderListener implements Runnable
                     else if (StandardWatchEventKinds.ENTRY_DELETE.equals(event.kind())) /* Suppression d'un élément */
                     {
                         System.out.println(String.format("%-20s", fileName) + " SUPPRIMER dans " + this.folderPath.toString());
-                        this.ctrl.removeNode(new DefaultMutableTreeNode(fileName), this.folderPath.toString() + File.separator + fileName);
+                        this.ctrl.removeNode(new MyMutableTreeNode(fileName), this.folderPath.toString() + File.separator + fileName);
                     }
                     else if (StandardWatchEventKinds.ENTRY_MODIFY.equals(event.kind())) /* Modification d'un élément */
                     {

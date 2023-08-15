@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.tree.DefaultMutableTreeNode;
+import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import controleur.Controleur;
@@ -324,7 +324,7 @@ public class FramePrincipale extends JFrame implements WindowListener
      * @param node : noeud à supprimer
      * @param filePath : chemin absolut du fichier ou du dossier à supprimer
      */
-    public void removeNode(DefaultMutableTreeNode node, String filePath)
+    public void removeNode(MyMutableTreeNode node, String filePath)
     {
         this.lstPanelTab.get(this.onglets.getSelectedIndex()).removeNode(node, filePath);
     }

@@ -24,7 +24,7 @@ class Explorer extends JPanel implements ActionListener
         textArea=new JTextArea(4,30);
         
         File temp=new File(path);  
-        DefaultMutableTreeNode top = createTree(temp);
+        MyMutableTreeNode top = createTree(temp);
 
         tree = new JTree(top);
         tree.setBackground(Color.BLACK);
@@ -72,9 +72,9 @@ class Explorer extends JPanel implements ActionListener
     }  
 
     
-    DefaultMutableTreeNode createTree(File temp)  
+    MyMutableTreeNode createTree(File temp)  
     {  
-        DefaultMutableTreeNode top=new DefaultMutableTreeNode(temp.getPath());  
+        MyMutableTreeNode top=new MyMutableTreeNode(temp.getPath());  
         if(!(temp.exists() && temp.isDirectory()))  
             return top;  
         
@@ -83,7 +83,7 @@ class Explorer extends JPanel implements ActionListener
         return top;  
     }  
     
-    void fillTree(DefaultMutableTreeNode root, String filename)  
+    void fillTree(MyMutableTreeNode root, String filename)  
     {  
         File temp=new File(filename);  
         
@@ -94,7 +94,7 @@ class Explorer extends JPanel implements ActionListener
         {  
             if(!filelist[i].isDirectory()) { continue; }
 
-            final DefaultMutableTreeNode tempDmtn=new DefaultMutableTreeNode(filelist[i].getName());  
+            final MyMutableTreeNode tempDmtn=new MyMutableTreeNode(filelist[i].getName());  
             root.add(tempDmtn);  
             final String newfilename = new String(filename+"\\"+filelist[i].getName());  
             Thread t = new Thread()  
