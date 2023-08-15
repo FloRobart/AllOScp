@@ -22,7 +22,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 {
     private Controleur ctrl;
 
-    private Explorer arborescence;
+    private Explorer explorer;
 
     private JMenuItem changeDrive;
     private JMenuItem open;
@@ -44,7 +44,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
     {
         this.ctrl = ctrl;
 
-        this.arborescence = arbo;
+        this.explorer = arbo;
 
         /* Création des composants */
         this.changeDrive = new JMenuItem();
@@ -120,12 +120,12 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
     {
         super.show(c, x, y);
 
-        if (this.arborescence.getPathForLocation(x, y).getParentPath() == null)
+        if (this.explorer.getPathForLocation(x, y).getParentPath() == null)
             this.add(this.changeDrive, 0);
         else
             this.remove(this.changeDrive);
 
-        this.edit.setEnabled(!(this.ctrl.treePathToFile(this.arborescence.getPathForLocation(x, y)).isDirectory() || this.ctrl.getFileExtension(this.ctrl.treePathToFile(this.arborescence.getPathForLocation(x, y))).equals("zip")));
+        this.edit.setEnabled(!(this.ctrl.treePathToFile(this.explorer.getPathForLocation(x, y)).isDirectory() || this.ctrl.getFileExtension(this.ctrl.treePathToFile(this.explorer.getPathForLocation(x, y))).equals("zip")));
     }
 
     @Override
@@ -137,76 +137,76 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
         if (source == this.changeDrive)
         {
             System.out.println("Changer de lecteur");
-            this.ctrl.changeDrive(this.arborescence);
+            this.ctrl.changeDrive(this.explorer);
         }
         /* Ouvrir */
         else if (source == this.open)
         {
-            this.ctrl.openFile(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            this.ctrl.openFile(this.ctrl.treePathToFile(this.explorer.getSelectionPath()));
         }
         /* Ouvrir avec */
         else if (source == this.openWith)
         {
             System.out.println("Ouvrir avec");
-            this.ctrl.openFileWith(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            this.ctrl.openFileWith(this.ctrl.treePathToFile(this.explorer.getSelectionPath()));
         }
         /* Editer */
         else if (source == this.edit)
         {
-            this.ctrl.editFile(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            this.ctrl.editFile(this.ctrl.treePathToFile(this.explorer.getSelectionPath()));
         }
         /* Renommer */
         else if (source == this.rename)
         {
-            // TODO : faire en sorte de renommer le noeud selectionner (la classe ExplorerListener fera toute seul le renommage du fichier)
+            this.explorer.startEditingAtPath(this.explorer.getSelectionPath());
         }
         /* Nouveau fichier */
         else if (source == this.newFile)
         {
-            this.ctrl.newElement(this.arborescence, this.determinateFolderDestination(), 0);
-            this.arborescence.expandPath(this.determinateTreePathDestination());
+            this.ctrl.newElement(this.explorer, this.determinateFolderDestination(), 0);
+            this.explorer.expandPath(this.determinateTreePathDestination());
         }
         /* Nouveau dossier */
         else if (source == this.newFolder)
         {
-            this.ctrl.newElement(this.arborescence, this.determinateFolderDestination(), 1);
-            this.arborescence.expandPath(this.determinateTreePathDestination());
+            this.ctrl.newElement(this.explorer, this.determinateFolderDestination(), 1);
+            this.explorer.expandPath(this.determinateTreePathDestination());
         }
         /* Supprimer */
         else if (source == this.delete)
         {
-            this.ctrl.deleteElement(this.arborescence, this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            this.ctrl.deleteElement(this.explorer, this.ctrl.treePathToFile(this.explorer.getSelectionPath()));
         }
         /* Copier */
         else if (source == this.copy)
         {
-            this.ctrl.copyElement(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()), false);
+            this.ctrl.copyElement(this.ctrl.treePathToFile(this.explorer.getSelectionPath()), false);
         }
         /* Copier le chemin */
         else if (source == this.copyPath)
         {
-            this.ctrl.copyPath(this.ctrl.treePathToFile(arborescence.getSelectionPath()).getAbsolutePath());
+            this.ctrl.copyPath(this.ctrl.treePathToFile(explorer.getSelectionPath()).getAbsolutePath());
         }
         /* Couper */
         else if (source == this.cut)
         {
-            this.ctrl.cutElement(this.arborescence, this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            this.ctrl.cutElement(this.explorer, this.ctrl.treePathToFile(this.explorer.getSelectionPath()));
         }
         /* Coller */
         else if (source == this.paste)
         {
-            this.ctrl.pasteElement(this.arborescence, this.determinateFolderDestination());
-            this.arborescence.expandPath(this.arborescence.getSelectionPath());
+            this.ctrl.pasteElement(this.explorer, this.determinateFolderDestination());
+            this.explorer.expandPath(this.explorer.getSelectionPath());
         }
         /* Propriété */
         else if (source == this.properties)
         {
-            this.ctrl.properties(this.ctrl.treePathToFile(this.arborescence.getSelectionPath()));
+            this.ctrl.properties(this.ctrl.treePathToFile(this.explorer.getSelectionPath()));
         }
         /* Rafraichir */
         else if (source == this.refresh)
         {
-            this.ctrl.refresh(this.arborescence, this.arborescence.getSelectionPath());
+            this.ctrl.refresh(this.explorer, this.explorer.getSelectionPath());
         }
     }
 
@@ -216,7 +216,7 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
      */
     private File determinateFolderDestination()
     {
-        File folderDestination = this.ctrl.treePathToFile(this.arborescence.getSelectionPath());
+        File folderDestination = this.ctrl.treePathToFile(this.explorer.getSelectionPath());
         if (!folderDestination.isDirectory())
             folderDestination = folderDestination.getParentFile();
 
@@ -229,8 +229,8 @@ public class PopUpMenuArbo extends JPopupMenu implements ActionListener
      */
     private TreePath determinateTreePathDestination()
     {
-        TreePath tpParent = this.arborescence.getSelectionPath();
-        if (!this.ctrl.treePathToFile(this.arborescence.getSelectionPath()).isDirectory())
+        TreePath tpParent = this.explorer.getSelectionPath();
+        if (!this.ctrl.treePathToFile(this.explorer.getSelectionPath()).isDirectory())
             tpParent = tpParent.getParentPath();
 
         return tpParent;
