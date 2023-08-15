@@ -12,6 +12,5 @@
     <tabs>
         <tab name="onglet 1" leftFolder="../Test_SCP/panelGauche" rightFolder="../Test_SCP/panelDroite" />
 		<tab name="test" leftFolder="../Test_SCP/panelGauche" rightFolder="../Test_SCP/panelDroite" />
-		<tab name="Onglet 3" leftFolder="../Test_SCP/panelGauche" rightFolder="../Test_SCP/panelDroite" />
     </tabs>
 </defaultValues>
