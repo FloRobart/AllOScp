@@ -289,9 +289,9 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         if (tp != null && !tp.equals(this.ancienTpSelectioned) && !this.isSelectioned)
         {
             //((MyMutableTreeNode) tp.getLastPathComponent())
-            ((MyTreeCellRenderer) this.getCellRenderer()).setBackgroundNonSelectionColor(Color.RED);
-            this.ancienTpSelectioned = tp;
-            this.repaint();
+            //((MyTreeCellRenderer) this.getCellRenderer()).setBackgroundNonSelectionColor(Color.RED);
+            //this.ancienTpSelectioned = tp;
+            //this.repaint();
         }
     }
 
