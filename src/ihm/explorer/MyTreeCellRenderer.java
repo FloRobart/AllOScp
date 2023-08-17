@@ -4,6 +4,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import ihm.explorer.MyMutableTreeNode;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import controleur.Controleur;
@@ -32,16 +34,20 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
     private Color backgroundNonSelection;
     private Color foreground            ;
 
+    private boolean hovering;
+
 
     public MyTreeCellRenderer()
     {
         super();
+        this.hovering = false;
     }
 
     public MyTreeCellRenderer(Controleur ctrl)
     {
         super();
         this.ctrl = ctrl;
+        this.hovering = false;
     }
 
     /**
@@ -60,7 +66,12 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
     public Color getBackgroundSelectionColor() { return this.backgroundSelection; }
 
     @Override
-    public Color getBackgroundNonSelectionColor() { return this.backgroundNonSelection; }
+    public Color getBackgroundNonSelectionColor()
+    {
+        
+        
+        return this.backgroundNonSelection;
+    }
 
     @Override
     public Color getTextSelectionColor() { return this.foreground; }
@@ -68,19 +79,33 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
     @Override
     public Color getTextNonSelectionColor() { return this.foreground; }
 
-
+    @Override
     public void setBackgroundSelectionColor   (Color color) { this.backgroundSelection    = color; }
+
+    @Override
     public void setBackgroundNonSelectionColor(Color color) { this.backgroundNonSelection = color; }
+
+    @Override
     public void setTextSelectionColor         (Color color) { this.foreground = color; }
+
+    @Override
     public void setTextNonSelectionColor      (Color color) { this.foreground = color; }
-    
 
     @Override
     public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean selectioned, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus)
     {
         super.getTreeCellRendererComponent(tree, value, selectioned, expanded, leaf, row, hasFocus);
+        MyMutableTreeNode node = (MyMutableTreeNode) value;
 
-        File file = this.ctrl.treeNodeToFile(((MyMutableTreeNode) value).getPath());
+        try
+        {
+            if (this.ctrl.getHovering() == node)
+                this.setBackgroundNonSelectionColor(this.ctrl.getTheme().get("titlesBackground"));
+            else
+                this.setBackgroundNonSelectionColor(this.ctrl.getTheme().get("background"));
+        } catch (NullPointerException e) { this.setBackgroundNonSelectionColor(this.ctrl.getTheme().get("background")); }
+
+        File file = this.ctrl.treeNodeToFile(node.getPath());
         if (file.isDirectory())
         {
             if (file.list().length == 0)
@@ -110,6 +135,10 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
         return this;
     }
 
+    public void setHovering(boolean hovering)
+    {
+        this.hovering = hovering;
+    }
 
     /**
      * Permet d'appliquer le thème à chaque élément du panel

@@ -36,6 +36,8 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     private boolean isSelectioned;
     private TreePath ancienTpSelectioned;
 
+    private MyMutableTreeNode hovering;
+
 
     public Explorer(TreeModel tm, Controleur ctrl)
     {
@@ -48,6 +50,8 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
 
         this.isSelectioned = false;
         this.ancienTpSelectioned = null;
+
+        this.hovering = null;
 
         this.setEditable(true);
         this.setDragEnabled(true);
@@ -269,6 +273,10 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
                             catch (Exception ex) { ex.printStackTrace(); }
                         }
                     }
+
+                    this.clearSelection();
+                    this.ctrl.setSelectionPath(null);
+                    this.isSelectioned = false;
                 }
             }
         }
@@ -281,6 +289,11 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         }
     }
 
+    /**
+     * Permet de récuperer l'id du noeud sur le quel la souris est en train de passer
+     * @return l'id du noeud sur le quel la souris est en train de passer
+     */
+    public MyMutableTreeNode getHovering() { return this.hovering; }
 
     @Override
     public void mouseMoved   (MouseEvent me)
@@ -288,9 +301,14 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
         TreePath tp = this.getPathForLocation(me.getX(),me.getY());
         if (tp != null && !tp.equals(this.ancienTpSelectioned) && !this.isSelectioned)
         {
-            //((MyMutableTreeNode) tp.getLastPathComponent())
-            ((MyTreeCellRenderer) this.getCellRenderer()).setBackgroundNonSelectionColor(Color.RED);
+            this.hovering = ((MyMutableTreeNode) tp.getLastPathComponent());
             this.ancienTpSelectioned = tp;
+            this.repaint();
+        }
+        
+        if (tp == null && !this.isSelectioned)
+        {
+            this.hovering = null;
             this.repaint();
         }
     }

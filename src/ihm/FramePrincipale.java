@@ -338,6 +338,12 @@ public class FramePrincipale extends JFrame implements WindowListener
         return this.lstPanelTab.get(this.onglets.getSelectedIndex()).getArborescence(panel);
     }
 
+    /**
+     * Permet de récuperer l'id du noeud sur le quel la souris est en train de passer
+     * @return l'id du noeud sur le quel la souris est en train de passer
+     */
+    public MyMutableTreeNode getHovering() { return this.getArborescence("droite").getHovering(); }
+
 
     @Override
     public void windowClosing(WindowEvent e)

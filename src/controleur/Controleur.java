@@ -255,20 +255,14 @@ public class Controleur
      * @param nodeChildName : nom du noeud à ajouter
      * @param nodeParent : noeud parent du noeud à ajouter
      */
-    public synchronized void addNode(String nodeChildName, TreePath nodeParent)
-    {
-        this.ihm.addNode(nodeChildName, nodeParent);
-    }
+    public synchronized void addNode(String nodeChildName, TreePath nodeParent) { this.ihm.addNode(nodeChildName, nodeParent); }
 
     /**
      * Permet de supprimer un noeud de l'arborescence
      * @param node : noeud à supprimer
      * @param filePath : chemin absolut du fichier ou du dossier à supprimer
      */
-    public void removeNode(MyMutableTreeNode node, String filePath)
-    {
-        this.ihm.removeNode(node, filePath);
-    }
+    public void removeNode(MyMutableTreeNode node, String filePath) { this.ihm.removeNode(node, filePath); }
 
     /**
      * Permet de récupérer l'arborescence
@@ -281,10 +275,7 @@ public class Controleur
 	 * @param fileToGetExt : fichier dont on veut récupérer l'extension
 	 * @return String : extension du fichier passé en paramètre (sans le point)
 	 */
-	public String getFileExtension(File fileToGetExt)
-	{
-		return this.metier.getFileExtension(fileToGetExt);
-	}
+	public String getFileExtension(File fileToGetExt) { return this.metier.getFileExtension(fileToGetExt); }
 
     /**
 	 * Permet de définir la suppression d'un fichier ou d'un dossier après l'avoir copier
@@ -316,6 +307,12 @@ public class Controleur
      * @return la liste des noeuds fils de type MyMutableTreeNode
      */
     public List<MyMutableTreeNode> getChildrenNodes(TreeNode nodeToGetChildren) { return this.metier.getChildrenNodes(nodeToGetChildren); }
+
+    /**
+     * Permet de récuperer l'id du noeud sur le quel la souris est en train de passer
+     * @return l'id du noeud sur le quel la souris est en train de passer
+     */
+    public MyMutableTreeNode getHovering() { return this.ihm.getHovering(); }
 
     /*-------------------------------*/
 	/* Méthode panel fonction global */
