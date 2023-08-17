@@ -80,6 +80,9 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
     public Color getTextNonSelectionColor() { return this.foreground; }
 
     @Override
+    public Color getBorderSelectionColor() { return this.ctrl.getTheme().get("enableColor"); }
+
+    @Override
     public void setBackgroundSelectionColor   (Color color) { this.backgroundSelection    = color; }
 
     @Override
@@ -100,7 +103,7 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
         try
         {
             if (this.ctrl.getHovering() == node)
-                this.setBackgroundNonSelectionColor(this.ctrl.getTheme().get("titlesBackground"));
+                this.setBackgroundNonSelectionColor(this.ctrl.getTheme().get("saisiesPlaceholder"));
             else
                 this.setBackgroundNonSelectionColor(this.ctrl.getTheme().get("background"));
         } catch (NullPointerException e) { this.setBackgroundNonSelectionColor(this.ctrl.getTheme().get("background")); }
