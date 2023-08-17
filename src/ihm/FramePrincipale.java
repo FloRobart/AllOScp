@@ -342,7 +342,7 @@ public class FramePrincipale extends JFrame implements WindowListener
      * Permet de récuperer l'id du noeud sur le quel la souris est en train de passer
      * @return l'id du noeud sur le quel la souris est en train de passer
      */
-    public MyMutableTreeNode getHovering() { return this.getArborescence("droite").getHovering(); }
+    public MyMutableTreeNode getHovering() { return this.getArborescence("gauche").getHovering() == null ? this.getArborescence("droite").getHovering() : this.getArborescence("gauche").getHovering(); }
 
 
     @Override

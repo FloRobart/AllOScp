@@ -299,16 +299,18 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     public void mouseMoved   (MouseEvent me)
     {
         TreePath tp = this.getPathForLocation(me.getX(),me.getY());
-        if (tp != null && !tp.equals(this.ancienTpSelectioned) && !this.isSelectioned)
+
+        if (tp != null && !tp.equals(this.ancienTpSelectioned))
         {
             this.hovering = ((MyMutableTreeNode) tp.getLastPathComponent());
             this.ancienTpSelectioned = tp;
             this.repaint();
         }
         
-        if (tp == null && !this.isSelectioned)
+        if (tp == null)
         {
             this.hovering = null;
+            this.ancienTpSelectioned = null;
             this.repaint();
         }
     }
@@ -316,7 +318,7 @@ public class Explorer extends JTree implements MouseListener, MouseMotionListene
     @Override
     public void mouseEntered (MouseEvent me) {}
     @Override
-    public void mouseExited  (MouseEvent me) {}
+    public void mouseExited  (MouseEvent me) { this.hovering = null; this.ancienTpSelectioned = null; this.repaint(); }
     @Override
     public void mousePressed (MouseEvent me) {}
     @Override
