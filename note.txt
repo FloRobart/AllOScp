@@ -1,6 +1,8 @@
 Si il y a un bug avec le module GTK il faut l'installé avec la commande suivante : 'sudo apt-get install libcanberra-gtk-module'
 
 
+L'icon des dossiers se mêtes à jour automatiquement quand on change vide un dossier comme s'il y avait un folderListener !!!
+
 
 /* Fonctionnalitées dans le panelFonctionGlobal */
 /*========================================================================================*/

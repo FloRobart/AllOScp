@@ -11,9 +11,13 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
@@ -345,20 +349,7 @@ public class Metier
     public boolean renameFile(File fileToRename, String newName)
 	{
 		this.cut = false;
-
-		System.out.println("Metier fileToRename : " + fileToRename.getAbsolutePath() + " -> " + newName);
-		System.out.println("Metier newName : " + newName);
-		System.out.println("Metier fileNewName  : " + new File(fileToRename.getParent() + File.separator + newName).getAbsolutePath());
-		if (fileToRename.renameTo(new File(fileToRename.getParent() + File.separator + newName)))
-		{
-			System.out.println("Renommage réussi");
-			return true;
-		}
-		else
-		{
-			System.out.println("Renommage échoué");
-			return false;
-		}
+		return (fileToRename.renameTo(new File(fileToRename.getParent() + File.separator + newName)));
 	}
 
 	/**
@@ -430,7 +421,25 @@ public class Metier
     public void copyElements(List<File> filesToCopy, boolean cut)
 	{
 		this.cut = cut;
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(filesToCopy), null);
+		try
+		{
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new FileTransferable(filesToCopy), new ClipboardOwner() {
+				// Ne fonctionne pas
+				@Override
+				public void lostOwnership(Clipboard clipboard, Transferable contents)
+				{
+					System.out.println("Lost ownership");
+					DataFlavor[] flavors = contents.getTransferDataFlavors();
+					try
+					{
+							ArrayList<File> data = (ArrayList<File>) contents.getTransferData(flavors[0]);
+							System.out.println(data.get(0));
+					}
+					catch (UnsupportedFlavorException e) { e.printStackTrace(); }
+					catch (IOException e) { e.printStackTrace(); }
+			   }
+			});
+		} catch (Exception ex) { ex.printStackTrace(); System.out.println("Erreur lors de la copie des fichiers dans le presse-papier"); }
 	}
 
     /**
