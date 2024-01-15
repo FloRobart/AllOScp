@@ -1,0 +1,101 @@
+<langage name="anglais">
+    <framePrincipale>
+        <titre>Folder syncronizer</titre>
+    </framePrincipale>
+
+    <menuBarreOnglets>
+        <titre>Tabs</titre>
+
+        <nouvelOnglet>New tab</nouvelOnglet>
+        <fermerOnglet>Close tab</fermerOnglet>
+        <ongletPrecedent>Previous tab</ongletPrecedent>
+        <ongletSuivant>Next tab</ongletSuivant>
+    </menuBarreOnglets>
+
+    <menuBarrePreferences>
+        <titre>Preferences</titre>
+
+        <themes>Themes</themes>
+        <themeClair>Light theme</themeClair>
+        <themeSombre>Dark theme</themeSombre>
+        <themeDark>Darker theme</themeDark>
+        <themePerso>Custom theme</themePerso>
+        <themePersoNouveau>New theme</themePersoNouveau>
+        <themePersoSupprimer>Delete themes</themePersoSupprimer>
+
+        <langages>Languages</langages>
+        <langageFrancais>French</langageFrancais>
+        <langageAnglais>English</langageAnglais>
+    </menuBarrePreferences>
+
+    <menuBarreAide>
+        <titre>Help</titre>
+    </menuBarreAide>
+
+    <onglets>
+        <defaultTitre>Tab </defaultTitre>
+    </onglets>
+
+    <popUpMenu>
+        <changeDrive>Change drive</changeDrive>
+        <open>Open</open>
+        <openWith>Open with</openWith>
+        <edit>Edit</edit>
+        <rename>Rename</rename>
+        <newFile>New file</newFile>
+        <newFileName>New_file.txt</newFileName>
+        <newFolder>New folder</newFolder>
+        <newFolderName>New_folder</newFolderName>
+        <delete>Delete</delete>
+        <copy>Copy</copy>
+        <copyPath>Copy path</copyPath>
+        <cut>Cut</cut>
+        <paste>Paste</paste>
+        <properties>Properties</properties>
+        <refresh>Refresh</refresh>
+
+        <newTab>New tab</newTab>
+        <closeTab>Close tab</closeTab>
+        <duplicateTab>Duplicate tab</duplicateTab>
+    </popUpMenu>
+
+    <creerTheme>
+        <titre>Create new theme</titre>
+        <lblNomTheme>Name of new theme : Perso </lblNomTheme>
+        <titreColorChosser>Choose color</titreColorChosser>
+
+        <btnCouleur>Choose color</btnCouleur>
+
+        <generalBackColor>General background color</generalBackColor>
+        <generalForeColor>General text color</generalForeColor>
+        <disableColor>Disable color</disableColor>
+        <enableColor>Enable color</enableColor>
+        <titleBackColor>Title backgroud color</titleBackColor>
+        <titleForeColor>Backgroud edit texte color</titleForeColor>
+        <txtHintColor>Edit text hint color</txtHintColor>
+        <btnBackColor>Button background color</btnBackColor>
+
+        <btnValider>Validate</btnValider>
+        <btnAnnuler>Cancel</btnAnnuler>
+    </creerTheme>
+
+     <supprimerTheme>
+        <titre>Deleting themes</titre>
+
+        <lblSupprimer>Delete</lblSupprimer>
+        <lblNomTheme>Theme name</lblNomTheme>
+        <lblAppliquerTheme>Apply theme</lblAppliquerTheme>
+
+        <btnAppliquerTheme>Apply</btnAppliquerTheme>
+        <btnSupprimer>Delete</btnSupprimer>
+        <btnAnnuler>Cancel</btnAnnuler>
+
+        <titreMsgConfirmation>Delete selected themes</titreMsgConfirmation>
+        <msgConfirmation>Are you sure you want to delete all selected themes ?</msgConfirmation>
+    </supprimerTheme>
+
+    <erreur>
+        <titre>Error</titre>
+        <nomThemeInvalide>The theme name is already in use or empty or only contains spaces</nomThemeInvalide>
+    </erreur>
+</langage>

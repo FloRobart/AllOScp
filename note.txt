@@ -65,3 +65,7 @@ Fichier | Fichier --> compare le contenue des fichiers
 Fichier | Dossier --> compare le contenue des fichiers
 (Dossier | Dossier) && même nombre de fichier --> compare les contenue des fichiers + ??? (si les fichiers sont dans le même ordre)
 (Dossier | Dossier) && différent nombre de fichier --> ????
+
+/* Release */
+/*========================================================================================*/
+exemple de projet avec des realeases --> https://github.com/jgm/pandoc

@@ -1,0 +1,16 @@
+<defaultValues>
+    <frameSize>
+        <frameWidth>800</frameWidth>
+        <frameHeight>600</frameHeight>
+    </frameSize>
+
+    <frameLocation>
+        <frameX>0</frameX>
+        <frameY>0</frameY>
+    </frameLocation>
+
+    <tabs>
+        <tab name="onglet 1" leftFolder="../Test_SCP/panelGauche" rightFolder="../Test_SCP/panelDroite" />
+		<tab name="test" leftFolder="../Test_SCP/panelGauche" rightFolder="../Test_SCP/panelDroite" />
+    </tabs>
+</defaultValues>
