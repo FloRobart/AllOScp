@@ -20,6 +20,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipFile;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class MyTreeCellRenderer extends DefaultTreeCellRenderer
 {
     private static final Icon FOLDER_ICON       = MyTreeCellRenderer.initIcon(Path.PATH_FOLDER_ICON, 1);

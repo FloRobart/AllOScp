@@ -18,6 +18,10 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class TreeTransferHandler extends TransferHandler
 {
     DataFlavor nodesFlavor;

@@ -12,6 +12,10 @@ import javax.swing.JPopupMenu;
 import controleur.Controleur;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PopUpMenuOnglets extends JPopupMenu implements ActionListener
 {
     private Controleur ctrl;

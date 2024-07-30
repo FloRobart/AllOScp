@@ -12,6 +12,10 @@ import java.io.File;
 import java.awt.Color;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PanelFonctionGlobal extends JPanel implements ActionListener
 {
     private Controleur ctrl;

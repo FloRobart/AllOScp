@@ -18,6 +18,10 @@ import ihm.explorer.Explorer;
 import controleur.Controleur;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PopUpMenuArbo extends JPopupMenu implements ActionListener
 {
     private Controleur ctrl;

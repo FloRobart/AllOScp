@@ -33,6 +33,10 @@ import java.awt.event.ActionListener;
 import path.Path;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PanelCreerTheme extends JPanel implements ActionListener
 {
     private final String[] TAB_CLES;

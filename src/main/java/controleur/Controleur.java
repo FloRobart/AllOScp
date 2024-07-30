@@ -17,12 +17,17 @@ import ihm.FramePrincipale;
 import ihm.explorer.Explorer;
 import metier.Metier;
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 
 /**
  * Classe Controleur
  * Permet de gérer les interactions entre l'ihm et le metier
  * @author Floris Robart
  * @version 0.0.0
+ * @licence GNU GPL v3
  */
 public class Controleur
 {

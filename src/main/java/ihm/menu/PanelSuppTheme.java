@@ -21,6 +21,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PanelSuppTheme extends JPanel implements ActionListener
 {
     private Controleur ctrl;

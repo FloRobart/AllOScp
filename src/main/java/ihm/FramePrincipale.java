@@ -25,6 +25,10 @@ import controleur.Controleur;
 import path.Path;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class FramePrincipale extends JFrame implements WindowListener
 {
     private Controleur ctrl;

@@ -10,6 +10,10 @@ import javax.swing.JOptionPane;
 import org.jdom2.input.SAXBuilder;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public interface Path
 {
     public static final String PATH_ALL_PATHS = Path.initPathAllPaths();

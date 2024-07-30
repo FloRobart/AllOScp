@@ -15,6 +15,10 @@ import java.awt.BorderLayout;
 import ihm.explorer.Explorer;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PanelTab extends JPanel
 {
     private Controleur          ctrl;

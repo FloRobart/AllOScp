@@ -15,6 +15,10 @@ import javax.swing.tree.TreePath;
 import ihm.explorer.Explorer;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PanelArborescence extends JPanel
 {
     private Controleur ctrl;

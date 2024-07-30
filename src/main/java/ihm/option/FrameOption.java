@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class FrameOption implements ActionListener
 {
     private static final int TYPE_INFORMATION = 0;

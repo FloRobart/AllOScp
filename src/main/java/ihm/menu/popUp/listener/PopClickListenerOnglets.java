@@ -7,6 +7,10 @@ import ihm.menu.popUp.menu.PopUpMenuOnglets;
 import controleur.Controleur;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PopClickListenerOnglets extends MouseAdapter
 {
     private PopUpMenuOnglets menu;

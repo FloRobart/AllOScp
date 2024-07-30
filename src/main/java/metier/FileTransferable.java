@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.List;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class FileTransferable implements Transferable
 {
     private List<File> listOfFiles;

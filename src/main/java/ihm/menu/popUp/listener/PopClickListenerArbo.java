@@ -8,6 +8,10 @@ import ihm.menu.popUp.menu.PopUpMenuArbo;
 import controleur.Controleur;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class PopClickListenerArbo extends MouseAdapter
 {
     private PopUpMenuArbo menu;

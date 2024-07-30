@@ -44,6 +44,10 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 
+/*
+ * Ce fichier fait partie du projet All'OScp
+ * Copyright (C) 2024 Floris Robart <florobart.github@gmail.com>
+ */
 public class Metier
 {
     private Controleur ctrl;
