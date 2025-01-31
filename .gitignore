@@ -1,5 +1,5 @@
 # Compiled class file and folder
-bin/
+target/
 *.class
 
 # Log file
