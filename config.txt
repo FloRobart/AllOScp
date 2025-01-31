@@ -1,6 +1,0 @@
--s src
--o bin
--dt donnees
--d "bin/donnees/jar_libraries/"
--cp bin
--m controleur.Controleur

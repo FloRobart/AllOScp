@@ -1,0 +1,17 @@
+<path>
+    <pathThemes>./target/resources/themes</pathThemes>
+    <pathThemeX>./target/resources/themes/theme_</pathThemeX>
+    <pathThemeSave>./target/resources/themes/theme_sauvegarde.xml</pathThemeSave>
+
+    <pathLangages>./target/resources/langages/</pathLangages>
+    <pathLangageX>./target/resources/langages/langage_</pathLangageX>
+    <pathLangageSave>./target/resources/langages/langage_sauvegarde.xml</pathLangageSave>
+
+    <pathDefaultValues>./target/resources/defaultValues/defaultValues.xml</pathDefaultValues>
+
+    <pathFolderIcon>./target/resources/images/iconExplorer/dossier.png</pathFolderIcon>
+    <pathEmptyFolderIcon>./target/resources/images/iconExplorer/dossierVide.png</pathEmptyFolderIcon>
+    <pathFileIcon>./target/resources/images/iconExplorer/fichier_blanc.png</pathFileIcon>
+    <pathZipFile>./target/resources/images/iconExplorer/zip.png</pathZipFile>
+    <pathEmptyZipFile>./target/resources/images/iconExplorer/zipVide.png</pathEmptyZipFile>
+</path>

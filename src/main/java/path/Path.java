@@ -18,14 +18,17 @@ public interface Path
 {
     public static final String PATH_ALL_PATHS = Path.initPathAllPaths();
 
+    /* Resources folder */
+    public static final String PATH_RESOURCES = "./target/resources";
+
     /* Thèmes */
 	public static final String PATH_THEMES       = Path.initPaths("pathThemes"     );
-    public static final String PATH_THEME_X      = Path.initPaths("pathThemeX"     );
+    public static final String PATH_THEME_X      = Path.PATH_THEMES + "/theme_";
     public static final String PATH_THEME_SAVE   = Path.initPaths("pathThemeSave"  );
 
 	/* Langages */
 	public static final String PATH_LANGAGES     = Path.initPaths("pathLangages"   );
-	public static final String PATH_LANGAGE_X    = Path.initPaths("pathLangageX"   );
+	public static final String PATH_LANGAGE_X    = Path.PATH_LANGAGES + "/langage_";
 	public static final String PATH_LANGAGE_SAVE = Path.initPaths("pathLangageSave");
 
     /* Valeurs par défaut */
@@ -46,7 +49,7 @@ public interface Path
      */
     private static String initPathAllPaths()
     {
-        String pathFile_AllPaths = "./bin/donnees/ALL_PATHS.xml";
+        String pathFile_AllPaths = Path.PATH_RESOURCES + "/ALL_PATHS.xml";
 
 
         File file = new File(pathFile_AllPaths);
@@ -137,19 +140,19 @@ public interface Path
         try
         {
             /* Ecriture du fichier */
-            String sRet =   "<path>"                                                                                           + "\n"   +
-                            "    <pathThemes>./bin/donnees/themes</pathThemes>"                                                + "\n"   +
-                            "    <pathThemeX>./bin/donnees/themes/theme_</pathThemeX>"                                         + "\n"   +
-                            "    <pathThemeSave>./bin/donnees/themes/theme_sauvegarde.xml</pathThemeSave>"                     + "\n\n" +
-                            "    <pathLangages>./bin/donnees/langages/</pathLangages>"                                         + "\n"   +
-                            "    <pathLangageX>./bin/donnees/langages/langage_</pathLangageX>"                                 + "\n"   +
-                            "    <pathLangageSave>./bin/donnees/langages/langage_sauvegarde.xml</pathLangageSave>"             + "\n\n" +
-                            "    <pathDefaultValues>./bin/donnees/defaultValues/defaultValues.xml</pathDefaultValues>"         + "\n\n" +
-                            "    <pathFolderIcon>./bin/donnees/images/iconExplorer/dossier.png</pathFolderIcon>"               + "\n"   +
-                            "    <pathEmptyFolderIcon>./bin/donnees/images/iconExplorer/dossierVide.png</pathEmptyFolderIcon>" + "\n"   +
-                            "    <pathFileIcon>./bin/donnees/images/iconExplorer/fichier_blanc.png</pathFileIcon>"             + "\n"   +
-                            "    <pathZipFile>./bin/donnees/images/iconExplorer/zip.png</pathZipFile>"                         + "\n"   +
-                            "    <pathEmptyZipFile>./bin/donnees/images/iconExplorer/zipVide.png</pathEmptyZipFile>"           + "\n"   +
+            String sRet =   "<path>"                                                                                                         + "\n"   +
+                            "    <pathThemes>" + Path.PATH_RESOURCES + "/themes</pathThemes>"                                                + "\n"   +
+                            "    <pathThemeX>" + Path.PATH_RESOURCES + "/themes/theme_</pathThemeX>"                                         + "\n"   +
+                            "    <pathThemeSave>" + Path.PATH_RESOURCES + "/themes/theme_sauvegarde.xml</pathThemeSave>"                     + "\n\n" +
+                            "    <pathLangages>" + Path.PATH_RESOURCES + "/langages/</pathLangages>"                                         + "\n"   +
+                            "    <pathLangageX>" + Path.PATH_RESOURCES + "/langages/langage_</pathLangageX>"                                 + "\n"   +
+                            "    <pathLangageSave>" + Path.PATH_RESOURCES + "/langages/langage_sauvegarde.xml</pathLangageSave>"             + "\n\n" +
+                            "    <pathDefaultValues>" + Path.PATH_RESOURCES + "/defaultValues/defaultValues.xml</pathDefaultValues>"         + "\n\n" +
+                            "    <pathFolderIcon>" + Path.PATH_RESOURCES + "/images/iconExplorer/dossier.png</pathFolderIcon>"               + "\n"   +
+                            "    <pathEmptyFolderIcon>" + Path.PATH_RESOURCES + "/images/iconExplorer/dossierVide.png</pathEmptyFolderIcon>" + "\n"   +
+                            "    <pathFileIcon>" + Path.PATH_RESOURCES + "/images/iconExplorer/fichier_blanc.png</pathFileIcon>"             + "\n"   +
+                            "    <pathZipFile>" + Path.PATH_RESOURCES + "/images/iconExplorer/zip.png</pathZipFile>"                         + "\n"   +
+                            "    <pathEmptyZipFile>" + Path.PATH_RESOURCES + "/images/iconExplorer/zipVide.png</pathEmptyZipFile>"           + "\n"   +
                             "</path>";
 
             PrintWriter pw = new PrintWriter(file_AllPath);
