@@ -80,7 +80,7 @@ public class Metier
 		/* Thèmes */
 		this.nbThemePerso      = this.initNbThemePerso();
 		this.lstNomThemesPerso = this.initLstNameThemesPerso();
-        this.hmColorTheme     = new HashMap<String, Color>();
+        this.hmColorTheme      = new HashMap<String, Color>();
         this.chargerThemes(this.getThemeUsed());
 
 		/* Langages */
@@ -1105,7 +1105,7 @@ public class Metier
 
     /**
 	 * Récupère le thème utilisé dans le fichier xml de sauvegarde
-	 * @return String : thème à utilisé
+	 * @return String : Nom du thème utilisé
 	 */
 	public String getThemeUsed()
 	{
@@ -1206,7 +1206,7 @@ public class Metier
 		try
 		{
 			SAXBuilder sxb = new SAXBuilder();
-			for (Element e : sxb.build(Path.PATH_THEME_X + "clair.xml").getRootElement().getChildren())
+			for (Element e : sxb.build(Path.PATH_THEME_X + this.getThemeUsed() + ".xml").getRootElement().getChildren())
 				lstCles.add(e.getName());
 		}
 		catch (Exception e) { e.printStackTrace(); System.out.println("Erreur lors de la lecture du fichier XML pour récupérer les clée de la HashMap des thème."); }

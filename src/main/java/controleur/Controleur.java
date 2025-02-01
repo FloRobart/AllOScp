@@ -326,7 +326,7 @@ public class Controleur
      * Permet de comparer deux éléments de l'arborescence (fichier ou dossier)
      * @param fileGauche : fichier provenant de l'arborescence de gauche
      * @param fileDroite : fichier provenant de l'arborescence de droite
-     * @return boolean : true si les deux élément sont identiques, sinon false
+     * @return String : le résultat de la comparaison
      */
     public String comparer(File fileGauche, File fileDroite) { return this.metier.comparer(fileGauche, fileDroite); }
 
