@@ -115,10 +115,10 @@ public class MyTreeCellRenderer extends DefaultTreeCellRenderer
         File file = this.ctrl.treeNodeToFile(node.getPath());
         if (file.isDirectory())
         {
-            if (file.list().length == 0)
-                this.setIcon(MyTreeCellRenderer.EMPTY_FOLDER_ICON);
-            else
+            if (file.list() != null && file.list().length != 0)
                 this.setIcon(MyTreeCellRenderer.FOLDER_ICON);
+            else
+                this.setIcon(MyTreeCellRenderer.EMPTY_FOLDER_ICON);
         }
         else
         {
