@@ -468,6 +468,7 @@ public class Controleur
     /**
 	 * Permet de sauvegarder la taille de la frame pour la réouverture de l'application
      * @param dim : la taille de la frame
+     * @param p : la position de la frame
 	 */
 	public void saveFrameInfo(Dimension dim, Point p) { this.metier.saveFrameInfo(dim, p); }
 

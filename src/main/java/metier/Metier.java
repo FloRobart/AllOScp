@@ -715,6 +715,7 @@ public class Metier
 	 * Permet de sauvegarder la taille ou la localisation de la frame pour la réouverture de l'application.
 	 * Seul l'un des deux paramètres doit être différent de null.
 	 * @param dim : la taille de la frame
+	 * @param p : la position de la frame
 	 */
 	public void saveFrameInfo(Dimension dim, Point p)
 	{
