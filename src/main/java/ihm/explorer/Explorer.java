@@ -1,6 +1,5 @@
 package ihm.explorer;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -12,7 +11,6 @@ import java.util.List;
 
 import javax.swing.DropMode;
 import javax.swing.JTree;
-import ihm.explorer.MyMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
@@ -22,8 +20,6 @@ import javax.swing.tree.DefaultTreeModel;
 
 import ihm.menu.popUp.menu.PopUpMenuArbo;
 import controleur.Controleur;
-import path.Path;
-import ihm.explorer.MyTreeCellRenderer;
 
 
 /*

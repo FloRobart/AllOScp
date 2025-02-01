@@ -11,7 +11,6 @@ import java.nio.file.WatchService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ihm.explorer.MyMutableTreeNode;
 import controleur.Controleur;
 
 

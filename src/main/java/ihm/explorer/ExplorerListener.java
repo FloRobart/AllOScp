@@ -4,7 +4,6 @@ import java.io.File;
 
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import ihm.explorer.MyMutableTreeNode;
 import controleur.Controleur;
 
 

@@ -3,10 +3,8 @@ package ihm.explorer;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
-import ihm.explorer.MyMutableTreeNode;
 import controleur.Controleur;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import path.Path;
