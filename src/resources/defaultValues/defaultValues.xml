@@ -10,7 +10,7 @@
     </frameLocation>
 
     <tabs>
-        <tab name="onglet 1" leftFolder="../Test_SCP/panelGauche" rightFolder="../Test_SCP/panelDroite" />
-		<tab name="test" leftFolder="../Test_SCP/panelGauche" rightFolder="../Test_SCP/panelDroite" />
+        <tab name="onglet 1" leftFolder="/" rightFolder="/" />
+		<tab name="test" leftFolder="." rightFolder="../" />
     </tabs>
 </defaultValues>
